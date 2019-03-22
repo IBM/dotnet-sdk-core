@@ -5261,10 +5261,10 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "2.16.0",
+    "version": "10.0.0",
     "restore": {
       "projectUniqueName": "C:\\Users\\ajiemar\\Documents\\sdk-generation\\dotnet-standard-sdk\\dotnet-sdk-core\\IBM.Cloud.SDK.Core\\IBM.Cloud.SDK.Core.csproj",
-      "projectName": "IBM.WatsonDeveloperCloud",
+      "projectName": "IBM.Cloud.SDK.Core",
       "projectPath": "C:\\Users\\ajiemar\\Documents\\sdk-generation\\dotnet-standard-sdk\\dotnet-sdk-core\\IBM.Cloud.SDK.Core\\IBM.Cloud.SDK.Core.csproj",
       "packagesPath": "C:\\Users\\ajiemar\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\ajiemar\\Documents\\sdk-generation\\dotnet-standard-sdk\\dotnet-sdk-core\\IBM.Cloud.SDK.Core\\obj\\",
