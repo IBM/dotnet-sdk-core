@@ -1,8 +1,0 @@
-C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\src\IBM.WatsonDeveloperCloud\bin\Debug\netstandard2.0\IBM.WatsonDeveloperCloud.deps.json
-C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\src\IBM.WatsonDeveloperCloud\bin\Debug\netstandard2.0\IBM.WatsonDeveloperCloud.dll
-C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\src\IBM.WatsonDeveloperCloud\bin\Debug\netstandard2.0\IBM.WatsonDeveloperCloud.pdb
-C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\src\IBM.WatsonDeveloperCloud\obj\Debug\netstandard2.0\IBM.WatsonDeveloperCloud.csproj.CoreCompileInputs.cache
-C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\src\IBM.WatsonDeveloperCloud\obj\Debug\netstandard2.0\IBM.WatsonDeveloperCloud.AssemblyInfoInputs.cache
-C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\src\IBM.WatsonDeveloperCloud\obj\Debug\netstandard2.0\IBM.WatsonDeveloperCloud.AssemblyInfo.cs
-C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\src\IBM.WatsonDeveloperCloud\obj\Debug\netstandard2.0\IBM.WatsonDeveloperCloud.dll
-C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\src\IBM.WatsonDeveloperCloud\obj\Debug\netstandard2.0\IBM.WatsonDeveloperCloud.pdb
