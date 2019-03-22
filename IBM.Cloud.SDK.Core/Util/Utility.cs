@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 namespace IBM.Cloud.SDK.Core.Util
 {
     /// <summary>
-    /// Utility classes for the Watson .NET Standard SDK.
+    /// Utility classes for the IBM Cloud SDKs.
     /// </summary>
     public class Utility
     {

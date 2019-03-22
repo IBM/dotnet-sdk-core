@@ -40,15 +40,8 @@ namespace IBM.Cloud.SDK.Core.Http.Filters
                     globalTransactionIdString = string.Join(", ", globalTransactionId);
                 }
 
-                IEnumerable<string> watsonTransactionId;
-                string watsonTransactionIdString = "";
-                if (responseHeaders.TryGetValues("X-DP-Watson-Tran-ID", out watsonTransactionId))
-                {
-                    watsonTransactionIdString = string.Join(", ", watsonTransactionId);
-                }
-
                 ServiceResponseException exception =
-                    new ServiceResponseException(response, responseMessage, $"The API query failed with status code {responseMessage.StatusCode}: {responseMessage.ReasonPhrase} | x-global-transaction-id: {globalTransactionIdString} | X-DP-Watson-Tran-ID: {watsonTransactionIdString} | error: {responseMessage.Content.ReadAsStringAsync().Result}");
+                    new ServiceResponseException(response, responseMessage, $"The API query failed with status code {responseMessage.StatusCode}: {responseMessage.ReasonPhrase} | x-global-transaction-id: {globalTransactionIdString} | error: {responseMessage.Content.ReadAsStringAsync().Result}");
 
                 var error = responseMessage.Content.ReadAsStringAsync().Result;
 

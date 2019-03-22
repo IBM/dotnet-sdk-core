@@ -25,7 +25,7 @@ using IBM.Cloud.SDK.Core.Http.Filters;
 
 namespace IBM.Cloud.SDK.Core.Http
 {
-    public class WatsonHttpClient : IClient
+    public class IBMHttpClient : IClient
     {
         private bool IsDisposed;
 
@@ -37,7 +37,7 @@ namespace IBM.Cloud.SDK.Core.Http
 
         public bool Insecure = false;
 
-        public WatsonHttpClient()
+        public IBMHttpClient()
         {
             this.BaseClient = new HttpClient();
             this.Filters = new List<IHttpFilter> { new ErrorFilter() };
@@ -45,7 +45,7 @@ namespace IBM.Cloud.SDK.Core.Http
             this.Formatters = new MediaTypeFormatterCollection();
         }
 
-        public WatsonHttpClient(string baseUri)
+        public IBMHttpClient(string baseUri)
         {
             if (Insecure)
             {
@@ -64,7 +64,7 @@ namespace IBM.Cloud.SDK.Core.Http
             this.Formatters = new MediaTypeFormatterCollection();
         }
 
-        public WatsonHttpClient(string baseUri, string userName, string password)
+        public IBMHttpClient(string baseUri, string userName, string password)
         {
             if (Insecure)
             {
@@ -83,7 +83,7 @@ namespace IBM.Cloud.SDK.Core.Http
             this.WithAuthentication(userName, password);
         }
 
-        public WatsonHttpClient(string baseUri, string userName, string password, HttpClient client)
+        public IBMHttpClient(string baseUri, string userName, string password, HttpClient client)
         {
             if (Insecure)
             {
@@ -180,7 +180,7 @@ namespace IBM.Cloud.SDK.Core.Http
         protected void AssertNotDisposed()
         {
             if (this.IsDisposed)
-                throw new ObjectDisposedException(nameof(WatsonHttpClient));
+                throw new ObjectDisposedException(nameof(IBMHttpClient));
         }
 
         protected virtual void Dispose(bool isDisposing)
@@ -194,7 +194,7 @@ namespace IBM.Cloud.SDK.Core.Http
             this.IsDisposed = true;
         }
 
-        ~WatsonHttpClient()
+        ~IBMHttpClient()
         {
             Dispose(false);
         }

@@ -45,18 +45,6 @@ namespace IBM.Cloud.SDK.Core.Http
 
             // add default headers
             request.Headers.Add("accept", formatters.SelectMany(p => p.SupportedMediaTypes).Select(p => p.MediaType));
-            string osInfo = System.Runtime.InteropServices.RuntimeInformation.OSDescription;
-            int versionIndex = osInfo.IndexOfAny("0123456789".ToCharArray());
-            string os = osInfo.Substring(0, versionIndex).Replace(" ", "");
-            string osVersion = osInfo.Substring(versionIndex).Replace(" ", "");
-            request.Headers.Add("User-Agent", 
-                string.Format(
-                    "{0} {1} {2} {3}", 
-                    Constants.SDK_VERSION, 
-                    os,
-                    osVersion,
-                    System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription.Replace(" ", "")
-                ));
 
             return request;
         }

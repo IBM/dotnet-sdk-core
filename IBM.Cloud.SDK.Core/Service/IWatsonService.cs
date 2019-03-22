@@ -20,7 +20,7 @@ using IBM.Cloud.SDK.Core.Util;
 
 namespace IBM.Cloud.SDK.Core.Service
 {
-    public interface IWatsonService
+    public interface IIBMService
     {
         IClient Client { get; set; }
 

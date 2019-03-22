@@ -22,7 +22,7 @@ using IBM.Cloud.SDK.Core.Util;
 
 namespace IBM.Cloud.SDK.Core.Service
 {
-    public abstract class WatsonService : IWatsonService
+    public abstract class IBMService : IIBMService
     {
         const string PATH_AUTHORIZATION_V1_TOKEN = "/authorization/api/v1/token";
         const string ICP_PREFIX = "icp-";
@@ -88,9 +88,9 @@ namespace IBM.Cloud.SDK.Core.Service
         protected TokenManager _tokenManager = null;
         protected bool _userSetEndpoint = false;
 
-        protected WatsonService(string serviceName)
+        protected IBMService(string serviceName)
         {
-            this.Client = new WatsonHttpClient();
+            this.Client = new IBMHttpClient();
             ServiceName = serviceName;
 
             var credentialsPaths = Utility.GetCredentialsPaths();
@@ -152,10 +152,10 @@ namespace IBM.Cloud.SDK.Core.Service
             }
         }
 
-        protected WatsonService(string serviceName, string url)
+        protected IBMService(string serviceName, string url)
         {
             this.ServiceName = serviceName;
-            this.Client = new WatsonHttpClient(url, this.UserName, this.Password);
+            this.Client = new IBMHttpClient(url, this.UserName, this.Password);
 
             if (!string.IsNullOrEmpty(this.Endpoint))
                 this.Endpoint = url;
@@ -164,7 +164,7 @@ namespace IBM.Cloud.SDK.Core.Service
             //this.Endpoint = CredentialUtils.GetApiUrl(serviceName);
         }
 
-        protected WatsonService(string serviceName, string url, IClient httpClient)
+        protected IBMService(string serviceName, string url, IClient httpClient)
         {
             this.ServiceName = serviceName;
             this.Client = httpClient;

@@ -42,7 +42,7 @@ namespace IBM.Cloud.SDK.Core.Util
             if (!string.IsNullOrEmpty(options.IamAccessToken))
                 _userAccessToken = options.IamAccessToken;
 
-            this.Client = new WatsonHttpClient(this._iamUrl);
+            this.Client = new IBMHttpClient(this._iamUrl);
         }
 
         /// <summary>
