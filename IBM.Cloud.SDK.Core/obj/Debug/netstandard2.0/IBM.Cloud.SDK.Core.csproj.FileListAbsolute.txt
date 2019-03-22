@@ -1,0 +1,9 @@
+C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\dotnet-sdk-core\IBM.Cloud.SDK.Core\bin\Debug\netstandard2.0\IBM.WatsonDeveloperCloud.deps.json
+C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\dotnet-sdk-core\IBM.Cloud.SDK.Core\bin\Debug\netstandard2.0\IBM.WatsonDeveloperCloud.dll
+C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\dotnet-sdk-core\IBM.Cloud.SDK.Core\bin\Debug\netstandard2.0\IBM.WatsonDeveloperCloud.pdb
+C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\dotnet-sdk-core\IBM.Cloud.SDK.Core\obj\Debug\netstandard2.0\IBM.Cloud.SDK.Core.csprojAssemblyReference.cache
+C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\dotnet-sdk-core\IBM.Cloud.SDK.Core\obj\Debug\netstandard2.0\IBM.Cloud.SDK.Core.csproj.CoreCompileInputs.cache
+C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\dotnet-sdk-core\IBM.Cloud.SDK.Core\obj\Debug\netstandard2.0\IBM.Cloud.SDK.Core.AssemblyInfoInputs.cache
+C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\dotnet-sdk-core\IBM.Cloud.SDK.Core\obj\Debug\netstandard2.0\IBM.Cloud.SDK.Core.AssemblyInfo.cs
+C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\dotnet-sdk-core\IBM.Cloud.SDK.Core\obj\Debug\netstandard2.0\IBM.WatsonDeveloperCloud.dll
+C:\Users\ajiemar\Documents\sdk-generation\dotnet-standard-sdk\dotnet-sdk-core\IBM.Cloud.SDK.Core\obj\Debug\netstandard2.0\IBM.WatsonDeveloperCloud.pdb
