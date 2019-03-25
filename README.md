@@ -1,4 +1,5 @@
 [![NuGet](https://img.shields.io/badge/nuget-v0.0.1-green.svg?style=flat)](https://www.nuget.org/packages/IBM.Cloud.SDK.Core/)
+[![Coverage Status](https://coveralls.io/repos/github/IBM/dotnet-sdk-core/badge.svg?branch=master)](https://coveralls.io/github/IBM/dotnet-sdk-core?branch=master)
 
 ### IBM Cloud SDK
 
