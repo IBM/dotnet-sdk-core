@@ -1,11 +1,11 @@
-version: 2.6.{build}
+version: 0.1.{build}
 branches:
   except:
   - gh-pages
 configuration: Release
 image: Visual Studio 2017
 # platform: Any CPU
-clone_folder: C:\projects\dotnet-standard-sdk
+clone_folder: C:\projects\dotnet-sdk-core
 environment:
     COVERALLS_REPO_TOKEN:
         secure: Dnsrk2n+VNE4swcbTLXpfnHwUwTWT8TqMiMkthU6mq/ohNq9dA2rrSA6kdLDBKME  #pragma: whitelist secret
@@ -17,7 +17,6 @@ environment:
         secure: gevsMhy8RTWMdf7MjOnIo5QaN6JpL9DPK6I+Go5ByZir5LDwyFsv9hO6nBjGTg8n #pragma: whitelist secret
     GITHUB_TOKEN:
         secure: +B2bs86RVtJtlbkB+cTf9bkqnNlFJi/PbBBPzR5jlUlLLZoOc+ZgqgQLwee4tCT+ #pragma: whitelist secret
-    IBM_CREDENTIALS_FILE: C:\projects\sdk-credentials\ibm-credentials.env
 install:
 # Get the latest stable version of Node.js or io.js
 - ps: Install-Product node $env:nodejs_version
@@ -41,24 +40,17 @@ install:
 
     nuget install -Verbosity quiet -OutputDirectory packages -Version 1.8.14 Doxygen
 
-    nuget install -Verbosity quiet -OutputDirectory packages secure-file -ExcludeVersion
-
 before_build:
 - ps: >-
-    if($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
-    {
-      git clone https://$env:CREDENTIALS_GITHUB_TOKEN@github.ibm.com/germanatt/sdk-credentials.git C:\projects\sdk-credentials
-    }
-
     dotnet restore
 
 build:
-  project: IBM.Watson.sln
-  verbosity: minimal
+  project: dotnet-sdk-core.sln
+  verbosity: normal
 after_build:
 - ps: >-
     git config --global user.email "wps@us.ibm.com"
-    git config --global user.name "Watson Github Bot"
+    git config --global user.name "IBM Github Bot"
 
     if(!$env:APPVEYOR_REPO_TAG_NAME)
 
@@ -82,7 +74,7 @@ after_build:
       {
           .\packages\Doxygen.1.8.14\tools\doxygen.exe Doxyfile
 
-          git clone --quiet --branch=gh-pages https://$env:WPS_GITHUB_TOKEN@github.com/watson-developer-cloud/dotnet-standard-sdk.git gh-pages
+          git clone --quiet --branch=gh-pages https://$env:WPS_GITHUB_TOKEN@github.com/ibm/dotnet-sdk-core.git gh-pages
 
           If(Test-Path -Path gh-pages\docs\$branchName)
           {
@@ -106,13 +98,6 @@ after_build:
       }
     }
 
-    Copy-Item C:\projects\dotnet-standard-sdk\test\IBM.Watson.VisualRecognition.v3.IntegrationTests\VisualRecognitionTestData C:\projects\dotnet-standard-sdk\VisualRecognitionTestData
-
-    Copy-Item C:\projects\dotnet-standard-sdk\test\IBM.Watson.SpeechToText.v1.IntegrationTests\SpeechToTextTestData C:\projects\dotnet-standard-sdk\SpeechToTextTestData
-
-    Copy-Item C:\projects\dotnet-standard-sdk\test\IBM.Watson.Discovery.v1.IntegrationTests\DiscoveryTestData C:\projects\dotnet-standard-sdk\DiscoveryTestData
-    
-    Copy-Item C:\projects\dotnet-standard-sdk\test\IBM.Watson.CompareComply.v1.IT\CompareComplyTestData C:\projects\dotnet-standard-sdk\CompareComplyTestData
 test_script:
 - ps: >-
     if(Test-Path -Path coverage)
@@ -122,7 +107,7 @@ test_script:
 
     New-Item -path . -name coverage -itemtype directory
     
-    ForEach ($folder in (Get-ChildItem -Path C:\\projects\\dotnet-standard-sdk\\test -Directory)) 
+    ForEach ($folder in (Get-ChildItem -Path C:\\projects\\dotnet-sdk-core\\test -Directory)) 
     { 
         if($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
         {
@@ -134,16 +119,16 @@ test_script:
             }
             echo \"Test passed: $?\"
             echo \"LastExitCode: $LastExitCode\"
-            $openCover = 'C:\\projects\\dotnet-standard-sdk\\packages\\OpenCover.4.6.519\\tools\\OpenCover.Console.exe'    
+            $openCover = 'C:\\projects\\dotnet-sdk-core\\packages\\OpenCover.4.6.519\\tools\\OpenCover.Console.exe'    
             $targetArgs = '-targetargs: test ' + $folder.FullName + ' -c Release -f netcoreapp2.0'
-            $filter = '-filter:+[IBM.Watson*]*-[*Tests*]*-[*Example*]*'
+            $filter = '-filter:+[IBM.Cloud.SDK*]*-[*Tests*]*-[*Example*]*'
             & $openCover '-target:C:\\Program Files\\dotnet\\dotnet.exe' $targetArgs '-register:user' $filter '-oldStyle' '-mergeoutput' '-hideskipped:File' '-searchdirs:$testdir\\bin\\release\\netcoreapp2.0' '-output:coverage\\coverage.xml'
 
-            C:\\projects\\dotnet-standard-sdk\\packages\\ReportGenerator.2.4.5.0\\tools\\ReportGenerator.exe -reports:coverage\\coverage.xml -targetdir:coverage -verbosity:Error
+            C:\\projects\\dotnet-sdk-core\\packages\\ReportGenerator.2.4.5.0\\tools\\ReportGenerator.exe -reports:coverage\\coverage.xml -targetdir:coverage -verbosity:Error
 
             if($env:COVERALLS_REPO_TOKEN)
             {
-                C:\\projects\\dotnet-standard-sdk\\packages\\coveralls.net.0.7.0\\tools\\csmacnz.Coveralls.exe --opencover -i coverage\\coverage.xml --useRelativePaths
+                C:\\projects\\dotnet-sdk-core\\packages\\coveralls.net.0.7.0\\tools\\csmacnz.Coveralls.exe --opencover -i coverage\\coverage.xml --useRelativePaths
             }
             else
             {
@@ -178,48 +163,13 @@ test_script:
 
     {
         Write-Output "branchName  is " + $branchName + " - building NuGet packages" 
-        dotnet pack .\src\IBM.Watson.Assistant.v1\IBM.Watson.Assistant.v1.csproj --configuration Release
-        dotnet pack .\src\IBM.Watson.Assistant.v2\IBM.Watson.Assistant.v2.csproj --configuration Release
-        dotnet pack .\src\IBM.Watson.CompareComply.v1\IBM.Watson.CompareComply.v1.csproj --configuration Release
-        dotnet pack .\src\IBM.Watson.Discovery.v1\IBM.Watson.Discovery.v1.csproj --configuration Release
-        dotnet pack .\src\IBM.Watson.LanguageTranslator.v3\IBM.Watson.LanguageTranslator.v3.csproj --configuration Release
-        dotnet pack .\src\IBM.Watson.NaturalLanguageClassifier.v1\IBM.Watson.NaturalLanguageClassifier.v1.csproj --configuration Release
-        dotnet pack .\src\IBM.Watson.NaturalLanguageUnderstanding.v1\IBM.Watson.NaturalLanguageUnderstanding.v1.csproj --configuration Release
-        dotnet pack .\src\IBM.Watson.PersonalityInsights.v3\IBM.Watson.PersonalityInsights.v3.csproj --configuration Release
-        dotnet pack .\src\IBM.Watson.SpeechToText.v1\IBM.Watson.SpeechToText.v1.csproj --configuration Release
-        dotnet pack .\src\IBM.Watson.TextToSpeech.v1\IBM.Watson.TextToSpeech.v1.csproj --configuration Release
-        dotnet pack .\src\IBM.Watson.ToneAnalyzer.v3\IBM.Watson.ToneAnalyzer.v3.csproj --configuration Release
-        dotnet pack .\src\IBM.Watson.VisualRecognition.v3\IBM.Watson.VisualRecognition.v3.csproj --configuration Release
+        dotnet pack .\src\IBM.Cloud.SDK.Core\IBM.Cloud.SDK.Core.csproj --configuration Release
     }
 
 
 artifacts:
-- path: '\src\IBM.Watson\bin\$(configuration)\*.nupkg'
-  name: IBM.Watson
-- path: '\src\IBM.Watson.Assistant.v1\bin\$(configuration)\*.nupkg'
-  name: IBM.Watson.Assistant.v1
-- path: '\src\IBM.Watson.Assistant.v2\bin\$(configuration)\*.nupkg'
-  name: IBM.Watson.Assistant.v2
-- path: '\src\IBM.Watson.CompareComply.v1\bin\$(configuration)\*.nupkg'
-  name: IBM.Watson.CompareComply.v1
-- path: '\src\IBM.Watson.LanguageTranslator.v3\bin\$(configuration)\*.nupkg'
-  name: IBM.Watson.LanguageTranslator.v3
-- path: '\src\IBM.Watson.PersonalityInsights.v3\bin\$(configuration)\*.nupkg'
-  name: IBM.Watson.PersonalityInsights.v3
-- path: '\src\IBM.Watson.SpeechToText.v1\bin\$(configuration)\*.nupkg'
-  name: IBM.Watson.SpeechToText.v1
-- path: '\src\IBM.Watson.TextToSpeech.v1\bin\$(configuration)\*.nupkg'
-  name: IBM.Watson.TextToSpeech.v1
-- path: '\src\IBM.Watson.ToneAnalyzer.v3\bin\$(configuration)\*.nupkg'
-  name: IBM.Watson.ToneAnalyzer.v3
-- path: '\src\IBM.Watson.VisualRecognition.v3\bin\$(configuration)\*.nupkg'
-  name: IBM.Watson.VisualRecognition.v3
-- path: '\src\IBM.Watson.Discovery.v1\bin\$(configuration)\*.nupkg'
-  name: IBM.Watson.Discovery.v1
-- path: '\src\IBM.Watson.NaturalLanguageUnderstanding.v1\bin\$(configuration)\*.nupkg'
-  name: IBM.Watson.NaturalLanguageUnderstanding.v1
-- path: '\src\IBM.Watson.NaturalLanguageClassifier.v1\bin\$(configuration)\*.nupkg'
-  name: IBM.Watson.NaturalLanguageClassifier.v1
+- path: '\src\IBM.Cloud.SDK.Core\bin\$(configuration)\*.nupkg'
+  name: IBM.Cloud.SDK.Core
 deploy:
 - provider: NuGet
   api_key:
