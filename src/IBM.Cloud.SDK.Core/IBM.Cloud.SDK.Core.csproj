@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>The IBM.Cloud.SDK.Core is a core project of SDKs generated using the IBM OpenAPI SDK generator.</Description>
+    <AssemblyTitle>IBM.Cloud.SDK.Core</AssemblyTitle>
+    <Authors>IBM Cloud</Authors>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>IBM.Cloud.SDK.Core</AssemblyName>
+    <PackageId>IBM.Cloud.SDK.Core</PackageId>
+    <PackageTags>IBM-Cloud;IBM;.NET;.NET-Standard</PackageTags>
+    <PackageIconUrl>https://ibm.github.io/dotnet-sdk-core/img/IBM_logo.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/ibm/dotnet-sdk-core</PackageProjectUrl>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <Version>0.0.1</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Conversation\**\*;LanguageTranslator\**\*;SpeechToText\**\*;TextToSpeech\**\*;ToneAnalyzer\**\*;VisualRecognition\**\*;Discovery\**\*;PersonalityInsights\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="System.Net.WebSockets.Client" Version="4.3.0" />
+    <PackageReference Include="Wdc.System.Net.Http.Formatting.NetStandard" Version="1.0.7" />
+  </ItemGroup>
+</Project>
