@@ -20,11 +20,16 @@ environment:
 install:
 # Get the latest stable version of Node.js or io.js
 - ps: Install-Product node $env:nodejs_version
+
 # install modules
 - pip install git+git://github.com/smsearcy/bumpversion.git@issue-135
+
 - npm install @semantic-release/exec
+
 - npm install @semantic-release/git
+
 - npm install @semantic-release/changelog
+
 - cmd: >-
     rm -rf packages
 
@@ -42,6 +47,16 @@ install:
 
 before_build:
 - ps: >-
+    if($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
+
+    {
+
+      git clone https://$env:CREDENTIALS_GITHUB_TOKEN@github.ibm.com/germanatt/sdk-credentials.git C:\projects\sdk-credentials
+
+    }
+
+    $env:IBM_CREDENTIALS_FILE = "C:\projects\sdk-credentials\ibm-credentials.env"
+
     dotnet restore
 
 build:
@@ -226,7 +241,7 @@ test_script:
 
     {
         Write-Output "branchName  is " + $branchName + " - building NuGet packages" 
-        
+
         dotnet pack .\src\IBM.Cloud.SDK.Core\IBM.Cloud.SDK.Core.csproj --configuration Release
     }
 
