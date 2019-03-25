@@ -17,7 +17,6 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using IBM.Cloud.SDK.Core.Util;
-using NSubstitute;
 using System.Collections.Generic;
 using System.IO;
 
