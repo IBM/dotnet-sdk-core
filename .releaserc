@@ -1,7 +1,8 @@
 {
   "branch": "master",
-  "verifyConditions": [],
+  "verifyConditions": ["@semantic-release/changelog", "@semantic-release/git", "@semantic-release/exec"],
   "prepare": [
+    "@semantic-release/changelog",
     "@semantic-release/git",
     {
       "path": "@semantic-release/exec",
