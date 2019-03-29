@@ -90,7 +90,7 @@ after_build:
 
     {
       
-      If($branchName -eq "development" -or $branchName -eq $env:APPVEYOR_REPO_TAG_NAME -or $branchName -eq "master")
+      If($branchName -eq $env:APPVEYOR_REPO_TAG_NAME -or $branchName -eq "master")
 
       {
           .\packages\Doxygen.1.8.14\tools\doxygen.exe Doxyfile
