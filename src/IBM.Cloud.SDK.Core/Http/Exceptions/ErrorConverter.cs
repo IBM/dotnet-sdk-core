@@ -16,9 +16,7 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using IBM.Cloud.SDK.Core.Util;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -36,18 +34,17 @@ namespace IBM.Cloud.SDK.Core.Http.Exceptions
             JObject jo = JObject.Load(reader);
             Error err = new Error();
 
+            err.Message = Utility.GetErrorMessage(jo.ToString());
+
             foreach (var property in jo.Properties())
             {
                 switch (property.Name)
                 {
-                    case "error":
-                    case "error_message":
-                    case "message":
-                        err.Message = property.Value.ToString();
-                        break;
                     case "error_code":
                     case "code":
-                        err.Code = (int)property.Value;
+                        int code;
+                        int.TryParse(property.Value.ToString(), out code);
+                        err.Code = code;
                         break;
                     case "help":
                         err.Help = property.Value.ToString();

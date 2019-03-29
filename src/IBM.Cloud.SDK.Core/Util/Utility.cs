@@ -15,6 +15,7 @@
 *
 */
 
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -171,6 +172,34 @@ namespace IBM.Cloud.SDK.Core.Util
             }
 
             return filePathsToLoad;
+        }
+
+        public static string GetErrorMessage(string input)
+        {
+            JObject o = JObject.Parse(input);
+
+            if(o["errors"] != null)
+            {
+                JToken errorsArray = o["errors"];
+                return errorsArray[0]["message"].ToString();
+            }
+
+            if(o["error"] != null)
+            {
+                return o["error"].ToString();
+            }
+
+            if (o["message"] != null)
+            {
+                return o["message"].ToString();
+            }
+
+            if (o["errorMessage"] != null)
+            {
+                return o["errorMessage"].ToString();
+            }
+
+            return "unknown error";
         }
     }
 }
