@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.438
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IBM.Cloud.SDK.Core", "IBM.Cloud.SDK.Core\IBM.Cloud.SDK.Core.csproj", "{ACBB054B-411E-4821-BB79-B25568FB4902}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IBM.Cloud.SDK.Core", "src\IBM.Cloud.SDK.Core\IBM.Cloud.SDK.Core.csproj", "{7BE0161B-3758-49BF-A211-DE59B0379E9E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IBM.Cloud.SDK.Core.Tests", "test\IBM.Cloud.SDK.Core.Tests\IBM.Cloud.SDK.Core.Tests.csproj", "{212EAF22-ABD0-42F8-A06B-EF3433A4D51E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ACBB054B-411E-4821-BB79-B25568FB4902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACBB054B-411E-4821-BB79-B25568FB4902}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACBB054B-411E-4821-BB79-B25568FB4902}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACBB054B-411E-4821-BB79-B25568FB4902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BE0161B-3758-49BF-A211-DE59B0379E9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BE0161B-3758-49BF-A211-DE59B0379E9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BE0161B-3758-49BF-A211-DE59B0379E9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BE0161B-3758-49BF-A211-DE59B0379E9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{212EAF22-ABD0-42F8-A06B-EF3433A4D51E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{212EAF22-ABD0-42F8-A06B-EF3433A4D51E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{212EAF22-ABD0-42F8-A06B-EF3433A4D51E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{212EAF22-ABD0-42F8-A06B-EF3433A4D51E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
