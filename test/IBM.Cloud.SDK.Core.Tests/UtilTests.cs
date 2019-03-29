@@ -141,5 +141,69 @@ namespace IBM.Cloud.SDK.Core.Tests.Util
             string response = Utility.SimpleGet("https://jsonplaceholder.typicode.com/users", "bogus-username", "bogus-password").Result;
             Assert.IsNotNull(response);
         }
+
+        [TestMethod]
+        public void GetErrorMessageFromErrors()
+        {
+            string json = "{\"errors\":[{\"code\":\"missing_field\",\"message\":\"The request path is not valid. Make sure that the endpoint is correct.\",\"more_info\":\"https://cloud.ibm.com/apidocs/visual-recognition-v4\",\"target\":{\"type\":\"field\",\"name\":\"URL path\"}}],\"trace\":\"4e1b7b85-4dba-4219-b46b-6cdd2e2c06fd\"}";
+            string errorMessage = Utility.GetErrorMessage(json);
+            Assert.IsTrue(errorMessage == "The request path is not valid. Make sure that the endpoint is correct.");
+        }
+
+        [TestMethod]
+        public void GetErrorMessageFromError()
+        {
+            string json = "{\"code\":\"400\",\"error\":\"Error: Too many images in collection\"}";
+            string errorMessage = Utility.GetErrorMessage(json);
+            Assert.IsTrue(errorMessage == "Error: Too many images in collection");
+        }
+
+        [TestMethod]
+        public void GetErrorMessageFromMessage()
+        {
+            string json = "{\"code\":\"string\",\"message\":\"string\"}";
+            string errorMessage = Utility.GetErrorMessage(json);
+            Assert.IsTrue(errorMessage == "string");
+        }
+
+        [TestMethod]
+        public void GetErrorMessageFromErrorMessage()
+        {
+            string json = "{\"errorCode\": \"string\", \"errorMessage\": \"Provided API key could not be found\"}";
+            string errorMessage = Utility.GetErrorMessage(json);
+            Assert.IsTrue(errorMessage == "Provided API key could not be found");
+        }
+
+        [TestMethod]
+        public void GetErrorMessageFromErrorsWithErrorAndMessageAndErrorMessage()
+        {
+            string json = "{\"errors\":[{\"code\":\"missing_field\",\"message\":\"The request path is not valid. Make sure that the endpoint is correct.\",\"more_info\":\"https://cloud.ibm.com/apidocs/visual-recognition-v4\",\"target\":{\"type\":\"field\",\"name\":\"URL path\"}}],\"error\": \"Error: Too many images in collection\", \"message\": \"string\", \"trace\": \"4e1b7b85-4dba-4219-b46b-6cdd2e2c06fd\", \"errorMessage\": \"Provided API key could not be found\"}";
+            string errorMessage = Utility.GetErrorMessage(json);
+            Assert.IsTrue(errorMessage == "The request path is not valid. Make sure that the endpoint is correct.");
+        }
+
+        [TestMethod]
+        public void GetErrorMessageWithErrorAndMessageAndErrorMessage()
+        {
+            string json = "{\"error\": \"Error: Too many images in collection\", \"message\": \"string\", \"trace\": \"4e1b7b85-4dba-4219-b46b-6cdd2e2c06fd\", \"errorMessage\": \"Provided API key could not be found\"}";
+            string errorMessage = Utility.GetErrorMessage(json);
+            Assert.IsTrue(errorMessage == "Error: Too many images in collection");
+        }
+
+        [TestMethod]
+        public void GetErrorMessageWithMessageAndErrorMessage()
+        {
+            string json = "{\"message\": \"string\", \"trace\": \"4e1b7b85-4dba-4219-b46b-6cdd2e2c06fd\", \"errorMessage\": \"Provided API key could not be found\"}";
+            string errorMessage = Utility.GetErrorMessage(json);
+            Assert.IsTrue(errorMessage == "string");
+        }
+
+        [TestMethod]
+        public void GetGenericErrorMessage()
+        {
+            string json = "{\"msg\": \":(\"}";
+            string errorMessage = Utility.GetErrorMessage(json);
+            Assert.IsTrue(errorMessage == "unknown error");
+        }
     }
 }
