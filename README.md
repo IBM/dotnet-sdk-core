@@ -1,4 +1,4 @@
-[![NuGet](https://img.shields.io/badge/nuget-v0.0.1-green.svg?style=flat)](https://www.nuget.org/packages/IBM.Cloud.SDK.Core/)
+[![NuGet](https://img.shields.io/badge/nuget-v0.1.0-green.svg?style=flat)](https://www.nuget.org/packages/IBM.Cloud.SDK.Core/)
 [![Coverage Status](https://coveralls.io/repos/github/IBM/dotnet-sdk-core/badge.svg?branch=master)](https://coveralls.io/github/IBM/dotnet-sdk-core?branch=master)
 [![Documentation](https://img.shields.io/badge/documentation-API-blue.svg)](https://ibm.github.io/dotnet-sdk-core/)
 
@@ -17,7 +17,7 @@ PM > Install-Package IBM.Cloud.SDK.Core
 ```xml
 
 <ItemGroup>
-    <PackageReference Include="IBM.Cloud.SDK.Core" Version="0.0.1" />
+    <PackageReference Include="IBM.Cloud.SDK.Core" Version="0.1.0" />
 </ItemGroup>
 
 ```
