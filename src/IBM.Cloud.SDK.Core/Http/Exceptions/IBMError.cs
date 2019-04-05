@@ -19,8 +19,8 @@ using Newtonsoft.Json;
 
 namespace IBM.Cloud.SDK.Core.Http.Exceptions
 {
-    [JsonConverter(typeof(ErrorConverter))]
-    public class Error
+    [JsonConverter(typeof(IBMErrorConverter))]
+    public class IBMError
     {
         /// <summary>
         /// HTTP status code.
@@ -46,5 +46,10 @@ namespace IBM.Cloud.SDK.Core.Http.Exceptions
         /// For some session-based responses, indicates whether the session was closed as a result of the error. Set to true if an active session is closed as a result of the problem.
         /// </summary>
         public bool SessionClosed { get; set; }
+
+        /// <summary>
+        /// The contents of the response from the server.
+        /// </summary>
+        public string Response { get; set; }
     }
 }

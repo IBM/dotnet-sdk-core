@@ -23,7 +23,7 @@ namespace IBM.Cloud.SDK.Core.Http.Exceptions
 {
     public class ServiceResponseException : Exception
     {
-        public Error Error { get; set; }
+        public IBMError Error { get; set; }
 
         public HttpStatusCode Status { get; protected set; }
 

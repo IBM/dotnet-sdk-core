@@ -47,11 +47,11 @@ namespace IBM.Cloud.SDK.Core.Http.Filters
 
                 if (responseMessage.Content.Headers?.ContentType?.MediaType == HttpMediaType.APPLICATION_JSON)
                 {
-                    exception.Error = JsonConvert.DeserializeObject<Error>(error);
+                    exception.Error = JsonConvert.DeserializeObject<IBMError>(error);
                 }
                 else
                 {
-                    exception.Error = new Error()
+                    exception.Error = new IBMError()
                     {
                         CodeDescription = responseMessage.StatusCode.ToString(),
                         Message = error
