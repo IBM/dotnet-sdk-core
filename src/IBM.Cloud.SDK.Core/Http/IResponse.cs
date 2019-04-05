@@ -29,9 +29,9 @@ namespace IBM.Cloud.SDK.Core.Http
 
         Task<HttpResponseMessage> AsMessage();
 
-        Task<T> As<T>();
+        Task<DetailedResponse<T>> As<T>();
 
-        Task<List<T>> AsList<T>();
+        //Task<List<T>> AsList<T>();
 
         Task<byte[]> AsByteArray();
 

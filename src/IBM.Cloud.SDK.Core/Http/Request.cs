@@ -118,22 +118,29 @@ namespace IBM.Cloud.SDK.Core.Http
             return await this.GetResponse(this.Dispatch.Value).ConfigureAwait(false);
         }
 
-        public async Task<T> As<T>()
+        public async Task<DetailedResponse<T>> As<T>()
         {
             HttpResponseMessage message = await this.AsMessage().ConfigureAwait(false);
-            ProcessResponseHeaders(message);
+            DetailedResponse<T> detailedResponse = new DetailedResponse<T>();
+
+            //ProcessResponseHeaders(message);
             var result = message.Content.ReadAsStringAsync().Result;
 
+            //  Set response headers
+            foreach (var header in message.Headers)
+                detailedResponse.Headers.Add(header.Key, string.Join(",", header.Value));
 
-            return await message.Content.ReadAsAsync<T>(this.Formatters).ConfigureAwait(false);
-        }
+            //  Set staus code
+            long.TryParse(message.StatusCode.ToString(), out long statusCode);
+            detailedResponse.StatusCode = statusCode;
 
+            //  Set response
+            detailedResponse.Response = JValue.Parse(result).ToString(Formatting.Indented);
 
+            //  Set result
+            detailedResponse.Result = await message.Content.ReadAsAsync<T>(this.Formatters).ConfigureAwait(false);
 
-
-        public Task<List<T>> AsList<T>()
-        {
-            return this.As<List<T>>();
+            return detailedResponse;
         }
 
         public async Task<byte[]> AsByteArray()
