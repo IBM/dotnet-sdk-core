@@ -62,15 +62,15 @@ namespace IBM.Cloud.SDK.Core.Util
             else if (!string.IsNullOrEmpty(_tokenInfo.AccessToken) || IsRefreshTokenExpired())
             {
                 // 2. request an initial token
-                var tokenInfo = RequestToken();
-                SaveTokenInfo(tokenInfo);
+                var tokenResponse = RequestToken();
+                SaveTokenInfo(tokenResponse.Result);
                 return _tokenInfo.AccessToken;
             }
             else if (this.IsTokenExpired())
             {
                 // 3. refresh a token
-                var tokenInfo = RefreshToken();
-                SaveTokenInfo(tokenInfo);
+                var tokenResponse = RefreshToken();
+                SaveTokenInfo(tokenResponse.Result);
                 return _tokenInfo.AccessToken;
             }
             else
@@ -99,9 +99,9 @@ namespace IBM.Cloud.SDK.Core.Util
         /// Request an IAM token using an API key.
         /// </summary>
         /// <returns>An IamTokenData object containing the IAM token.</returns>
-        private IamTokenData RequestToken()
+        private DetailedResponse<IamTokenData> RequestToken()
         {
-            IamTokenData result = null;
+            DetailedResponse<IamTokenData> result = null;
 
             try
             {
@@ -127,7 +127,7 @@ namespace IBM.Cloud.SDK.Core.Util
                 result = request.As<IamTokenData>().Result;
 
                 if (result == null)
-                    result = new IamTokenData();
+                    result = new DetailedResponse<IamTokenData>();
             }
             catch(AggregateException ae)
             {
@@ -140,9 +140,9 @@ namespace IBM.Cloud.SDK.Core.Util
         /// <summary>
         /// Refresh an IAM token using a refresh token.
         /// </summary>
-        private IamTokenData RefreshToken()
+        private DetailedResponse<IamTokenData> RefreshToken()
         {
-            IamTokenData result = null;
+            DetailedResponse<IamTokenData> result = null;
 
             try
             {
@@ -166,7 +166,7 @@ namespace IBM.Cloud.SDK.Core.Util
                 result = request.As<IamTokenData>().Result;
 
                 if (result == null)
-                    result = new IamTokenData();
+                    result = new DetailedResponse<IamTokenData>();
             }
             catch (AggregateException ae)
             {
