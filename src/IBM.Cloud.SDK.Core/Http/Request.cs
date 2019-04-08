@@ -123,7 +123,6 @@ namespace IBM.Cloud.SDK.Core.Http
             HttpResponseMessage message = await this.AsMessage().ConfigureAwait(false);
             DetailedResponse<T> detailedResponse = new DetailedResponse<T>();
 
-            //ProcessResponseHeaders(message);
             var result = message.Content.ReadAsStringAsync().Result;
 
             //  Set response headers
