@@ -28,8 +28,6 @@ namespace IBM.Cloud.SDK.Core.Http
     {
         HttpRequestMessage Message { get; }
 
-        Dictionary<string, object> CustomData { get; set; }
-
         IRequest WithBody<T>(T body, MediaTypeHeaderValue contentType = null);
 
         IRequest WithBody<T>(T body, MediaTypeFormatter formatter, string mediaType = null);
@@ -45,8 +43,6 @@ namespace IBM.Cloud.SDK.Core.Http
         IRequest WithCustom(Action<HttpRequestMessage> request);
 
         IRequest WithFormatter(MediaTypeHeaderValue contentType);
-
-        IRequest WithCustomData(Dictionary<string, object> customData);
 
         TaskAwaiter<IResponse> GetAwaiter();
     }

@@ -28,7 +28,7 @@ namespace IBM.Cloud.SDK.Core.Tests
         public void GetErrorMessageFromErrors()
         {
             string json = "{\"errors\":[{\"code\":\"missing_field\",\"message\":\"The request path is not valid. Make sure that the endpoint is correct.\",\"more_info\":\"https://cloud.ibm.com/apidocs/visual-recognition-v4\",\"target\":{\"type\":\"field\",\"name\":\"URL path\"}}],\"trace\":\"4e1b7b85-4dba-4219-b46b-6cdd2e2c06fd\"}";
-            Error error = JsonConvert.DeserializeObject<Error>(json);
+            IBMError error = JsonConvert.DeserializeObject<IBMError>(json);
             Assert.IsTrue(error.Message == "The request path is not valid. Make sure that the endpoint is correct.");
         }
 
@@ -36,7 +36,7 @@ namespace IBM.Cloud.SDK.Core.Tests
         public void GetErrorMessageFromError()
         {
             string json = "{\"code\":\"400\",\"error\":\"Error: Too many images in collection\"}";
-            Error error = JsonConvert.DeserializeObject<Error>(json);
+            IBMError error = JsonConvert.DeserializeObject<IBMError>(json);
             Assert.IsTrue(error.Message == "Error: Too many images in collection");
         }
 
@@ -44,7 +44,7 @@ namespace IBM.Cloud.SDK.Core.Tests
         public void GetErrorMessageFromMessage()
         {
             string json = "{\"code\":\"string\",\"message\":\"string\"}";
-            Error error = JsonConvert.DeserializeObject<Error>(json);
+            IBMError error = JsonConvert.DeserializeObject<IBMError>(json);
             Assert.IsTrue(error.Message == "string");
         }
 
@@ -52,7 +52,7 @@ namespace IBM.Cloud.SDK.Core.Tests
         public void GetErrorMessageFromErrorMessage()
         {
             string json = "{\"errorCode\": 404, \"errorMessage\": \"Provided API key could not be found\"}";
-            Error error = JsonConvert.DeserializeObject<Error>(json);
+            IBMError error = JsonConvert.DeserializeObject<IBMError>(json);
             Assert.IsTrue(error.Message == "Provided API key could not be found");
         }
 
@@ -60,7 +60,7 @@ namespace IBM.Cloud.SDK.Core.Tests
         public void GetErrorMessageFromErrorsWithErrorAndMessageAndErrorMessage()
         {
             string json = "{\"errors\":[{\"code\":\"missing_field\",\"message\":\"The request path is not valid. Make sure that the endpoint is correct.\",\"more_info\":\"https://cloud.ibm.com/apidocs/visual-recognition-v4\",\"target\":{\"type\":\"field\",\"name\":\"URL path\"}}],\"error\": \"Error: Too many images in collection\", \"message\": \"string\", \"trace\": \"4e1b7b85-4dba-4219-b46b-6cdd2e2c06fd\", \"errorMessage\": \"Provided API key could not be found\"}";
-            Error error = JsonConvert.DeserializeObject<Error>(json);
+            IBMError error = JsonConvert.DeserializeObject<IBMError>(json);
             Assert.IsTrue(error.Message == "The request path is not valid. Make sure that the endpoint is correct.");
         }
 
@@ -68,7 +68,7 @@ namespace IBM.Cloud.SDK.Core.Tests
         public void GetErrorMessageWithErrorAndMessageAndErrorMessage()
         {
             string json = "{\"error\": \"Error: Too many images in collection\", \"message\": \"string\", \"trace\": \"4e1b7b85-4dba-4219-b46b-6cdd2e2c06fd\", \"errorMessage\": \"Provided API key could not be found\"}";
-            Error error = JsonConvert.DeserializeObject<Error>(json);
+            IBMError error = JsonConvert.DeserializeObject<IBMError>(json);
             Assert.IsTrue(error.Message == "Error: Too many images in collection");
         }
 
@@ -76,7 +76,7 @@ namespace IBM.Cloud.SDK.Core.Tests
         public void GetErrorMessageWithMessageAndErrorMessage()
         {
             string json = "{\"message\": \"string\", \"trace\": \"4e1b7b85-4dba-4219-b46b-6cdd2e2c06fd\", \"errorMessage\": \"Provided API key could not be found\"}";
-            Error error = JsonConvert.DeserializeObject<Error>(json);
+            IBMError error = JsonConvert.DeserializeObject<IBMError>(json);
             Assert.IsTrue(error.Message == "string");
         }
 
@@ -84,7 +84,7 @@ namespace IBM.Cloud.SDK.Core.Tests
         public void GetGenericErrorMessage()
         {
             string json = "{\"msg\": \":(\"}";
-            Error error = JsonConvert.DeserializeObject<Error>(json);
+            IBMError error = JsonConvert.DeserializeObject<IBMError>(json);
             Assert.IsTrue(error.Message == "unknown error");
         }
     }

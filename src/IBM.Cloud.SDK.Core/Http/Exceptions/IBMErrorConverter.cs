@@ -22,19 +22,20 @@ using Newtonsoft.Json.Linq;
 
 namespace IBM.Cloud.SDK.Core.Http.Exceptions
 {
-    public class ErrorConverter : JsonConverter
+    public class IBMErrorConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(Error));
+            return (objectType == typeof(IBMError));
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             JObject jo = JObject.Load(reader);
-            Error err = new Error();
+            IBMError err = new IBMError();
 
             err.Message = Utility.GetErrorMessage(jo.ToString());
+            err.Response = jo.ToString();
 
             foreach (var property in jo.Properties())
             {
