@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/IBM/dotnet-sdk-core/compare/v0.2.0...v0.2.1) (2019-04-09)
+
+
+### Bug Fixes
+
+* Look for iam_apikey in credential file for IAM auth ([0bd16c3](https://github.com/IBM/dotnet-sdk-core/commit/0bd16c3))
+
 # [0.2.0](https://github.com/IBM/dotnet-sdk-core/compare/v0.1.0...v0.2.0) (2019-04-09)
 
 
