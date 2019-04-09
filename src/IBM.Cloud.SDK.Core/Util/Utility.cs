@@ -201,5 +201,10 @@ namespace IBM.Cloud.SDK.Core.Util
 
             return "unknown error";
         }
+
+        public static string ParseCultureInvariantFloatToString(float value)
+        {
+            return value.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+        }
     }
 }

@@ -20,6 +20,7 @@ using IBM.Cloud.SDK.Core.Util;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using System.Globalization;
 
 namespace IBM.Cloud.SDK.Core.Tests.Util
 {
@@ -204,6 +205,22 @@ namespace IBM.Cloud.SDK.Core.Tests.Util
             string json = "{\"msg\": \":(\"}";
             string errorMessage = Utility.GetErrorMessage(json);
             Assert.IsTrue(errorMessage == "unknown error");
+        }
+
+        [TestMethod]
+        public void GetCultureInvariantFloat()
+        {
+            var previousCulture = CultureInfo.CurrentCulture;
+
+            CultureInfo.CurrentCulture = new CultureInfo("pt-BR");
+            float value;
+            bool b = float.TryParse("1,23", NumberStyles.Any, new CultureInfo("pt-BR"), out value);
+
+            string numString = Utility.ParseCultureInvariantFloatToString(value);
+            Assert.IsNotNull(numString);
+            Assert.IsTrue(numString == "1.23");
+
+            CultureInfo.CurrentCulture = previousCulture;
         }
     }
 }
