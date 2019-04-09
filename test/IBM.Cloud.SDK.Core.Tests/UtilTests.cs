@@ -210,7 +210,6 @@ namespace IBM.Cloud.SDK.Core.Tests.Util
         [TestMethod]
         public void GetCultureInvariantFloat()
         {
-
             var previousCulture = CultureInfo.CurrentCulture;
 
             CultureInfo.CurrentCulture = new CultureInfo("pt-BR");
