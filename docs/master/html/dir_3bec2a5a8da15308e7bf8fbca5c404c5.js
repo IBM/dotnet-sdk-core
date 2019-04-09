@@ -6,9 +6,6 @@ var dir_3bec2a5a8da15308e7bf8fbca5c404c5 =
     [ "Service", "dir_b4c88916d724bbaf6b8a8f5d5ccdc7d3.html", "dir_b4c88916d724bbaf6b8a8f5d5ccdc7d3" ],
     [ "Sockets", "dir_bb521a924c3728bea445436fc39b027d.html", "dir_bb521a924c3728bea445436fc39b027d" ],
     [ "Util", "dir_c20a392af9a1ba3574e0257663755e45.html", "dir_c20a392af9a1ba3574e0257663755e45" ],
-    [ "BaseModel.cs", "d6/da5/_base_model_8cs.html", [
-      [ "BaseModel", "d4/d21/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_base_model.html", "d4/d21/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_base_model" ]
-    ] ],
     [ "Constants.cs", "d1/d39/_constants_8cs.html", [
       [ "Constants", "d6/d0d/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_constants.html", "d6/d0d/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_constants" ]
     ] ]

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['constants_2ecs',['Constants.cs',['../d1/d39/_constants_8cs.html',1,'']]],
-  ['credentials_2ecs',['Credentials.cs',['../d5/d48/_credentials_8cs.html',1,'']]]
+  ['descriptionattribute_2ecs',['DescriptionAttribute.cs',['../d3/d66/_description_attribute_8cs.html',1,'']]],
+  ['detailedresponse_2ecs',['DetailedResponse.cs',['../d3/d2d/_detailed_response_8cs.html',1,'']]]
 ];

@@ -3,6 +3,9 @@ var dir_ea114c4dfc46e7ae70a1f2a8b207302c =
     [ "Exceptions", "dir_20f460e56286fa03792cb6b74954f192.html", "dir_20f460e56286fa03792cb6b74954f192" ],
     [ "Extensions", "dir_64aeb85557be2e986fb0804bbb2d0dd7.html", "dir_64aeb85557be2e986fb0804bbb2d0dd7" ],
     [ "Filters", "dir_30022962247a2dbd50541ebe22123d9c.html", "dir_30022962247a2dbd50541ebe22123d9c" ],
+    [ "DetailedResponse.cs", "d3/d2d/_detailed_response_8cs.html", [
+      [ "DetailedResponse", "de/d5f/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_detailed_response.html", "de/d5f/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_detailed_response" ]
+    ] ],
     [ "HttpFactory.cs", "d1/d49/_http_factory_8cs.html", null ],
     [ "HttpMediaType.cs", "d1/d73/_http_media_type_8cs.html", [
       [ "HttpMediaType", "df/db7/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_http_media_type.html", "df/db7/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_http_media_type" ]
