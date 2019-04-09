@@ -104,7 +104,7 @@ namespace IBM.Cloud.SDK.Core.Service
                     }
                 }
 
-                string apiKey = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_APIKEY");
+                string apiKey = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_IAM_APIKEY");
                 if (!string.IsNullOrEmpty(apiKey))
                     ApiKey = apiKey;
                 string un = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_USERNAME");
