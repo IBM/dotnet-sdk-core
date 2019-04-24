@@ -6,5 +6,7 @@ var searchData=
   ['descriptionattribute_2ecs',['DescriptionAttribute.cs',['../d3/d66/_description_attribute_8cs.html',1,'']]],
   ['detailedresponse',['DetailedResponse',['../de/d5f/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_detailed_response.html',1,'IBM.Cloud.SDK.Core.Http.DetailedResponse&lt; T &gt;'],['../de/d5f/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_detailed_response.html#aaec565ef2976d3e3b6f22466dbcee9c3',1,'IBM.Cloud.SDK.Core.Http.DetailedResponse.DetailedResponse()']]],
   ['detailedresponse_2ecs',['DetailedResponse.cs',['../d3/d2d/_detailed_response_8cs.html',1,'']]],
-  ['dispose',['Dispose',['../df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#afec936329ccd37621bf71085f356fc8f',1,'IBM.Cloud.SDK.Core.Http.IBMHttpClient.Dispose()'],['../df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a07a5b48d8fd94ea41801519d4e9f6758',1,'IBM.Cloud.SDK.Core.Http.IBMHttpClient.Dispose(bool isDisposing)']]]
+  ['dispose',['Dispose',['../df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#afec936329ccd37621bf71085f356fc8f',1,'IBM.Cloud.SDK.Core.Http.IBMHttpClient.Dispose()'],['../df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a07a5b48d8fd94ea41801519d4e9f6758',1,'IBM.Cloud.SDK.Core.Http.IBMHttpClient.Dispose(bool isDisposing)']]],
+  ['dynamicmodel',['DynamicModel',['../d7/dfb/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_model_1_1_dynamic_model.html',1,'IBM::Cloud::SDK::Core::Model']]],
+  ['dynamicmodel_2ecs',['DynamicModel.cs',['../d0/d29/_dynamic_model_8cs.html',1,'']]]
 ];

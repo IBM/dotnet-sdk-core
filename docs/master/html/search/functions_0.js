@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['add',['Add',['../d7/dfb/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_model_1_1_dynamic_model.html#a4b712b9b51fa27695a1b4890832c634b',1,'IBM::Cloud::SDK::Core::Model::DynamicModel']]],
   ['addargument',['AddArgument',['../dd/d38/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_sockets_1_1_a_web_socket_client.html#ab72ca53f5635558a4614dcf9899e3c8d',1,'IBM::Cloud::SDK::Core::Sockets::AWebSocketClient']]],
   ['addtoplevelobjecttojson',['AddTopLevelObjectToJson',['../d3/ddb/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_util_1_1_utility.html#a27b9ad65c75aafd6b007d3bfd9853b23',1,'IBM::Cloud::SDK::Core::Util::Utility']]],
   ['as_3c_20t_20_3e',['As&lt; T &gt;',['../da/dec/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_response.html#a693d2bcadd6fc92dd161cd768c7f32e4',1,'IBM.Cloud.SDK.Core.Http.IResponse.As&lt; T &gt;()'],['../de/d56/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_request.html#a6a3569d074f546ba6df1e85675a81fa4',1,'IBM.Cloud.SDK.Core.Http.Request.As&lt; T &gt;()']]],

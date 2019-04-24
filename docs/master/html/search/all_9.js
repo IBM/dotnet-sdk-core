@@ -33,6 +33,7 @@ var searchData=
   ['iresponse',['IResponse',['../da/dec/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_response.html',1,'IBM::Cloud::SDK::Core::Http']]],
   ['iresponse_2ecs',['IResponse.cs',['../dc/d2d/_i_response_8cs.html',1,'']]],
   ['isdelimeter',['IsDelimeter',['../dd/d38/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_sockets_1_1_a_web_socket_client.html#a8c907ffeed59cf8bff4d76c35f7c1b55',1,'IBM::Cloud::SDK::Core::Sockets::AWebSocketClient']]],
+  ['model',['Model',['../d6/d63/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_model.html',1,'IBM::Cloud::SDK::Core']]],
   ['sdk',['SDK',['../d1/d2b/namespace_i_b_m_1_1_cloud_1_1_s_d_k.html',1,'IBM::Cloud']]],
   ['service',['Service',['../d8/d32/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service.html',1,'IBM::Cloud::SDK::Core']]],
   ['sockets',['Sockets',['../d8/db4/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_sockets.html',1,'IBM::Cloud::SDK::Core']]],

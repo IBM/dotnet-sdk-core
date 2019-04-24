@@ -8,6 +8,7 @@ var searchData=
   ['filters',['Filters',['../db/dd2/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_filters.html',1,'IBM::Cloud::SDK::Core::Http']]],
   ['http',['Http',['../dd/d23/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http.html',1,'IBM::Cloud::SDK::Core']]],
   ['ibm',['IBM',['../d4/dbb/namespace_i_b_m.html',1,'']]],
+  ['model',['Model',['../d6/d63/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_model.html',1,'IBM::Cloud::SDK::Core']]],
   ['sdk',['SDK',['../d1/d2b/namespace_i_b_m_1_1_cloud_1_1_s_d_k.html',1,'IBM::Cloud']]],
   ['service',['Service',['../d8/d32/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service.html',1,'IBM::Cloud::SDK::Core']]],
   ['sockets',['Sockets',['../d8/db4/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_sockets.html',1,'IBM::Cloud::SDK::Core']]],
