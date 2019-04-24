@@ -1,3 +1,10 @@
+# [0.4.0](https://github.com/IBM/dotnet-sdk-core/compare/v0.3.0...v0.4.0) (2019-04-24)
+
+
+### Features
+
+* **Additional properties:** Added DynamicModel base class for models with AdditionalProperties ([d2d9386](https://github.com/IBM/dotnet-sdk-core/commit/d2d9386))
+
 # [0.3.0](https://github.com/IBM/dotnet-sdk-core/compare/v0.2.1...v0.3.0) (2019-04-09)
 
 
