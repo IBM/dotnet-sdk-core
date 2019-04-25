@@ -15,20 +15,23 @@
 *
 */
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
 namespace IBM.Cloud.SDK.Core.Model
 {
     /// <summary>
-    /// This class is the base class for generated models with additional properties.
+    /// This class is the base class for generated models with restricted additional properties.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class DynamicModel<T>
     {
         /// <summary>
-        /// A Dictionary to keep additional properties.
+        /// A Dictionary to keep restricted additional properties.
         /// </summary>
-        public Dictionary<string, T> AdditionalProperties { get; } = new Dictionary<string, T>();
+        [JsonExtensionData]
+        public Dictionary<string, JToken> AdditionalProperties { get; } = new Dictionary<string, JToken>();
 
         /// <summary>
         /// Add a property to the AdditionalProperties dictionary.
@@ -37,7 +40,7 @@ namespace IBM.Cloud.SDK.Core.Model
         /// <param name="value"></param>
         public void Add(string key, T value)
         {
-            AdditionalProperties.Add(key, value);
+            AdditionalProperties.Add(key, JToken.FromObject(value));
         }
 
         /// <summary>
@@ -56,7 +59,50 @@ namespace IBM.Cloud.SDK.Core.Model
         /// <returns></returns>
         public T Get(string key)
         {
-            AdditionalProperties.TryGetValue(key, out T value);
+            AdditionalProperties.TryGetValue(key, out JToken value);
+            return value.ToObject<T>();
+        }
+    }
+
+    /// <summary>
+    /// This class is the base class for generated models with arbitrary additional properties.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class DynamicModel
+    {
+        /// <summary>
+        /// A Dictionary to keep arbitrary additional properties.
+        /// </summary>
+        [JsonExtensionData]
+        public Dictionary<string, JToken> AdditionalProperties { get; } = new Dictionary<string, JToken>();
+
+        /// <summary>
+        /// Add a property to the AdditionalProperties dictionary.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public void Add(string key, object value)
+        {
+            AdditionalProperties.Add(key, JToken.FromObject(value));
+        }
+
+        /// <summary>
+        /// Remove a property from the AdditionalProperties dictionary.
+        /// </summary>
+        /// <param name="key"></param>
+        public void Remove(string key)
+        {
+            AdditionalProperties.Remove(key);
+        }
+
+        /// <summary>
+        /// Get a single property from the AdditionalProperties dictionary.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public JToken Get(string key)
+        {
+            AdditionalProperties.TryGetValue(key, out JToken value);
             return value;
         }
     }
