@@ -133,7 +133,10 @@ namespace IBM.Cloud.SDK.Core.Http
             detailedResponse.StatusCode = (long)message.StatusCode;
 
             //  Set response
-            detailedResponse.Response = JValue.Parse(result).ToString(Formatting.Indented);
+            if (!string.IsNullOrEmpty(result))
+            {
+                detailedResponse.Response = JValue.Parse(result).ToString(Formatting.Indented);
+            }
 
             //  Set result
             detailedResponse.Result = await message.Content.ReadAsAsync<T>(this.Formatters).ConfigureAwait(false);
