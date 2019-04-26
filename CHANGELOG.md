@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/IBM/dotnet-sdk-core/compare/v0.4.0...v0.5.0) (2019-04-26)
+
+
+### Features
+
+* **DynamicModel:** Added unrestricted DynamicModel base class ([c64650a](https://github.com/IBM/dotnet-sdk-core/commit/c64650a))
+
 # [0.4.0](https://github.com/IBM/dotnet-sdk-core/compare/v0.3.0...v0.4.0) (2019-04-24)
 
 
