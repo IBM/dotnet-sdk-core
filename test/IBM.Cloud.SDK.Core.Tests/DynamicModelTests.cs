@@ -17,6 +17,7 @@
 
 using IBM.Cloud.SDK.Core.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
 namespace IBM.Cloud.SDK.Core.Tests
@@ -25,56 +26,118 @@ namespace IBM.Cloud.SDK.Core.Tests
     public class DynamicModelTests
     {
         [TestMethod]
+        public void TestAddRestricted()
+        {
+            DynamicModel<List<string>> dynamicModel = new DynamicModel<List<string>>();
+            List<string> myList = new List<string>();
+            myList.Add("IBM");
+            dynamicModel.Add("myList", myList);
+
+            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsKey("myList"));
+            Assert.IsTrue(dynamicModel.Get("myList")[0] == "IBM");
+        }
+
+        [TestMethod]
+        public void TestRemoveRestricted()
+        {
+            DynamicModel<List<string>> dynamicModel = new DynamicModel<List<string>>();
+            List<string> myList = new List<string>();
+            myList.Add("IBM");
+            dynamicModel.Add("myList", myList);
+
+            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsKey("myList"));
+            Assert.IsTrue(dynamicModel.Get("myList")[0] == "IBM");
+
+            dynamicModel.Remove("myList");
+            Assert.IsFalse(dynamicModel.AdditionalProperties.ContainsKey("myList"));
+            Assert.IsFalse(dynamicModel.AdditionalProperties.ContainsValue(JToken.FromObject(myList)));
+        }
+
+        [TestMethod]
+        public void TestGetRestricted()
+        {
+            DynamicModel<List<string>> dynamicModel = new DynamicModel<List<string>>();
+            List<string> myList = new List<string>();
+            myList.Add("IBM");
+            dynamicModel.Add("myList", myList);
+
+            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsKey("myList"));
+            Assert.IsTrue(dynamicModel.Get("myList")[0] == "IBM");
+
+            List<string> myList2 = dynamicModel.Get("myList");
+            Assert.IsTrue(myList2[0] == myList[0]);
+        }
+
+        [TestMethod]
+        public void TestGetAdditionalPropertiesRestricted()
+        {
+            DynamicModel<List<string>> dynamicModel = new DynamicModel<List<string>>();
+            List<string> myList = new List<string>();
+            myList.Add("IBM");
+            dynamicModel.Add("myList", myList);
+
+            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsKey("myList"));
+            Assert.IsTrue(dynamicModel.Get("myList")[0] == "IBM");
+
+            Dictionary<string, JToken> additionalProperties = dynamicModel.AdditionalProperties;
+            Assert.IsTrue(additionalProperties == dynamicModel.AdditionalProperties);
+        }
+        [TestMethod]
+
         public void TestAdd()
         {
-            DynamicModel<object> dynamicModel = new DynamicModel<object>();
-            object myObject = new object();
-            dynamicModel.Add("myObject", myObject);
+            DynamicModel dynamicModel = new DynamicModel();
+            List<string> myList = new List<string>();
+            myList.Add("IBM");
+            dynamicModel.Add("myList", myList);
 
-            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsKey("myObject"));
-            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsValue(myObject));
+            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsKey("myList"));
+            Assert.IsTrue(dynamicModel.Get("myList").ToObject<List<string>>()[0] == "IBM");
         }
 
         [TestMethod]
         public void TestRemove()
         {
-            DynamicModel<object> dynamicModel = new DynamicModel<object>();
-            object myObject = new object();
-            dynamicModel.Add("myObject", myObject);
+            DynamicModel dynamicModel = new DynamicModel();
+            List<string> myList = new List<string>();
+            myList.Add("IBM");
+            dynamicModel.Add("myList", myList);
 
-            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsKey("myObject"));
-            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsValue(myObject));
+            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsKey("myList"));
+            Assert.IsTrue(dynamicModel.Get("myList").ToObject<List<string>>()[0] == "IBM");
 
-            dynamicModel.Remove("myObject");
-            Assert.IsFalse(dynamicModel.AdditionalProperties.ContainsKey("myObject"));
-            Assert.IsFalse(dynamicModel.AdditionalProperties.ContainsValue(myObject));
+            dynamicModel.Remove("myList");
+            Assert.IsFalse(dynamicModel.AdditionalProperties.ContainsKey("myList"));
+            Assert.IsFalse(dynamicModel.AdditionalProperties.ContainsValue(JToken.FromObject(myList)));
         }
 
         [TestMethod]
         public void TestGet()
         {
-            DynamicModel<object> dynamicModel = new DynamicModel<object>();
-            object myObject = new object();
-            dynamicModel.Add("myObject", myObject);
+            DynamicModel dynamicModel = new DynamicModel();
+            List<string> myList = new List<string>();
+            myList.Add("IBM");
+            dynamicModel.Add("myList", myList);
 
-            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsKey("myObject"));
-            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsValue(myObject));
+            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsKey("myList"));
+            Assert.IsTrue(dynamicModel.Get("myList").ToObject<List<string>>()[0] == "IBM");
 
-            object myObject2 = dynamicModel.Get("myObject");
-            Assert.IsTrue(myObject2 == myObject);
+            List<string> myList2 = dynamicModel.Get("myList").ToObject<List<string>>();
+            Assert.IsTrue(myList2[0] == myList[0]);
         }
 
         [TestMethod]
         public void TestGetAdditionalProperties()
         {
-            DynamicModel<object> dynamicModel = new DynamicModel<object>();
-            object myObject = new object();
-            dynamicModel.Add("myObject", myObject);
+            DynamicModel dynamicModel = new DynamicModel();
+            List<string> myList = new List<string>();
+            myList.Add("IBM");
+            dynamicModel.Add("myList", myList);
 
-            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsKey("myObject"));
-            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsValue(myObject));
+            Assert.IsTrue(dynamicModel.AdditionalProperties.ContainsKey("myList"));
+            Assert.IsTrue(dynamicModel.Get("myList").ToObject<List<string>>()[0] == "IBM");
 
-            Dictionary<string, object> additionalProperties = dynamicModel.AdditionalProperties;
+            Dictionary<string, JToken> additionalProperties = dynamicModel.AdditionalProperties;
             Assert.IsTrue(additionalProperties == dynamicModel.AdditionalProperties);
         }
     }
