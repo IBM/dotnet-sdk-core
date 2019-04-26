@@ -67,7 +67,6 @@ namespace IBM.Cloud.SDK.Core.Model
     /// <summary>
     /// This class is the base class for generated models with arbitrary additional properties.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public class DynamicModel
     {
         /// <summary>
