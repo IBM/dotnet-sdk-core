@@ -1,3 +1,11 @@
+## [0.5.1](https://github.com/IBM/dotnet-sdk-core/compare/v0.5.0...v0.5.1) (2019-04-29)
+
+
+### Bug Fixes
+
+* **Request:** Added a null check for no content in the response ([91d9e4c](https://github.com/IBM/dotnet-sdk-core/commit/91d9e4c))
+* **Request:** Remove string parsing of status code to long ([4ce5bbc](https://github.com/IBM/dotnet-sdk-core/commit/4ce5bbc))
+
 # [0.5.0](https://github.com/IBM/dotnet-sdk-core/compare/v0.4.0...v0.5.0) (2019-04-26)
 
 
