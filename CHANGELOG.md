@@ -1,3 +1,10 @@
+## [0.5.2](https://github.com/IBM/dotnet-sdk-core/compare/v0.5.1...v0.5.2) (2019-04-29)
+
+
+### Bug Fixes
+
+* **TokenManager:** Add null check for tokenResponse when saving tokenInfo ([d32c4d7](https://github.com/IBM/dotnet-sdk-core/commit/d32c4d7))
+
 ## [0.5.1](https://github.com/IBM/dotnet-sdk-core/compare/v0.5.0...v0.5.1) (2019-04-29)
 
 
