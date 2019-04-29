@@ -225,7 +225,10 @@ namespace IBM.Cloud.SDK.Core.Util
         /// <param name="tokenResponse"></param>
         private void SaveTokenInfo(IamTokenData tokenResponse)
         {
-            _tokenInfo = tokenResponse;
+            if (tokenResponse != null)
+            {
+                _tokenInfo = tokenResponse;
+            }
         }
     }
 }
