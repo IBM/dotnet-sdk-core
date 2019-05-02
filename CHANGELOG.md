@@ -1,3 +1,10 @@
+## [0.5.3](https://github.com/IBM/dotnet-sdk-core/compare/v0.5.2...v0.5.3) (2019-05-02)
+
+
+### Bug Fixes
+
+* **Request:** Clear default accept headers on instantiation ([24dc6ca](https://github.com/IBM/dotnet-sdk-core/commit/24dc6ca))
+
 ## [0.5.2](https://github.com/IBM/dotnet-sdk-core/compare/v0.5.1...v0.5.2) (2019-04-29)
 
 
