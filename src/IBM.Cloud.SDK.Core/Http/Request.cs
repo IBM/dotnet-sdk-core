@@ -49,6 +49,7 @@ namespace IBM.Cloud.SDK.Core.Http
             this.Formatters = formatters;
             this.Dispatch = new Lazy<Task<HttpResponseMessage>>(() => dispatcher(this));
             this.Filters = filters;
+            this.Message.Headers.Accept.Clear();
         }
         
         public IRequest WithBody<T>(T body, MediaTypeHeaderValue contentType = null)
@@ -71,10 +72,6 @@ namespace IBM.Cloud.SDK.Core.Http
 
         public IRequest WithHeader(string key, string value)
         {
-            if (key == "Accept" && value.StartsWith("audio/", StringComparison.OrdinalIgnoreCase))
-            {
-                this.Message.Headers.Accept.Clear();
-            }
             this.Message.Headers.TryAddWithoutValidation(key, value);
             return this;
         }
