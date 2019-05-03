@@ -76,6 +76,16 @@ namespace IBM.Cloud.SDK.Core.Http
             return this;
         }
 
+        public IRequest WithHeaders(Dictionary<string, string> headers)
+        {
+            foreach (KeyValuePair<string, string> kvp in headers)
+            {
+                this.Message.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value);
+            }
+
+            return this;
+        }
+
         public IRequest WithArgument(string key, object value)
         {
             this.Message.RequestUri = this.Message.RequestUri.WithArguments(new KeyValuePair<string, object>(key, value));
