@@ -9,5 +9,6 @@ var interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_request =
     [ "WithCustom", "d3/df3/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_request.html#ac4f709bfe48bff6d5b185567d7d512a0", null ],
     [ "WithFormatter", "d3/df3/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_request.html#a6416cc41aa5e357acbc6088a4e63471b", null ],
     [ "WithHeader", "d3/df3/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_request.html#a7b0cb3a965df43dd3307113dcc1f9ac6", null ],
+    [ "WithHeaders", "d3/df3/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_request.html#a01ed4e10bb87eb712f3474aad13d909d", null ],
     [ "Message", "d3/df3/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_request.html#ad29c6905a44e667d3e0b0dbb47514024", null ]
 ];

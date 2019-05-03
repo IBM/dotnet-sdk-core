@@ -15,6 +15,7 @@ var class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_request =
     [ "WithCustom", "de/d56/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_request.html#a22f33f35c9c381edfef118230bcdd00c", null ],
     [ "WithFormatter", "de/d56/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_request.html#abdf6d4222c1f7393e64d61961e7c2d37", null ],
     [ "WithHeader", "de/d56/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_request.html#a9f73471e1ed7b25323ba3f3c49774b22", null ],
+    [ "WithHeaders", "de/d56/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_request.html#a1ff55d03666f9041619e62b8fd51a22d", null ],
     [ "Formatters", "de/d56/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_request.html#ab4af23075ee125f5eb27685812a1a745", null ],
     [ "Message", "de/d56/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_request.html#a846cfe200156d446a59b408ade98a6b1", null ]
 ];
