@@ -288,5 +288,14 @@ namespace IBM.Cloud.SDK.Core.Service
         {
             customRequestHeaders = new Dictionary<string, string>();
         }
+
+        /// <summary>
+        /// Returns a Dictionary of custom request headers.
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, string> GetCustomRequestHeaders()
+        {
+            return customRequestHeaders;
+        }
     }
 }
