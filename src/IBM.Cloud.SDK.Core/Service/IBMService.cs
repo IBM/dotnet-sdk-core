@@ -16,6 +16,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using IBM.Cloud.SDK.Core.Http;
 using IBM.Cloud.SDK.Core.Util;
@@ -35,6 +36,7 @@ namespace IBM.Cloud.SDK.Core.Service
         public string ServiceName { get; set; }
         public string ApiKey { get; set; }
         public string Url { get { return Endpoint; } }
+        protected Dictionary<string, string> customRequestHeaders = new Dictionary<string, string>();
 
         protected string Endpoint
         {
@@ -253,6 +255,47 @@ namespace IBM.Cloud.SDK.Core.Service
         public void SendAsInsecure(bool insecure)
         {
             this.Client.SendAsInsecure(insecure);
+        }
+
+        public void WithHeader(string name, string value)
+        {
+            if (!customRequestHeaders.ContainsKey(name))
+            {
+                customRequestHeaders.Add(name, value);
+            }
+            else
+            {
+                customRequestHeaders[name] = value;
+            }
+        }
+
+        public void WithHeaders(Dictionary<string, string> headers)
+        {
+            foreach (KeyValuePair<string, string> kvp in headers)
+            {
+                if (!customRequestHeaders.ContainsKey(kvp.Key))
+                {
+                    customRequestHeaders.Add(kvp.Key, kvp.Value);
+                }
+                else
+                {
+                    customRequestHeaders[kvp.Key] = kvp.Value;
+                }
+            }
+        }
+
+        protected void ClearCustomRequestHeaders()
+        {
+            customRequestHeaders = new Dictionary<string, string>();
+        }
+
+        /// <summary>
+        /// Returns a Dictionary of custom request headers.
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, string> GetCustomRequestHeaders()
+        {
+            return customRequestHeaders;
         }
     }
 }
