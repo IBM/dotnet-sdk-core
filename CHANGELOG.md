@@ -1,3 +1,11 @@
+# [0.6.0](https://github.com/IBM/dotnet-sdk-core/compare/v0.5.3...v0.6.0) (2019-05-03)
+
+
+### Features
+
+* **Custom request headers:** Add method to get headers ([b0940eb](https://github.com/IBM/dotnet-sdk-core/commit/b0940eb))
+* **Custom request headers:** Add support for custom request headers ([14a7f17](https://github.com/IBM/dotnet-sdk-core/commit/14a7f17))
+
 ## [0.5.3](https://github.com/IBM/dotnet-sdk-core/compare/v0.5.2...v0.5.3) (2019-05-02)
 
 
