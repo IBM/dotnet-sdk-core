@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/IBM/dotnet-sdk-core/compare/v0.6.0...v0.7.0) (2019-05-03)
+
+
+### Features
+
+* **Custom request headers:** Added a method to add headers via Dictionary ([a71679f](https://github.com/IBM/dotnet-sdk-core/commit/a71679f))
+
 # [0.6.0](https://github.com/IBM/dotnet-sdk-core/compare/v0.5.3...v0.6.0) (2019-05-03)
 
 
