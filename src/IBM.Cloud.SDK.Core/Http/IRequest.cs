@@ -36,6 +36,8 @@ namespace IBM.Cloud.SDK.Core.Http
 
         IRequest WithHeader(string key, string value);
 
+        IRequest WithHeaders(Dictionary<string, string> headers);
+
         IRequest WithArgument(string key, object value);
 
         IRequest WithArguments(object arguments);
