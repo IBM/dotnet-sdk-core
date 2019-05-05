@@ -252,9 +252,9 @@ namespace IBM.Cloud.SDK.Core.Service
             this.Endpoint = url;
         }
 
-        public void SendAsInsecure(bool insecure)
+        public void DisableSslVerification(bool insecure)
         {
-            this.Client.SendAsInsecure(insecure);
+            this.Client.DisableSslVerification(insecure);
         }
 
         public void WithHeader(string name, string value)
