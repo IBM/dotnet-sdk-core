@@ -1,3 +1,10 @@
+## [0.7.1](https://github.com/IBM/dotnet-sdk-core/compare/v0.7.0...v0.7.1) (2019-05-06)
+
+
+### Bug Fixes
+
+* Refactored SendAsInsecure to DisableSslVerification ([68e0e95](https://github.com/IBM/dotnet-sdk-core/commit/68e0e95))
+
 # [0.7.0](https://github.com/IBM/dotnet-sdk-core/compare/v0.6.0...v0.7.0) (2019-05-03)
 
 
