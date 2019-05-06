@@ -51,6 +51,6 @@ namespace IBM.Cloud.SDK.Core.Http
 
         IRequest SendAsync(HttpRequestMessage message);
 
-        void SendAsInsecure(bool insecure);
+        void DisableSslVerification(bool insecure);
     }
 }

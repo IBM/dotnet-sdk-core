@@ -199,7 +199,7 @@ namespace IBM.Cloud.SDK.Core.Http
             Dispose(false);
         }
 
-        public void SendAsInsecure(bool insecure)
+        public void DisableSslVerification(bool insecure)
         {
             Insecure = insecure;
         }
