@@ -45,16 +45,14 @@ install:
     nuget install -Verbosity quiet -OutputDirectory packages -Version 1.8.14 Doxygen
 
 before_build:
-- ps: >-
-    if($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
+- cmd: >-
+    IF NOT DEFINED APPVEYOR_PULL_REQUEST_NUMBER (
 
-    {
+      git clone https://%CREDENTIALS_GITHUB_TOKEN%@github.ibm.com/germanatt/sdk-credentials.git C:\projects\sdk-credentials
 
-      git clone https://$env:CREDENTIALS_GITHUB_TOKEN@github.ibm.com/germanatt/sdk-credentials.git C:\projects\sdk-credentials
+    )
 
-    }
-
-    $env:IBM_CREDENTIALS_FILE = "C:\projects\sdk-credentials\ibm-credentials.env"
+    SET IBM_CREDENTIALS_FILE="C:\projects\sdk-credentials\ibm-credentials.env"
 
     dotnet restore
 
@@ -227,23 +225,22 @@ test_script:
 
     }
 
-    If($branchName -eq "master" -and $env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
+after_test:
+- cmd: >-
+    IF %BRANCH_NAME% EQU master (
+        IF NOT DEFINED APPVEYOR_PULL_REQUEST_NUMBER (
+            ECHO branchName is master and not a pull request - running semantic release
+            npx semantic-release@15.11.0
+        )
+    )
 
-    {
-        Write-Output "branchName is master and not a pull request - running semantic release"
-
-        npx semantic-release@15.11.0
-
-    }
-
-    ElseIf($branchName -eq $env:APPVEYOR_REPO_TAG_NAME)
-
-    {
-        Write-Output "branchName  is " + $branchName + " - building NuGet packages" 
-
-        dotnet pack .\src\IBM.Cloud.SDK.Core\IBM.Cloud.SDK.Core.csproj --configuration Release
-    }
-
+    IF NOT DEFINED APPVEYOR_REPO_TAG_NAME (
+        IF %BRANCH_NAME% EQU APPVEYOR_REPO_TAG_NAME (
+            ECHO APPVEYOR_REPO_TAG_NAME IS %APPVEYOR_REPO_TAG_NAME%
+            ECHO BRANCH_NAME is %BRANCH_NAME% - building NuGet packages 
+            dotnet pack .\src\IBM.Cloud.SDK.Core\IBM.Cloud.SDK.Core.csproj --configuration Release
+        )
+    )
 
 artifacts:
 - path: '\src\IBM.Cloud.SDK.Core\bin\$(configuration)\*.nupkg'
