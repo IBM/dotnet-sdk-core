@@ -244,7 +244,6 @@ test_script:
         dotnet pack .\src\IBM.Cloud.SDK.Core\IBM.Cloud.SDK.Core.csproj --configuration Release
     }
 
-
 artifacts:
 - path: '\src\IBM.Cloud.SDK.Core\bin\$(configuration)\*.nupkg'
   name: IBM.Cloud.SDK.Core
