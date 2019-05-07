@@ -140,8 +140,9 @@ namespace IBM.Cloud.SDK.Core.Util
                 }
             }
         }
+
         /// <summary>
-        /// The IAM authentication URL. If omitted the value defaults to "https://iam.bluemix.net/identity/token".
+        /// The IAM authentication URL. If omitted the value defaults to "https://iam.cloud.ibm.com/identity/token".
         /// </summary>
         public string IamUrl { get; set; }
     }

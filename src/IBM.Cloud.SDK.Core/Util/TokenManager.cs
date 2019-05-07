@@ -33,7 +33,7 @@ namespace IBM.Cloud.SDK.Core.Util
 
         public TokenManager(TokenOptions options)
         {
-            _iamUrl = !string.IsNullOrEmpty(options.IamUrl) ? options.IamUrl : "https://iam.bluemix.net/identity/token";
+            _iamUrl = !string.IsNullOrEmpty(options.IamUrl) ? options.IamUrl : "https://iam.cloud.ibm.com/identity/token";
             _tokenInfo = new IamTokenData();
             if (!string.IsNullOrEmpty(options.IamApiKey))
                 _iamApikey = options.IamApiKey;
