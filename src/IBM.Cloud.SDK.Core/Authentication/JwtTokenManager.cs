@@ -47,6 +47,8 @@ namespace IBM.Cloud.SDK.Core.Authentication
                 this.userAccessToken = options.AccessToken;
             }
         }
+
+        public void GetToken(callback)
     }
 
     public class TokenOptions
