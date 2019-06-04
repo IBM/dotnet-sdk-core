@@ -28,14 +28,14 @@ namespace IBM.Cloud.SDK.Core.Authentication
         protected string userAccessToken;
         protected bool rejectUnauthorized;
         private object tokenInfo;
-        private long timeToLive;
-        private long expireTime;
+        private long? timeToLive;
+        private long? expireTime;
 
         public JwtTokenManager(TokenOptions options)
         {
-            this.tokenInfo = new object();
+            tokenInfo = new object();
 
-            this.tokenName = "access_token";
+            tokenName = "access_token";
 
             if (!string.IsNullOrEmpty(options.Url))
             {
@@ -48,7 +48,37 @@ namespace IBM.Cloud.SDK.Core.Authentication
             }
         }
 
-        public void GetToken(callback)
+        public string GetToken()
+        {
+            if(!string.IsNullOrEmpty(userAccessToken))
+            {
+                return userAccessToken;
+            }
+            else if(string.IsNullOrEmpty(userAccessToken) || IsTokenExpired())
+            {
+                return RequestToken();
+            }
+            else
+            {
+                return userAccessToken;
+            }
+        }
+
+        protected string RequestToken()
+        {
+            throw new 
+        }
+
+        private bool IsTokenExpired()
+        {
+            if (expireTime == null)
+            {
+                return true;
+            }
+
+            long currentTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+            return expireTime < currentTime;
+        }
     }
 
     public class TokenOptions
