@@ -15,6 +15,7 @@
 *
 */
 
+using IBM.Cloud.SDK.Core.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,5 +24,45 @@ namespace IBM.Cloud.SDK.Core.Authentication
 {
     public class IamTokenManager : JwtTokenManager
     {
+        public IClient Client { get; set; }
+
+        private string iamApikey;
+        private string iamClientId;
+        private string iamClientSecret;
+
+        public IamTokenManager(TokenOptions options) : base(options)
+        {
+            if (string.IsNullOrEmpty(url))
+            {
+                if (!string.IsNullOrEmpty(options.IamUrl))
+                {
+                    url = options.IamUrl;
+                }
+                else
+                {
+                    url = "https://iam.cloud.ibm.com/identity/token";
+                }
+            }
+
+            if(!string.IsNullOrEmpty(options.IamApiKey))
+            {
+                iamApikey = options.IamApiKey;
+            }
+
+            if (!string.IsNullOrEmpty(options.IamAccessToken))
+            {
+                userAccessToken = options.IamAccessToken;
+            }
+
+            if(!string.IsNullOrEmpty(options.IamClientId))
+            {
+                iamClientId = options.IamClientId;
+            }
+
+            if (!string.IsNullOrEmpty(options.IamClientSecret))
+            {
+                iamClientSecret = options.IamClientSecret;
+            }
+        }
     }
 }
