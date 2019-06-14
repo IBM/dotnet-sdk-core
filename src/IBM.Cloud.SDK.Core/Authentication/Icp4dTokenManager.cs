@@ -16,6 +16,7 @@
 */
 
 using IBM.Cloud.SDK.Core.Http;
+using IBM.Cloud.SDK.Core.Util;
 using System;
 
 namespace IBM.Cloud.SDK.Core.Authentication
@@ -88,8 +89,41 @@ namespace IBM.Cloud.SDK.Core.Authentication
 
     public class Icp4dTokenOptions : TokenOptions
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
+        private string username;
+        public string Username
+        {
+            get { return username; }
+            set
+            {
+                if (!Utility.HasBadFirstOrLastCharacter(value))
+                {
+                    username = value;
+                }
+                else
+                {
+                    throw new ArgumentException("The username shouldn't start or end with curly brackets or quotes. Be sure to remove any {} and \" characters surrounding your username");
+                }
+            }
+        }
+
+        private string password;
+        public string Password
+        {
+            get { return password; }
+            set
+            {
+                if (!Utility.HasBadFirstOrLastCharacter(value))
+                {
+                    password = value;
+                }
+                else
+                {
+                    throw new ArgumentException("The password shouldn't start or end with curly brackets or quotes. Be sure to remove any {} and \" characters surrounding your password");
+                }
+            }
+        }
+
         public bool DisableSslVerification { get; set; }
+        public string AccessToken { get; set; }
     }
 }

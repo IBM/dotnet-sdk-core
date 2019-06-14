@@ -16,6 +16,7 @@
 */
 
 using IBM.Cloud.SDK.Core.Http;
+using IBM.Cloud.SDK.Core.Util;
 using JWT;
 using JWT.Serializers;
 using Newtonsoft.Json;
@@ -192,8 +193,22 @@ namespace IBM.Cloud.SDK.Core.Authentication
 
     public class TokenOptions
     {
-        public string Url { get; set; }
-        public string AccessToken { get; set; }
+        private string url;
+        public string Url
+        {
+            get { return url; }
+            set
+            {
+                if (!Utility.HasBadFirstOrLastCharacter(value))
+                {
+                    url = value;
+                }
+                else
+                {
+                    throw new ArgumentException("The url shouldn't start or end with curly brackets or quotes. Be sure to remove any {} and \" characters surrounding your url");
+                }
+            }
+        }
     }
 
     public class TokenData

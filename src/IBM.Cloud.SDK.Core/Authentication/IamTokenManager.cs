@@ -16,6 +16,7 @@
 */
 
 using IBM.Cloud.SDK.Core.Http;
+using IBM.Cloud.SDK.Core.Util;
 using System;
 using System.Net.Http;
 
@@ -138,8 +139,40 @@ namespace IBM.Cloud.SDK.Core.Authentication
 
     public class IamTokenOptions : TokenOptions
     {
-        public string IamUrl { get; set; }
-        public string IamApiKey { get; set; }
+        private string iamUrl;
+        public string IamUrl
+        {
+            get { return iamUrl; }
+            set
+            {
+                if (!Utility.HasBadFirstOrLastCharacter(value))
+                {
+                    iamUrl = value;
+                }
+                else
+                {
+                    throw new ArgumentException("The IamUrl shouldn't start or end with curly brackets or quotes. Be sure to remove any {} and \" characters surrounding your IamUrl");
+                }
+            }
+        }
+
+        private string iamApiKey;
+        public string IamApiKey
+        {
+            get { return iamApiKey; }
+            set
+            {
+                if (!Utility.HasBadFirstOrLastCharacter(value))
+                {
+                    iamApiKey = value;
+                }
+                else
+                {
+                    throw new ArgumentException("The IamApiKey shouldn't start or end with curly brackets or quotes. Be sure to remove any {} and \" characters surrounding your IamApiKey");
+                }
+            }
+        }
+
         public string IamAccessToken { get; set; }
         public string IamClientId { get; set; }
         public string IamClientSecret { get; set; }
