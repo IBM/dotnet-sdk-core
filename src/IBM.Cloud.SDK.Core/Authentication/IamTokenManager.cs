@@ -17,8 +17,7 @@
 
 using IBM.Cloud.SDK.Core.Http;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Net.Http;
 
 namespace IBM.Cloud.SDK.Core.Authentication
 {
@@ -29,8 +28,11 @@ namespace IBM.Cloud.SDK.Core.Authentication
         private string iamApikey;
         private string iamClientId;
         private string iamClientSecret;
+        private string iamDefaultUrl = "https://iam.cloud.ibm.com/identity/token";
 
-        public IamTokenManager(TokenOptions options) : base(options)
+        private const string CLIENT_ID_SECRET_WARNING = "Warning: Client ID and Secret must BOTH be given, or the defaults will be used.";
+
+        public IamTokenManager(IamTokenOptions options) : base(options)
         {
             if (string.IsNullOrEmpty(url))
             {
@@ -40,11 +42,11 @@ namespace IBM.Cloud.SDK.Core.Authentication
                 }
                 else
                 {
-                    url = "https://iam.cloud.ibm.com/identity/token";
+                    url = iamDefaultUrl;
                 }
             }
 
-            if(!string.IsNullOrEmpty(options.IamApiKey))
+            if (!string.IsNullOrEmpty(options.IamApiKey))
             {
                 iamApikey = options.IamApiKey;
             }
@@ -54,7 +56,7 @@ namespace IBM.Cloud.SDK.Core.Authentication
                 userAccessToken = options.IamAccessToken;
             }
 
-            if(!string.IsNullOrEmpty(options.IamClientId))
+            if (!string.IsNullOrEmpty(options.IamClientId))
             {
                 iamClientId = options.IamClientId;
             }
@@ -63,6 +65,83 @@ namespace IBM.Cloud.SDK.Core.Authentication
             {
                 iamClientSecret = options.IamClientSecret;
             }
+
+            if (OnlyOne(options.IamClientId, options.IamClientSecret))
+            {
+                Console.WriteLine(CLIENT_ID_SECRET_WARNING);
+            }
         }
+
+        public void SetIamAuthorizationInfo(string iamClientId, string iamClientSecret)
+        {
+            this.iamClientId = iamClientId;
+            this.iamClientSecret = iamClientSecret;
+
+            if (OnlyOne(iamClientId, iamClientSecret))
+            {
+                Console.WriteLine(CLIENT_ID_SECRET_WARNING);
+            }
+        }
+
+        override protected DetailedResponse<TokenData> RequestToken()
+        {
+            DetailedResponse<TokenData> result = null;
+
+            // Use bx:bx as default auth header creds.
+            var clientId = "bx";
+            var clientSecret = "bx";
+
+            // If both the clientId and secret were specified by the user, then use them.
+            if (!string.IsNullOrEmpty(iamClientId) && !string.IsNullOrEmpty(iamClientSecret))
+            {
+                clientId = iamClientId;
+                clientSecret = iamClientSecret;
+            }
+
+            try
+            {
+                if (string.IsNullOrEmpty(iamApikey))
+                    throw new ArgumentNullException("iamApikey is required to request a token");
+
+                IClient client = Client.WithAuthentication(clientId, clientSecret);
+                var request = Client.PostAsync(url);
+                request.WithHeader("Content-type", "application/x-www-form-urlencoded");
+
+                var formData = new MultipartFormDataContent();
+                var grantTypeContent = new StringContent("urn:ibm:params:oauth:grant-type:apikey");
+                formData.Add(grantTypeContent, "grant_type");
+                var apiKeyContent = new StringContent(iamApikey);
+                formData.Add(apiKeyContent, "apikey");
+                var responseTypeContent = new StringContent("cloud_iam");
+                formData.Add(responseTypeContent, "response_type");
+
+                result = request.As<TokenData>().Result;
+                if (result == null)
+                {
+                    result = new DetailedResponse<TokenData>();
+                }
+            }
+            catch (AggregateException ae)
+            {
+                throw ae.Flatten();
+            }
+
+            return result;
+
+        }
+
+        private bool OnlyOne(string a, string b)
+        {
+            return (string.IsNullOrEmpty(a) && !string.IsNullOrEmpty(b)) || (!string.IsNullOrEmpty(a) && string.IsNullOrEmpty(b));
+        }
+    }
+
+    public class IamTokenOptions : TokenOptions
+    {
+        public string IamUrl { get; set; }
+        public string IamApiKey { get; set; }
+        public string IamAccessToken { get; set; }
+        public string IamClientId { get; set; }
+        public string IamClientSecret { get; set; }
     }
 }

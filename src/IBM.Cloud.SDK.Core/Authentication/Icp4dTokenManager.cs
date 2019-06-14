@@ -27,37 +27,38 @@ namespace IBM.Cloud.SDK.Core.Authentication
         private string username;
         private string password;
 
-        public Icp4dTokenManager(TokenOptions options) : base(options)
+        public Icp4dTokenManager(Icp4dTokenOptions options) : base(options)
         {
             tokenName = "accessToken";
 
-            if(!string.IsNullOrEmpty(url))
+            if (!string.IsNullOrEmpty(url))
             {
                 url = url + "/v1/preauth/validateAuth";
             }
-            else if(string.IsNullOrEmpty(userAccessToken))
+            else if (string.IsNullOrEmpty(userAccessToken))
             {
                 // url is not needed if the user specifies their own access token
                 throw new Exception("`url` is a required parameter for Icp4dTokenManagerV1");
             }
 
-            if(!string.IsNullOrEmpty(options.Username))
+            // username and password are required too, unless there's access token
+            if (!string.IsNullOrEmpty(options.Username))
             {
                 username = options.Username;
             }
-            if(!string.IsNullOrEmpty(options.Password))
+            if (!string.IsNullOrEmpty(options.Password))
             {
                 password = options.Password;
             }
 
-            rejectUnauthorized = !options.DisableSslVerification;
+            disableSslVerification = options.DisableSslVerification;
 
             Client = new IBMHttpClient(url);
         }
 
-        override protected DetailedResponse<TokenInfo> RequestToken()
+        override protected DetailedResponse<TokenData> RequestToken()
         {
-            DetailedResponse<TokenInfo> result = null;
+            DetailedResponse<TokenData> result = null;
 
             try
             {
@@ -67,14 +68,13 @@ namespace IBM.Cloud.SDK.Core.Authentication
                     throw new ArgumentNullException("Password is required to request a token");
 
                 IClient client = Client.WithAuthentication(username, password);
-                var request = Client.PostAsync(url);
-                request.WithHeader("Content-type", "application/x-www-form-urlencoded");
-                request.WithHeader("Authorization", "Basic Yng6Yng=");
+                var request = Client.GetAsync(url);
+                client.DisableSslVerification(disableSslVerification);
 
-                result = request.As<TokenInfo>().Result;
+                result = request.As<TokenData>().Result;
                 if (result == null)
                 {
-                    result = new DetailedResponse<TokenInfo>();
+                    result = new DetailedResponse<TokenData>();
                 }
             }
             catch (AggregateException ae)
@@ -84,5 +84,12 @@ namespace IBM.Cloud.SDK.Core.Authentication
 
             return result;
         }
+    }
+
+    public class Icp4dTokenOptions : TokenOptions
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public bool DisableSslVerification { get; set; }
     }
 }
