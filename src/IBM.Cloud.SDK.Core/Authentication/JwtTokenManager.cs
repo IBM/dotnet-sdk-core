@@ -41,7 +41,7 @@ namespace IBM.Cloud.SDK.Core.Authentication
         /// Retreives and stores JSON web tokens.
         /// </summary>
         /// <param name="options"></param>
-        public JwtTokenManager(TokenOptions options)
+        public JwtTokenManager(JwtTokenOptions options)
         {
             tokenData = new TokenData();
             tokenName = "access_token";
@@ -191,7 +191,7 @@ namespace IBM.Cloud.SDK.Core.Authentication
         }
     }
 
-    public class TokenOptions
+    public class JwtTokenOptions
     {
         private string url;
         public string Url
@@ -209,6 +209,8 @@ namespace IBM.Cloud.SDK.Core.Authentication
                 }
             }
         }
+
+        public string AccessToken { get; set; }
     }
 
     public class TokenData

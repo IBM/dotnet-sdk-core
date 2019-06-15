@@ -124,6 +124,5 @@ namespace IBM.Cloud.SDK.Core.Authentication
         }
 
         public bool DisableSslVerification { get; set; }
-        public string AccessToken { get; set; }
     }
 }
