@@ -87,7 +87,7 @@ namespace IBM.Cloud.SDK.Core.Authentication
         }
     }
 
-    public class Icp4dTokenOptions : TokenOptions
+    public class Icp4dTokenOptions : JwtTokenOptions
     {
         private string username;
         public string Username

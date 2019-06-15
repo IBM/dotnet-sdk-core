@@ -137,7 +137,7 @@ namespace IBM.Cloud.SDK.Core.Authentication
         }
     }
 
-    public class IamTokenOptions : TokenOptions
+    public class IamTokenOptions : JwtTokenOptions
     {
         private string iamUrl;
         public string IamUrl
