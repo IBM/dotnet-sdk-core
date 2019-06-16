@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using IBM.Cloud.SDK.Core.Authentication;
 using IBM.Cloud.SDK.Core.Http;
 using IBM.Cloud.SDK.Core.Util;
 
@@ -88,9 +89,10 @@ namespace IBM.Cloud.SDK.Core.Service
             }
         }
         protected TokenManager _tokenManager = null;
+        protected JwtTokenManager jwtTokenManager = null;
         protected bool _userSetEndpoint = false;
 
-        protected IBMService(string serviceName)
+        protected IBMService(string serviceName, string authType = null)
         {
             this.Client = new IBMHttpClient();
             ServiceName = serviceName;
@@ -158,7 +160,7 @@ namespace IBM.Cloud.SDK.Core.Service
             }
         }
 
-        protected IBMService(string serviceName, string url)
+        protected IBMService(string serviceName, string url, string authType = null)
         {
             this.ServiceName = serviceName;
             this.Client = new IBMHttpClient(url, this.UserName, this.Password);
@@ -170,7 +172,7 @@ namespace IBM.Cloud.SDK.Core.Service
             //this.Endpoint = CredentialUtils.GetApiUrl(serviceName);
         }
 
-        protected IBMService(string serviceName, string url, IClient httpClient)
+        protected IBMService(string serviceName, string url, IClient httpClient, string authType = null)
         {
             this.ServiceName = serviceName;
             this.Client = httpClient;
@@ -246,6 +248,68 @@ namespace IBM.Cloud.SDK.Core.Service
             }
         }
 
+        public void SetCredential(IamTokenOptions options)
+        {
+            if (!string.IsNullOrEmpty(options.Url))
+            {
+                if (!_userSetEndpoint)
+                {
+                    this.Endpoint = options.Url;
+                }
+            }
+            else
+            {
+                options.Url = this.Endpoint;
+            }
+
+            if (!string.IsNullOrEmpty(options.IamApiKey))
+            {
+                if (options.IamApiKey.StartsWith(ICP_PREFIX))
+                {
+                    SetCredential(APIKEY_AS_USERNAME, options.IamApiKey);
+                }
+                else
+                {
+                    jwtTokenManager = new IamTokenManager(options);
+                }
+            }
+            else if (!string.IsNullOrEmpty(options.IamAccessToken))
+            {
+                jwtTokenManager = new IamTokenManager(options);
+            }
+            else
+            {
+                throw new ArgumentNullException("An iamApikey or iamAccessToken is required.");
+            }
+        }
+        public void SetCredential(Icp4dTokenOptions options)
+        {
+            if (!string.IsNullOrEmpty(options.Url))
+            {
+                if (!_userSetEndpoint)
+                {
+                    this.Endpoint = options.Url;
+                }
+            }
+            else
+            {
+                options.Url = this.Endpoint;
+            }
+
+            if (!string.IsNullOrEmpty(options.Username) && !string.IsNullOrEmpty(options.Password))
+            {
+                jwtTokenManager = new Icp4dTokenManager(options);
+            }
+            else if (!string.IsNullOrEmpty(options.AccessToken))
+            {
+                jwtTokenManager = new Icp4dTokenManager(options);
+            }
+            else
+            {
+                throw new ArgumentNullException("A Username and Password or AccessToken is required.");
+            }
+        }
+
         public void SetEndpoint(string url)
         {
             _userSetEndpoint = true;
@@ -296,6 +360,5 @@ namespace IBM.Cloud.SDK.Core.Service
         public Dictionary<string, string> GetCustomRequestHeaders()
         {
             return customRequestHeaders;
-        }
-    }
+        }    }
 }
