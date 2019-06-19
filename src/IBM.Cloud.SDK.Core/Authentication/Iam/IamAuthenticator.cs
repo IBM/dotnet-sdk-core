@@ -18,33 +18,30 @@
 using IBM.Cloud.SDK.Core.Http;
 using System;
 
-namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
+namespace IBM.Cloud.SDK.Core.Authentication.Iam
 {
     /// <summary>
-    /// This class implements support for the ICP4D authentication mechanism.
+    /// This class implements support for the IAM authentication mechanism.
     /// </summary>
-    public class Icp4dAuthenticator : Authenticator
+    public class IamAuthenticator : Authenticator
     {
         public IClient Client { get; set; }
 
-        // This is the suffix we'll need to add to the user-supplied URL to retrieve an access token.
-        private static string UrlSuffix = "/v1/preauth/validateAuth";
-
         // Configuration properties for this authenticator.
-        private Icp4dConfig config;
+        private IamConfig config;
 
         // This field holds an access token and its expiration time.
-        private Icp4dToken tokenData;
+        private IamToken tokenData;
 
-        public Icp4dAuthenticator(Icp4dConfig config)
+        public IamAuthenticator(IamConfig config)
         {
             this.config = config;
-            Client = new IBMHttpClient(config.Url + UrlSuffix);
+            Client = new IBMHttpClient(config.Url);
         }
 
         public override string AuthenticationType
         {
-            get { return AuthtypeIcp4d; }
+            get { return AuthtypeIam; }
         }
 
         public override void Authenticate(IClient client)
@@ -52,19 +49,11 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
             client.WithAuthentication(GetToken());
         }
 
-        /// <summary>
-        /// This function returns an access token. The source of the token is determined by the following logic:
-        /// 1. If user provides their own managed access token, assume it is valid and send it
-        /// 2. If this class is managing tokens and does not yet have one, or the token is expired, make a request
-        /// for one
-        /// 3. If this class is managing tokens and has a valid token stored, send it
-        /// </summary>
-        /// <returns>the valid access token</returns>
         protected string GetToken()
         {
             string token;
 
-            if(!string.IsNullOrEmpty(config.UserManagedAccessToken))
+            if (!string.IsNullOrEmpty(config.UserManagedAccessToken))
             {
                 // If the user set their own access token, then use it.
                 token = config.UserManagedAccessToken;
@@ -84,25 +73,23 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
             return token;
         }
 
-        protected DetailedResponse<Icp4dToken> RequestToken()
+        protected DetailedResponse<IamToken> RequestToken()
         {
-            DetailedResponse<Icp4dToken> result = null;
+            DetailedResponse<IamToken> result = null;
 
             try
             {
-                if (string.IsNullOrEmpty(config.Username))
-                    throw new ArgumentNullException("Username is required to request a token");
-                if (string.IsNullOrEmpty(config.Password))
-                    throw new ArgumentNullException("Password is required to request a token");
+                if (string.IsNullOrEmpty(config.Apikey))
+                    throw new ArgumentNullException("Apikey is required to request a token");
 
-                IClient client = Client.WithAuthentication(config.Username, config.Password);
+                IClient client = Client.WithAuthentication(config.Apikey);
                 var request = Client.GetAsync(config.Url);
                 client.DisableSslVerification((bool)config.DisableSslVerification);
 
-                result = request.As<Icp4dToken>().Result;
+                result = request.As<IamToken>().Result;
                 if (result == null)
                 {
-                    result = new DetailedResponse<Icp4dToken>();
+                    result = new DetailedResponse<IamToken>();
                 }
             }
             catch (AggregateException ae)

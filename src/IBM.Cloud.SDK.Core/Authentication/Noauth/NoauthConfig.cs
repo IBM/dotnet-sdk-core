@@ -16,16 +16,15 @@
 */
 
 
-using IBM.Cloud.SDK.Core.Http;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace IBM.Cloud.SDK.Core.Authentication
+namespace IBM.Cloud.SDK.Core.Authentication.Noauth
 {
-    public interface IAuthenticator
+    public class NoauthConfig : IAuthenticatorConfig
     {
-        string AuthenticationType { get; }
-        void Authenticate(IClient client);
+        public string AuthenticationType
+        {
+            get { return Authenticator.AuthtypeNoauth; }
+        }
+
+        public void Validate() { }
     }
 }

@@ -28,24 +28,24 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
     public class Icp4dTokenResponse
     {
         [JsonProperty("username", NullValueHandling = NullValueHandling.Ignore)]
-        public String Username { get; set; }
+        public string Username { get; set; }
         [JsonProperty("role", NullValueHandling = NullValueHandling.Ignore)]
-        public String Role { get; set; }
+        public string Role { get; set; }
         [JsonProperty("permissions", NullValueHandling = NullValueHandling.Ignore)]
         public List<string> Permissions { get; set; }
         [JsonProperty("sub", NullValueHandling = NullValueHandling.Ignore)]
-        public String Sub { get; set; }
+        public string Sub { get; set; }
         [JsonProperty("iss", NullValueHandling = NullValueHandling.Ignore)]
-        public String Iss { get; set; }
+        public string Iss { get; set; }
         [JsonProperty("aud", NullValueHandling = NullValueHandling.Ignore)]
-        public String Aud { get; set; }
+        public string Aud { get; set; }
         [JsonProperty("uid", NullValueHandling = NullValueHandling.Ignore)]
-        public String Uid { get; set; }
+        public string Uid { get; set; }
         [JsonProperty("accessToken", NullValueHandling = NullValueHandling.Ignore)]
-        public String AccessToken { get; set; }
+        public string AccessToken { get; set; }
         [JsonProperty("_messageCode_", NullValueHandling = NullValueHandling.Ignore)]
-        public String MessageCode { get; set; }
+        public string MessageCode { get; set; }
         [JsonProperty("message", NullValueHandling = NullValueHandling.Ignore)]
-        public String Message { get; set; }
+        public string Message { get; set; }
     }
 }

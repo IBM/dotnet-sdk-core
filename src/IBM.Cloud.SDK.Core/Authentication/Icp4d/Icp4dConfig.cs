@@ -56,16 +56,16 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
             {
                 throw new ArgumentException("You must provide both username and password values.");
             }
-        }
-
-        public Icp4dConfig(string url, string username = null, string password = null, string userManagedAccessToken = null, bool? disableSslVerification = null)
-        {
-            Url = url;
 
             if (Utility.HasBadFirstOrLastCharacter(Username) || Utility.HasBadFirstOrLastCharacter(Password))
             {
                 throw new ArgumentException("The username and password shouldn't start or end with curly brackets orquotes. Please remove any surrounding {, }, or \" characters.");
             }
+        }
+
+        public Icp4dConfig(string url, string username = null, string password = null, string userManagedAccessToken = null, bool? disableSslVerification = null)
+        {
+            Url = url;
 
             if (!string.IsNullOrEmpty(username))
             {

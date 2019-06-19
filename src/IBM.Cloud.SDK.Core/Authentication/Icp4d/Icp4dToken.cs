@@ -1,7 +1,4 @@
-﻿
-
-using System;
-/**
+﻿/**
 * Copyright 2019 IBM Corp. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +14,12 @@ using System;
 * limitations under the License.
 *
 */
+
+using JWT;
+using JWT.Serializers;
+using Newtonsoft.Json.Linq;
+using System;
+
 namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
 {
     /// <summary>
@@ -30,7 +33,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
         /// <summary>
         /// This ctor is used to store a user-managed access token which will never expire.
         /// </summary>
-        /// <param name="accessToken">accessToken the user-managed access token</param>
+        /// <param name="accessToken">the user-managed access token</param>
         public Icp4dToken(string accessToken)
         {
             AccessToken = accessToken;
@@ -40,11 +43,42 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
         public Icp4dToken(Icp4dTokenResponse response)
         {
             AccessToken = response.AccessToken;
+            long? iat = null;
+            long? exp = null;
+            
+            try
+            {
+                IJsonSerializer serializer = new JsonNetSerializer();
+                IDateTimeProvider provider = new UtcDateTimeProvider();
+                IJwtValidator validator = new JwtValidator(serializer, provider);
+                IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
+                IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder);
 
-            JsonWebToken jwt = new JsonWebToken(AccessToken);
+                var decodedResponse = decoder.Decode(AccessToken);
 
-            long? iat = jwt.GetPayload().GetIssuedAt();
-            long? exp = jwt.GetPlayload().GetExpiresAt();
+                if (!string.IsNullOrEmpty(decodedResponse))
+                {
+                    var o = JObject.Parse(decodedResponse);
+                    exp = (long)o["exp"];
+                    iat = (long)o["iat"];
+
+                    double fractonOfTtl = 0.8d;
+                    long timeToLive = (long)exp - (long)iat;
+                    ExpirationTimeInMillis = Convert.ToInt64(exp - (timeToLive * (1.0d - fractonOfTtl)));
+                }
+                else
+                {
+                    throw new Exception("Access token recieved is not a valid JWT");
+                }
+            }
+            catch (TokenExpiredException)
+            {
+                Console.WriteLine("Token has expired");
+            }
+            catch (SignatureVerificationException)
+            {
+                Console.WriteLine("Token has invalid signature");
+            }
 
             if (iat != null && exp != null)
             {

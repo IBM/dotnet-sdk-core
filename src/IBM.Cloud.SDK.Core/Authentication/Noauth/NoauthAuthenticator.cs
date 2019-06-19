@@ -15,13 +15,25 @@
 *
 */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+using IBM.Cloud.SDK.Core.Http;
 
-namespace IBM.Cloud.SDK.Core.Authentication.Jwt
+namespace IBM.Cloud.SDK.Core.Authentication.Noauth
 {
-    public class JsonWebToken
+    /// <summary>
+    /// This class is a placeholder implementation for performing no authentication of outgoing REST API requests.
+    /// </summary>
+    public class NoauthAuthenticator : Authenticator
     {
+        public NoauthAuthenticator(NoauthConfig config) { }
+
+        public override string AuthenticationType
+        {
+            get { return AuthtypeNoauth; }
+        }
+
+        public override void Authenticate(IClient client)
+        {
+            // do nothing
+        }
     }
 }

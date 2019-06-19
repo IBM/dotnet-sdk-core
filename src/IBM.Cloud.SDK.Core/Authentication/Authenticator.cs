@@ -16,11 +16,10 @@
 */
 
 using IBM.Cloud.SDK.Core.Http;
-using System;
 
 namespace IBM.Cloud.SDK.Core.Authentication
 {
-    public class Authenticator : IAuthenticator
+    public class Authenticator
     {
         public const string AuthtypeBasic = "basic";
         public const string AuthtypeNoauth = "noauth";

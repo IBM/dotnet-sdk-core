@@ -18,7 +18,8 @@
 
 using IBM.Cloud.SDK.Core.Authentication.BasicAuth;
 using IBM.Cloud.SDK.Core.Authentication.Icp4d;
-using IBM.Cloud.SDK.Core.Authentication;
+using IBM.Cloud.SDK.Core.Authentication.Noauth;
+using IBM.Cloud.SDK.Core.Authentication.Iam;
 using System;
 
 namespace IBM.Cloud.SDK.Core.Authentication
@@ -26,7 +27,7 @@ namespace IBM.Cloud.SDK.Core.Authentication
     public class AuthenticatorFactory
     {
 
-        public static IAuthenticator GetAuthenticator(IAuthenticatorConfig config)
+        public static Authenticator GetAuthenticator(IAuthenticatorConfig config)
         {
             //  Validate the configuration passed in.
             config.Validate();
@@ -34,7 +35,7 @@ namespace IBM.Cloud.SDK.Core.Authentication
             switch (config.AuthenticationType)
             {
                 case Authenticator.AuthtypeIam:
-                    return new IamTokenManager((IamTokenOptions)config);
+                    return new IamAuthenticator((IamConfig)config);
                 case Authenticator.AuthtypeIcp4d:
                     return new Icp4dAuthenticator((Icp4dConfig)config);
                 case Authenticator.AuthtypeBasic:
@@ -42,7 +43,7 @@ namespace IBM.Cloud.SDK.Core.Authentication
                 case Authenticator.AuthtypeNoauth:
                     return new NoauthAuthenticator((NoauthConfig)config);
                 default:
-                    throw new ArgumentException(string.Format("Unrecognized AuthenticatorConfig type: {0}", config.GetClass().GetName()));
+                    throw new ArgumentException(string.Format("Unrecognized AuthenticatorConfig type: {0}", config.AuthenticationType));
             }
         }
     }

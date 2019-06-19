@@ -48,12 +48,12 @@ namespace IBM.Cloud.SDK.Core.Authentication
 
             if (!string.IsNullOrEmpty(options.Url))
             {
-                this.url = options.Url;
+                url = options.Url;
             }
 
             if (!string.IsNullOrEmpty(options.AccessToken))
             {
-                this.userAccessToken = options.AccessToken;
+                userAccessToken = options.AccessToken;
             }
         }
 

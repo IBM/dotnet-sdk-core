@@ -39,7 +39,7 @@ namespace IBM.Cloud.SDK.Core.Http
         public const string AUDIO_BASIC = "audio/basic";
         public const string AUDIO_FLAC = "audio/flac";
         public const string AUDIO_RAW = "audio/l16";
-        public static String createAudioRaw(int rate)
+        public static string createAudioRaw(int rate)
         {
             return AUDIO_RAW + "; rate=" + rate;
         }

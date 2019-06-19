@@ -32,7 +32,7 @@ namespace IBM.Cloud.SDK.Core.Tests
             IClient client = CreateClient();
             BasicAuthConfig config = new BasicAuthConfig("username", "password");
 
-            IAuthenticator authenticator = AuthenticatorFactory.GetAuthenticator(config);
+            Authenticator authenticator = AuthenticatorFactory.GetAuthenticator(config);
             authenticator.Authenticate(client);
 
             Assert.IsNotNull(client.BaseClient.DefaultRequestHeaders.Authorization);

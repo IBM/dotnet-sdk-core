@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using IBM.Cloud.SDK.Core.Authentication;
+using IBM.Cloud.SDK.Core.Authentication.Noauth;
 using IBM.Cloud.SDK.Core.Http;
 using IBM.Cloud.SDK.Core.Util;
 
@@ -26,16 +27,18 @@ namespace IBM.Cloud.SDK.Core.Service
 {
     public abstract class IBMService : IIBMService
     {
-        const string PATH_AUTHORIZATION_V1_TOKEN = "/authorization/api/v1/token";
-        const string ICP_PREFIX = "icp-";
-        const string APIKEY_AS_USERNAME = "apikey";
+        //const string PATH_AUTHORIZATION_V1_TOKEN = "/authorization/api/v1/token";
+        const string icpPrefix = "icp-";
+        const string apikeyAsUsername = "apikey";
         public string SERVICE_NAME;
         private string username;
         private string password;
+        public string ApiKey { get; set; }
         public IClient Client { get; set; }
+        private bool skipAuthentication;
+        private string defaultEndpoint;
 
         public string ServiceName { get; set; }
-        public string ApiKey { get; set; }
         public string Url { get { return Endpoint; } }
         protected Dictionary<string, string> customRequestHeaders = new Dictionary<string, string>();
 
@@ -43,19 +46,19 @@ namespace IBM.Cloud.SDK.Core.Service
         {
             get
             {
-                if (this.Client.BaseClient == null ||
-                    this.Client.BaseClient.BaseAddress == null)
+                if (Client.BaseClient == null ||
+                    Client.BaseClient.BaseAddress == null)
                     return string.Empty;
 
-                return this.Client.BaseClient.BaseAddress.AbsoluteUri;
+                return Client.BaseClient.BaseAddress.AbsoluteUri;
             }
             set
             {
-                if (this.Client.BaseClient == null)
+                if (Client.BaseClient == null)
                 {
-                    this.Client.BaseClient = new HttpClient();
+                    Client.BaseClient = new HttpClient();
                 }
-                this.Client.BaseClient.BaseAddress = new Uri(value);
+                Client.BaseClient.BaseAddress = new Uri(value);
             }
         }
         public string UserName
@@ -88,13 +91,14 @@ namespace IBM.Cloud.SDK.Core.Service
                 }
             }
         }
-        protected TokenManager _tokenManager = null;
-        protected JwtTokenManager jwtTokenManager = null;
+        
+        private Authenticator authenticator;
+
         protected bool _userSetEndpoint = false;
 
-        protected IBMService(string serviceName, string authType = null)
+        protected IBMService(string serviceName)
         {
-            this.Client = new IBMHttpClient();
+            Client = new IBMHttpClient();
             ServiceName = serviceName;
 
             var credentialsPaths = Utility.GetCredentialsPaths();
@@ -110,7 +114,8 @@ namespace IBM.Cloud.SDK.Core.Service
 
                 string apiKey = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_IAM_APIKEY");
                 // check for old IAM API key name as well
-                if (string.IsNullOrEmpty(apiKey)) {
+                if (string.IsNullOrEmpty(apiKey))
+                {
                     apiKey = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_APIKEY");
                 }
                 if (!string.IsNullOrEmpty(apiKey))
@@ -160,29 +165,34 @@ namespace IBM.Cloud.SDK.Core.Service
             }
         }
 
-        protected IBMService(string serviceName, string url, string authType = null)
+        protected IBMService(string serviceName, string url)
         {
-            this.ServiceName = serviceName;
-            this.Client = new IBMHttpClient(url, this.UserName, this.Password);
+            ServiceName = serviceName;
+            Client = new IBMHttpClient(url, UserName, Password);
 
-            if (!string.IsNullOrEmpty(this.Endpoint))
-                this.Endpoint = url;
+            if (!string.IsNullOrEmpty(Endpoint))
+                Endpoint = url;
             //TODO: verificar como iremos obter de um arquivo json por injeção de dependencia
-            //this.ApiKey = CredentialUtils.GetApiKey(serviceName);
-            //this.Endpoint = CredentialUtils.GetApiUrl(serviceName);
+            //ApiKey = CredentialUtils.GetApiKey(serviceName);
+            //Endpoint = CredentialUtils.GetApiUrl(serviceName);
         }
 
-        protected IBMService(string serviceName, string url, IClient httpClient, string authType = null)
+        protected IBMService(string serviceName, string url, IClient httpClient)
         {
-            this.ServiceName = serviceName;
-            this.Client = httpClient;
+            ServiceName = serviceName;
+            Client = httpClient;
 
-            if (!string.IsNullOrEmpty(this.Endpoint))
-                this.Endpoint = url;
+            if (!string.IsNullOrEmpty(Endpoint))
+                Endpoint = url;
 
             //TODO: verificar como iremos obter de um arquivo json por injeção de dependencia
-            //this.ApiKey = CredentialUtils.GetApiKey(serviceName);
-            //this.Endpoint = CredentialUtils.GetApiUrl(serviceName);
+            //ApiKey = CredentialUtils.GetApiKey(serviceName);
+            //Endpoint = CredentialUtils.GetApiUrl(serviceName);
+        }
+
+        protected IBMService(string serviceName, IAuthenticatorConfig authenticatorConfig)
+        {
+
         }
 
         /// <summary>
@@ -192,7 +202,7 @@ namespace IBM.Cloud.SDK.Core.Service
         /// <param name="password">The password</param>
         public void SetCredential(string userName, string password)
         {
-            if (userName == APIKEY_AS_USERNAME && !password.StartsWith(ICP_PREFIX))
+            if (userName == apikeyAsUsername && !password.StartsWith(icpPrefix))
             {
                 TokenOptions tokenOptions = new TokenOptions()
                 {
@@ -203,8 +213,8 @@ namespace IBM.Cloud.SDK.Core.Service
             }
             else
             {
-                this.UserName = userName;
-                this.Password = password;
+                UserName = userName;
+                Password = password;
             }
         }
 
@@ -219,19 +229,19 @@ namespace IBM.Cloud.SDK.Core.Service
             {
                 if (!_userSetEndpoint)
                 {
-                    this.Endpoint = options.ServiceUrl;
+                    Endpoint = options.ServiceUrl;
                 }
             }
             else
             {
-                options.ServiceUrl = this.Endpoint;
+                options.ServiceUrl = Endpoint;
             }
 
             if (!string.IsNullOrEmpty(options.IamApiKey))
             {
-                if (options.IamApiKey.StartsWith(ICP_PREFIX))
+                if (options.IamApiKey.StartsWith(icpPrefix))
                 {
-                    SetCredential(APIKEY_AS_USERNAME, options.IamApiKey);
+                    SetCredential(apikeyAsUsername, options.IamApiKey);
                 }
                 else
                 {
@@ -248,25 +258,47 @@ namespace IBM.Cloud.SDK.Core.Service
             }
         }
 
+        /// <summary>
+        /// Initializes a new Authenticator instance based on the input AuthenticatorConfig instance and sets it as
+        /// the current authenticator on the BaseService instance.
+        /// </summary>
+        /// <param name="authConfig">the AuthenticatorConfig instance containing the authentication configuration</param>
+        protected void SetAuthenticator(IAuthenticatorConfig authConfig)
+        {
+            try
+            {
+                authenticator = AuthenticatorFactory.GetAuthenticator(authConfig);
+                if (authenticator is NoauthAuthenticator)
+                {
+                    skipAuthentication = true;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(string.Format("Error: {0}", e));
+            }
+
+        }
+
         public void SetCredential(IamTokenOptions options)
         {
             if (!string.IsNullOrEmpty(options.Url))
             {
                 if (!_userSetEndpoint)
                 {
-                    this.Endpoint = options.Url;
+                    Endpoint = options.Url;
                 }
             }
             else
             {
-                options.Url = this.Endpoint;
+                options.Url = Endpoint;
             }
 
             if (!string.IsNullOrEmpty(options.IamApiKey))
             {
-                if (options.IamApiKey.StartsWith(ICP_PREFIX))
+                if (options.IamApiKey.StartsWith(icpPrefix))
                 {
-                    SetCredential(APIKEY_AS_USERNAME, options.IamApiKey);
+                    SetCredential(apikeyAsUsername, options.IamApiKey);
                 }
                 else
                 {
@@ -288,12 +320,12 @@ namespace IBM.Cloud.SDK.Core.Service
             {
                 if (!_userSetEndpoint)
                 {
-                    this.Endpoint = options.Url;
+                    Endpoint = options.Url;
                 }
             }
             else
             {
-                options.Url = this.Endpoint;
+                options.Url = Endpoint;
             }
 
             if (!string.IsNullOrEmpty(options.Username) && !string.IsNullOrEmpty(options.Password))
@@ -313,12 +345,12 @@ namespace IBM.Cloud.SDK.Core.Service
         public void SetEndpoint(string url)
         {
             _userSetEndpoint = true;
-            this.Endpoint = url;
+            Endpoint = url;
         }
 
         public void DisableSslVerification(bool insecure)
         {
-            this.Client.DisableSslVerification(insecure);
+            Client.DisableSslVerification(insecure);
         }
 
         public void WithHeader(string name, string value)
@@ -360,5 +392,6 @@ namespace IBM.Cloud.SDK.Core.Service
         public Dictionary<string, string> GetCustomRequestHeaders()
         {
             return customRequestHeaders;
-        }    }
+        }
+    }
 }
