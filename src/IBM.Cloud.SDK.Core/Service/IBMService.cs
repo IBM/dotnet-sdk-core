@@ -19,6 +19,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using IBM.Cloud.SDK.Core.Authentication;
+using IBM.Cloud.SDK.Core.Authentication.BasicAuth;
+using IBM.Cloud.SDK.Core.Authentication.Iam;
 using IBM.Cloud.SDK.Core.Authentication.Noauth;
 using IBM.Cloud.SDK.Core.Http;
 using IBM.Cloud.SDK.Core.Util;
@@ -28,15 +30,23 @@ namespace IBM.Cloud.SDK.Core.Service
     public abstract class IBMService : IIBMService
     {
         //const string PATH_AUTHORIZATION_V1_TOKEN = "/authorization/api/v1/token";
-        const string icpPrefix = "icp-";
-        const string apikeyAsUsername = "apikey";
-        public string SERVICE_NAME;
+        private const string icpPrefix = "icp-";
+        private const string apikeyAsUsername = "apikey";
         private string username;
         private string password;
+        public string SERVICE_NAME;
         public string ApiKey { get; set; }
         public IClient Client { get; set; }
         private bool skipAuthentication;
-        private string defaultEndpoint;
+        public bool SkipAuthentication
+        {
+            get { return skipAuthentication; }
+            set
+            {
+                authenticator = new NoauthAuthenticator(null);
+            }
+        }
+        public string DefaultEndpoint { get; }
 
         public string ServiceName { get; set; }
         public string Url { get { return Endpoint; } }
@@ -91,7 +101,7 @@ namespace IBM.Cloud.SDK.Core.Service
                 }
             }
         }
-        
+
         private Authenticator authenticator;
 
         protected bool _userSetEndpoint = false;
@@ -204,17 +214,13 @@ namespace IBM.Cloud.SDK.Core.Service
         {
             if (userName == apikeyAsUsername && !password.StartsWith(icpPrefix))
             {
-                TokenOptions tokenOptions = new TokenOptions()
-                {
-                    IamApiKey = password
-                };
-
-                SetCredential(tokenOptions);
+                IamConfig iamConfig = new IamConfig(password);
+                SetAuthenticator(iamConfig);
             }
             else
             {
-                UserName = userName;
-                Password = password;
+                BasicAuthConfig basicAuthConfig = new BasicAuthConfig(userName, password);
+                SetAuthenticator(basicAuthConfig);
             }
         }
 
@@ -234,7 +240,7 @@ namespace IBM.Cloud.SDK.Core.Service
             }
             else
             {
-                options.ServiceUrl = Endpoint;
+                options.ServiceUrl = defaultEndpoint;
             }
 
             if (!string.IsNullOrEmpty(options.IamApiKey))
@@ -245,19 +251,21 @@ namespace IBM.Cloud.SDK.Core.Service
                 }
                 else
                 {
-                    _tokenManager = new TokenManager(options);
+                    IamConfig iamConfig = new IamConfig(options.IamApiKey);
+                    SetAuthenticator(iamConfig);
                 }
             }
             else if (!string.IsNullOrEmpty(options.IamAccessToken))
             {
-                _tokenManager = new TokenManager(options);
+                IamConfig iamConfig = new IamConfig(userManagedAccessToken: options.IamAccessToken);
+                SetAuthenticator(iamConfig);
             }
             else
             {
                 throw new ArgumentNullException("An iamApikey or iamAccessToken is required.");
             }
         }
-
+        
         /// <summary>
         /// Initializes a new Authenticator instance based on the input AuthenticatorConfig instance and sets it as
         /// the current authenticator on the BaseService instance.
@@ -270,7 +278,7 @@ namespace IBM.Cloud.SDK.Core.Service
                 authenticator = AuthenticatorFactory.GetAuthenticator(authConfig);
                 if (authenticator is NoauthAuthenticator)
                 {
-                    skipAuthentication = true;
+                    SkipAuthentication = true;
                 }
             }
             catch (Exception e)
@@ -280,65 +288,20 @@ namespace IBM.Cloud.SDK.Core.Service
 
         }
 
-        public void SetCredential(IamTokenOptions options)
+        protected void SetAuthentication()
         {
-            if (!string.IsNullOrEmpty(options.Url))
+            if (SkipAuthentication)
             {
-                if (!_userSetEndpoint)
-                {
-                    Endpoint = options.Url;
-                }
-            }
-            else
-            {
-                options.Url = Endpoint;
+                return;
             }
 
-            if (!string.IsNullOrEmpty(options.IamApiKey))
+            if(authenticator != null)
             {
-                if (options.IamApiKey.StartsWith(icpPrefix))
-                {
-                    SetCredential(apikeyAsUsername, options.IamApiKey);
-                }
-                else
-                {
-                    jwtTokenManager = new IamTokenManager(options);
-                }
-            }
-            else if (!string.IsNullOrEmpty(options.IamAccessToken))
-            {
-                jwtTokenManager = new IamTokenManager(options);
+                authenticator.Authenticate(Client);
             }
             else
             {
-                throw new ArgumentNullException("An iamApikey or iamAccessToken is required.");
-            }
-        }
-        public void SetCredential(Icp4dTokenOptions options)
-        {
-            if (!string.IsNullOrEmpty(options.Url))
-            {
-                if (!_userSetEndpoint)
-                {
-                    Endpoint = options.Url;
-                }
-            }
-            else
-            {
-                options.Url = Endpoint;
-            }
-
-            if (!string.IsNullOrEmpty(options.Username) && !string.IsNullOrEmpty(options.Password))
-            {
-                jwtTokenManager = new Icp4dTokenManager(options);
-            }
-            else if (!string.IsNullOrEmpty(options.AccessToken))
-            {
-                jwtTokenManager = new Icp4dTokenManager(options);
-            }
-            else
-            {
-                throw new ArgumentNullException("A Username and Password or AccessToken is required.");
+                throw new ArgumentException("Authentication information was not properly configured.");
             }
         }
 
