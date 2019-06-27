@@ -47,7 +47,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
             }
 
             // If the user specifies their own access token, then username/password are not required.
-            if (string.IsNullOrEmpty(UserManagedAccessToken))
+            if (!string.IsNullOrEmpty(UserManagedAccessToken))
             {
                 return;
             }
@@ -83,8 +83,6 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
             {
                 DisableSslVerification = disableSslVerification;
             }
-
-            Validate();
         }
     }
 }

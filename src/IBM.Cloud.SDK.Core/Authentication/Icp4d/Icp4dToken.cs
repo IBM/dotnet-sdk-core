@@ -45,7 +45,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
             AccessToken = response.AccessToken;
             long? iat = null;
             long? exp = null;
-            
+
             try
             {
                 IJsonSerializer serializer = new JsonNetSerializer();

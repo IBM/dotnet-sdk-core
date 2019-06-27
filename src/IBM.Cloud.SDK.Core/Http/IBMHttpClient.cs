@@ -39,14 +39,28 @@ namespace IBM.Cloud.SDK.Core.Http
 
         public IBMHttpClient()
         {
-            this.BaseClient = new HttpClient();
-            this.Filters = new List<IHttpFilter> { new ErrorFilter() };
+            if (Insecure)
+            {
+                var httpClientHandler = new HttpClientHandler();
+                httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+                this.BaseClient = new HttpClient(httpClientHandler);
+            }
+            else
+            {
+                this.BaseClient = new HttpClient();
+            }
 
+            this.Filters = new List<IHttpFilter> { new ErrorFilter() };
             this.Formatters = new MediaTypeFormatterCollection();
         }
 
-        public IBMHttpClient(string baseUri)
+        public IBMHttpClient(string baseUri, bool? insecure = null)
         {
+            if(insecure != null)
+            {
+                Insecure = (bool)insecure;
+            }
+
             if (Insecure)
             {
                 var httpClientHandler = new HttpClientHandler();

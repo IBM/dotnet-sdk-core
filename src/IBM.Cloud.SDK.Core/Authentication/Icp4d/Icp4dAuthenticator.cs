@@ -39,7 +39,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
         public Icp4dAuthenticator(Icp4dConfig config)
         {
             this.config = config;
-            Client = new IBMHttpClient(config.Url + UrlSuffix);
+            Client = new IBMHttpClient(config.Url + UrlSuffix, this.config.DisableSslVerification);
         }
 
         public override string AuthenticationType
@@ -64,7 +64,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
         {
             string token;
 
-            if(!string.IsNullOrEmpty(config.UserManagedAccessToken))
+            if (!string.IsNullOrEmpty(config.UserManagedAccessToken))
             {
                 // If the user set their own access token, then use it.
                 token = config.UserManagedAccessToken;
@@ -74,7 +74,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
                 // Request a new token if necessary.
                 if (tokenData == null || !tokenData.IsTokenValid())
                 {
-                    tokenData = RequestToken().Result;
+                    tokenData = new Icp4dToken(RequestToken().Result);
                 }
 
                 // Return the access token from our ICP4DToken object.
@@ -84,9 +84,9 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
             return token;
         }
 
-        protected DetailedResponse<Icp4dToken> RequestToken()
+        protected DetailedResponse<Icp4dTokenResponse> RequestToken()
         {
-            DetailedResponse<Icp4dToken> result = null;
+            DetailedResponse<Icp4dTokenResponse> result = null;
 
             try
             {
@@ -96,13 +96,14 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
                     throw new ArgumentNullException("Password is required to request a token");
 
                 IClient client = Client.WithAuthentication(config.Username, config.Password);
-                var request = Client.GetAsync(config.Url);
-                client.DisableSslVerification((bool)config.DisableSslVerification);
+                var request = Client.GetAsync(config.Url + UrlSuffix);
+                if (config.DisableSslVerification != null)
+                    Client.DisableSslVerification((bool)config.DisableSslVerification);
 
-                result = request.As<Icp4dToken>().Result;
+                result = request.As<Icp4dTokenResponse>().Result;
                 if (result == null)
                 {
-                    result = new DetailedResponse<Icp4dToken>();
+                    result = new DetailedResponse<Icp4dTokenResponse>();
                 }
             }
             catch (AggregateException ae)

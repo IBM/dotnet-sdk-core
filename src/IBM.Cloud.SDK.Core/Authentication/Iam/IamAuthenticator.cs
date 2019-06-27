@@ -17,6 +17,8 @@
 
 using IBM.Cloud.SDK.Core.Http;
 using System;
+using System.Collections.Generic;
+using System.Net.Http;
 
 namespace IBM.Cloud.SDK.Core.Authentication.Iam
 {
@@ -36,7 +38,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
         public IamAuthenticator(IamConfig config)
         {
             this.config = config;
-            Client = new IBMHttpClient(config.Url);
+            Client = new IBMHttpClient(config.IamUrl);
         }
 
         public override string AuthenticationType
@@ -63,7 +65,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
                 // Request a new token if necessary.
                 if (tokenData == null || !tokenData.IsTokenValid())
                 {
-                    tokenData = RequestToken().Result;
+                    tokenData = new IamToken(RequestToken().Result);
                 }
 
                 // Return the access token from our ICP4DToken object.
@@ -73,23 +75,49 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
             return token;
         }
 
-        protected DetailedResponse<IamToken> RequestToken()
+        protected DetailedResponse<IamTokenResponse> RequestToken()
         {
-            DetailedResponse<IamToken> result = null;
+            DetailedResponse<IamTokenResponse> result = null;
+
+            // Use bx:bx as default auth header creds.
+            var clientId = "bx";
+            var clientSecret = "bx";
+
+            // If both the clientId and secret were specified by the user, then use them.
+            if (!string.IsNullOrEmpty(config.IamClientId) && !string.IsNullOrEmpty(config.IamClientSecret))
+            {
+                clientId = config.IamClientId;
+                clientSecret = config.IamClientSecret;
+            }
 
             try
             {
                 if (string.IsNullOrEmpty(config.Apikey))
                     throw new ArgumentNullException("Apikey is required to request a token");
 
-                IClient client = Client.WithAuthentication(config.Apikey);
-                var request = Client.GetAsync(config.Url);
-                client.DisableSslVerification((bool)config.DisableSslVerification);
+                IClient client = Client.WithAuthentication(clientId, clientSecret);
+                var request = Client.PostAsync(config.IamUrl);
+                request.WithHeader("Content-type", "application/x-www-form-urlencoded");
 
-                result = request.As<IamToken>().Result;
+                if (config.DisableSslVerification != null)
+                    client.DisableSslVerification((bool)config.DisableSslVerification);
+
+                List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>();
+                KeyValuePair<string, string> grantType = new KeyValuePair<string, string>("grant_type", "urn:ibm:params:oauth:grant-type:apikey");
+                KeyValuePair<string, string> responseType = new KeyValuePair<string, string>("response_type", "cloud_iam");
+                KeyValuePair<string, string> apikey = new KeyValuePair<string, string>("apikey", config.Apikey);
+                content.Add(grantType);
+                content.Add(responseType);
+                content.Add(apikey);
+
+                var formData = new FormUrlEncodedContent(content);
+
+                request.WithBodyContent(formData);
+
+                result = request.As<IamTokenResponse>().Result;
                 if (result == null)
                 {
-                    result = new DetailedResponse<IamToken>();
+                    result = new DetailedResponse<IamTokenResponse>();
                 }
             }
             catch (AggregateException ae)

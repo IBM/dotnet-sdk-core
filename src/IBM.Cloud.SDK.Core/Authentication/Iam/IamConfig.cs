@@ -29,9 +29,11 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
     public class IamConfig : IAuthenticatorConfig
     {
         public string Apikey { get; private set; }
-        public string Url { get; private set; }
+        public string IamUrl { get; private set; }
         public string UserManagedAccessToken { get; private set; }
         public bool? DisableSslVerification { get; private set; }
+        public string IamClientId { get; private set; }
+        public string IamClientSecret { get; private set; }
         private readonly string defaultUrl = "https://iam.cloud.ibm.com/identity/token";
 
         public string AuthenticationType
@@ -42,7 +44,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
         public void Validate()
         {
             // If the user specifies their own access token, then apikey is not required.
-            if (string.IsNullOrEmpty(UserManagedAccessToken))
+            if (!string.IsNullOrEmpty(UserManagedAccessToken))
             {
                 return;
             }
@@ -56,32 +58,43 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
             {
                 throw new ArgumentException("The apikey shouldn't start or end with curly brackets orquotes. Please remove any surrounding {, }, or \" characters.");
             }
+
+            if (Utility.HasBadFirstOrLastCharacter(IamUrl))
+            {
+                throw new ArgumentException("The Url shouldn't start or end with curly brackets orquotes. Please remove any surrounding {, }, or \" characters.");
+            }
         }
 
-        public IamConfig(string apikey = null, string url = null, string userManagedAccessToken = null, bool? disableSslVerification = null)
+        public IamConfig(string apikey = null, string iamUrl = null, string userManagedAccessToken = null, bool? disableSslVerification = null, string iamClientId = null, string iamClientSecret = null)
         {
-            if(!string.IsNullOrEmpty(apikey))
+            if (!string.IsNullOrEmpty(apikey))
             {
                 Apikey = apikey;
             }
-            if(!string.IsNullOrEmpty(url))
+            if (!string.IsNullOrEmpty(iamUrl))
             {
-                Url = url;
+                IamUrl = iamUrl;
             }
             else
             {
-                Url = defaultUrl;
+                IamUrl = defaultUrl;
             }
-            if(!string.IsNullOrEmpty(UserManagedAccessToken))
+            if (!string.IsNullOrEmpty(UserManagedAccessToken))
             {
                 UserManagedAccessToken = userManagedAccessToken;
             }
-            if(disableSslVerification != null)
+            if (disableSslVerification != null)
             {
                 DisableSslVerification = disableSslVerification;
             }
-
-            Validate();
+            if (!string.IsNullOrEmpty(iamClientId))
+            {
+                IamClientId = iamClientId;
+            }
+            if (!string.IsNullOrEmpty(iamClientSecret))
+            {
+                IamClientSecret = iamClientSecret;
+            }
         }
     }
 }

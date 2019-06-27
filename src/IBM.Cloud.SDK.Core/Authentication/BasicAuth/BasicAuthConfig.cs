@@ -48,8 +48,6 @@ namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
         {
             Username = username;
             Password = password;
-
-            Validate();
         }
     }
 }
