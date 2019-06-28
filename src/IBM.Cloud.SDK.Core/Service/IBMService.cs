@@ -227,7 +227,14 @@ namespace IBM.Cloud.SDK.Core.Service
 
         protected IBMService(string serviceName, IAuthenticatorConfig authenticatorConfig)
         {
-            Client = new IBMHttpClient();
+            if (authenticatorConfig.AuthenticationType == Authenticator.AuthtypeIcp4d)
+            {
+                Client = new IBMHttpClient((authenticatorConfig as Icp4dConfig).DisableSslVerification);
+            }
+            else
+            {
+                Client = new IBMHttpClient();
+            }
             ServiceName = serviceName;
             SetAuthenticator(authenticatorConfig);
         }
