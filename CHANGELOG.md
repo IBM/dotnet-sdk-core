@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/IBM/dotnet-sdk-core/compare/v0.7.1...v0.8.0) (2019-06-28)
+
+
+### Features
+
+* **Authentication:** Support authentication via config files, add ICP4D support ([4da7902](https://github.com/IBM/dotnet-sdk-core/commit/4da7902))
+
 ## [0.7.1](https://github.com/IBM/dotnet-sdk-core/compare/v0.7.0...v0.7.1) (2019-05-06)
 
 
