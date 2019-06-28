@@ -206,5 +206,34 @@ namespace IBM.Cloud.SDK.Core.Util
         {
             return value.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
         }
+
+        /// <summary>
+        /// Loads external credentials in specified credentials paths
+        /// </summary>
+        public static void LoadExternalCredentials()
+        {
+            var credentialsPaths = GetCredentialsPaths();
+            if (credentialsPaths.Count > 0)
+            {
+                foreach (string path in credentialsPaths)
+                {
+                    if (LoadEnvFile(path))
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Is only one of the supplied values set?
+        /// </summary>
+        /// <param name="a">Value A</param>
+        /// <param name="b">Value B</param>
+        /// <returns></returns>
+        public static bool OnlyOne(string a, string b)
+        {
+            return (string.IsNullOrEmpty(a) && !string.IsNullOrEmpty(b)) || (!string.IsNullOrEmpty(a) && string.IsNullOrEmpty(b));
+        }
     }
 }

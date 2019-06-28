@@ -28,7 +28,7 @@ namespace IBM.Cloud.SDK.Core.Service
         string ApiKey { get; set; }
         string UserName { get; set; }
         string Password { get; set; }
-
+        string DefaultEndpoint { get; }
         void SetCredential(string userName, string password);
         void SetCredential(TokenOptions tokenOptions);
         void SetEndpoint(string endpoint);

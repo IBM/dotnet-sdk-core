@@ -37,16 +37,29 @@ namespace IBM.Cloud.SDK.Core.Http
 
         public bool Insecure = false;
 
-        public IBMHttpClient()
+        public IBMHttpClient(bool? insecure = null)
         {
-            this.BaseClient = new HttpClient();
-            this.Filters = new List<IHttpFilter> { new ErrorFilter() };
+            if (insecure != null) { Insecure = (bool)insecure; }
 
+            if (Insecure)
+            {
+                var httpClientHandler = new HttpClientHandler();
+                httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+                this.BaseClient = new HttpClient(httpClientHandler);
+            }
+            else
+            {
+                this.BaseClient = new HttpClient();
+            }
+
+            this.Filters = new List<IHttpFilter> { new ErrorFilter() };
             this.Formatters = new MediaTypeFormatterCollection();
         }
 
-        public IBMHttpClient(string baseUri)
+        public IBMHttpClient(string baseUri, bool? insecure = null)
         {
+            if (insecure != null) { Insecure = (bool)insecure; }
+
             if (Insecure)
             {
                 var httpClientHandler = new HttpClientHandler();
@@ -64,8 +77,10 @@ namespace IBM.Cloud.SDK.Core.Http
             this.Formatters = new MediaTypeFormatterCollection();
         }
 
-        public IBMHttpClient(string baseUri, string userName, string password)
+        public IBMHttpClient(string baseUri, string userName, string password, bool? insecure = null)
         {
+            if (insecure != null) { Insecure = (bool)insecure; }
+
             if (Insecure)
             {
                 var httpClientHandler = new HttpClientHandler();
@@ -83,8 +98,10 @@ namespace IBM.Cloud.SDK.Core.Http
             this.WithAuthentication(userName, password);
         }
 
-        public IBMHttpClient(string baseUri, string userName, string password, HttpClient client)
+        public IBMHttpClient(string baseUri, string userName, string password, HttpClient client, bool? insecure = null)
         {
+            if (insecure != null) { Insecure = (bool)insecure; }
+
             if (Insecure)
             {
                 var httpClientHandler = new HttpClientHandler();
