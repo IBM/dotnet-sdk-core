@@ -68,7 +68,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
                     tokenData = new IamToken(RequestToken().Result);
                 }
 
-                // Return the access token from our ICP4DToken object.
+                // Return the access token from our IamToken object.
                 token = tokenData.AccessToken;
             }
 

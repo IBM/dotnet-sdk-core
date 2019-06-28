@@ -224,5 +224,16 @@ namespace IBM.Cloud.SDK.Core.Util
                 }
             }
         }
+
+        /// <summary>
+        /// Is only one of the supplied values set?
+        /// </summary>
+        /// <param name="a">Value A</param>
+        /// <param name="b">Value B</param>
+        /// <returns></returns>
+        public static bool OnlyOne(string a, string b)
+        {
+            return (string.IsNullOrEmpty(a) && !string.IsNullOrEmpty(b)) || (!string.IsNullOrEmpty(a) && string.IsNullOrEmpty(b));
+        }
     }
 }

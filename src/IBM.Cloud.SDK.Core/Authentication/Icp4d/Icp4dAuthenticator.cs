@@ -90,11 +90,6 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
 
             try
             {
-                if (string.IsNullOrEmpty(config.Username))
-                    throw new ArgumentNullException("Username is required to request a token");
-                if (string.IsNullOrEmpty(config.Password))
-                    throw new ArgumentNullException("Password is required to request a token");
-
                 IClient client = Client.WithAuthentication(config.Username, config.Password);
                 var request = Client.GetAsync(config.Url + UrlSuffix);
                 if (config.DisableSslVerification != null)

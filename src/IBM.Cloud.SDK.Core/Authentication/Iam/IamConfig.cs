@@ -56,12 +56,17 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
 
             if (Utility.HasBadFirstOrLastCharacter(Apikey))
             {
-                throw new ArgumentException("The apikey shouldn't start or end with curly brackets orquotes. Please remove any surrounding {, }, or \" characters.");
+                throw new ArgumentException("The apikey shouldn't start or end with curly brackets or quotes. Please remove any surrounding {, }, or \" characters.");
             }
 
             if (Utility.HasBadFirstOrLastCharacter(IamUrl))
             {
-                throw new ArgumentException("The Url shouldn't start or end with curly brackets orquotes. Please remove any surrounding {, }, or \" characters.");
+                throw new ArgumentException("The Url shouldn't start or end with curly brackets or quotes. Please remove any surrounding {, }, or \" characters.");
+            }
+
+            if (Utility.OnlyOne(IamClientId, IamClientSecret))
+            {
+                throw new ArgumentException("Warning: Client ID and Secret must BOTH be given, or the defaults will be used.");
             }
         }
 

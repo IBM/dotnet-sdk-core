@@ -40,7 +40,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
         {
             if (Utility.HasBadFirstOrLastCharacter(Username) || Utility.HasBadFirstOrLastCharacter(Password))
             {
-                throw new ArgumentException("The username and password shouldn't start or end with curly brackets orquotes. Please remove any surrounding {, }, or \" characters.");
+                throw new ArgumentException("The username and password shouldn't start or end with curly brackets or quotes. Please remove any surrounding {, }, or \" characters.");
             }
         }
 
