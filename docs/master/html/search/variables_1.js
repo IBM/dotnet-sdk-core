@@ -17,5 +17,9 @@ var searchData=
   ['audio_5fogg_5fvorbis',['AUDIO_OGG_VORBIS',['../df/db7/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_http_media_type.html#ac8fe946c63bc6f4caa4e8f8bb68b1702',1,'IBM::Cloud::SDK::Core::Http::HttpMediaType']]],
   ['audio_5fpcm',['AUDIO_PCM',['../df/db7/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_http_media_type.html#aee9553edcd3ebc673091572ea16e9ca6',1,'IBM::Cloud::SDK::Core::Http::HttpMediaType']]],
   ['audio_5fraw',['AUDIO_RAW',['../df/db7/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_http_media_type.html#a7526190f0700ad64bdec2e4b605059d2',1,'IBM::Cloud::SDK::Core::Http::HttpMediaType']]],
-  ['audio_5fwav',['AUDIO_WAV',['../df/db7/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_http_media_type.html#aecf350a592c54088e5f693c316ab23bf',1,'IBM::Cloud::SDK::Core::Http::HttpMediaType']]]
+  ['audio_5fwav',['AUDIO_WAV',['../df/db7/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_http_media_type.html#aecf350a592c54088e5f693c316ab23bf',1,'IBM::Cloud::SDK::Core::Http::HttpMediaType']]],
+  ['authtypebasic',['AuthtypeBasic',['../dd/da9/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_authenticator.html#a9a867234a1b67de5d0e0ec44a8959f3f',1,'IBM::Cloud::SDK::Core::Authentication::Authenticator']]],
+  ['authtypeiam',['AuthtypeIam',['../dd/da9/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_authenticator.html#ae6218b3f2861bf29642907237731f8d2',1,'IBM::Cloud::SDK::Core::Authentication::Authenticator']]],
+  ['authtypeicp4d',['AuthtypeIcp4d',['../dd/da9/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_authenticator.html#a596aa6d900376fe29ce285e3808b43b7',1,'IBM::Cloud::SDK::Core::Authentication::Authenticator']]],
+  ['authtypenoauth',['AuthtypeNoauth',['../dd/da9/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_authenticator.html#a45aadd4dae1d41cca85a5cdbea6a37c1',1,'IBM::Cloud::SDK::Core::Authentication::Authenticator']]]
 ];

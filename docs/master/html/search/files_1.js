@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['constants_2ecs',['Constants.cs',['../d1/d39/_constants_8cs.html',1,'']]],
-  ['credentials_2ecs',['Credentials.cs',['../d5/d48/_credentials_8cs.html',1,'']]]
+  ['basicauthconfig_2ecs',['BasicAuthConfig.cs',['../d8/d01/_basic_auth_config_8cs.html',1,'']]],
+  ['basicauthenticator_2ecs',['BasicAuthenticator.cs',['../da/d6c/_basic_authenticator_8cs.html',1,'']]]
 ];

@@ -1,9 +1,9 @@
 var class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client =
 [
-    [ "IBMHttpClient", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a4c41a18e20c7990513a5e376780219e1", null ],
-    [ "IBMHttpClient", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a020caaf7f1b142c2bc1e9cfb042fe913", null ],
-    [ "IBMHttpClient", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a1ac61081459a65b1e76982e3d70c2f5b", null ],
-    [ "IBMHttpClient", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a60828ea583fb99fb942f46227e53f46c", null ],
+    [ "IBMHttpClient", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a6a6ab564abd66886146b3483532ff79c", null ],
+    [ "IBMHttpClient", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#aad2a91e1224d15ed9d858d6a483d2562", null ],
+    [ "IBMHttpClient", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#af53a305fc9ccec487d2668871919066d", null ],
+    [ "IBMHttpClient", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a39fe8f56ae17885113df86f53b3e1107", null ],
     [ "AssertNotDisposed", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a0183de9537413e62cfa14b6582e34757", null ],
     [ "DeleteAsync", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a75e654b76df87b825a1252ef9ddbdc47", null ],
     [ "DisableSslVerification", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a2e91973fadc40c9b826c760fcd22a053", null ],

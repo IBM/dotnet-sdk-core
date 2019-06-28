@@ -8,5 +8,5 @@ var searchData=
   ['tokenmanager',['TokenManager',['../d6/db2/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_util_1_1_token_manager.html',1,'IBM.Cloud.SDK.Core.Util.TokenManager'],['../d6/db2/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_util_1_1_token_manager.html#aa5771e9d6a9496e5762b172717c56656',1,'IBM.Cloud.SDK.Core.Util.TokenManager.TokenManager()']]],
   ['tokenmanager_2ecs',['TokenManager.cs',['../db/d45/_token_manager_8cs.html',1,'']]],
   ['tokenoptions',['TokenOptions',['../d5/d7f/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_util_1_1_token_options.html',1,'IBM::Cloud::SDK::Core::Util']]],
-  ['tokentype',['TokenType',['../d1/dd3/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_util_1_1_iam_token_data.html#a82c15df89bf44372b79e156cf6288902',1,'IBM::Cloud::SDK::Core::Util::IamTokenData']]]
+  ['tokentype',['TokenType',['../d4/daf/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_token_response.html#a7bf3c2944fa8c8749fc1228132593ac4',1,'IBM.Cloud.SDK.Core.Authentication.Iam.IamTokenResponse.TokenType()'],['../d1/dd3/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_util_1_1_iam_token_data.html#a82c15df89bf44372b79e156cf6288902',1,'IBM.Cloud.SDK.Core.Util.IamTokenData.TokenType()']]]
 ];

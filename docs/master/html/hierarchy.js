@@ -3,6 +3,13 @@ var hierarchy =
     [ "Attribute", null, [
       [ "IBM.Cloud.SDK.Core.Util.Attributes.DescriptionAttribute", "d6/d4d/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_util_1_1_attributes_1_1_description_attribute.html", null ]
     ] ],
+    [ "IBM.Cloud.SDK.Core.Authentication.Authenticator", "dd/da9/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_authenticator.html", [
+      [ "IBM.Cloud.SDK.Core.Authentication.BasicAuth.BasicAuthenticator", "df/d53/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_basic_auth_1_1_basic_authenticator.html", null ],
+      [ "IBM.Cloud.SDK.Core.Authentication.Iam.IamAuthenticator", "d1/dfd/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_authenticator.html", null ],
+      [ "IBM.Cloud.SDK.Core.Authentication.Icp4d.Icp4dAuthenticator", "d5/d96/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_icp4d_1_1_icp4d_authenticator.html", null ],
+      [ "IBM.Cloud.SDK.Core.Authentication.Noauth.NoauthAuthenticator", "d3/d04/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_noauth_1_1_noauth_authenticator.html", null ]
+    ] ],
+    [ "IBM.Cloud.SDK.Core.Authentication.AuthenticatorFactory", "d9/dff/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_authenticator_factory.html", null ],
     [ "IBM.Cloud.SDK.Core.Sockets.AWebSocketClient", "dd/d38/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_sockets_1_1_a_web_socket_client.html", [
       [ "IBM.Cloud.SDK.Core.Sockets.WebSocketClient", "d1/d6e/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_sockets_1_1_web_socket_client.html", null ]
     ] ],
@@ -14,8 +21,18 @@ var hierarchy =
       [ "IBM.Cloud.SDK.Core.Http.Exceptions.ServiceResponseException", "d8/d8b/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_exceptions_1_1_service_response_exception.html", null ]
     ] ],
     [ "IBM.Cloud.SDK.Core.Http.HttpMediaType", "df/db7/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_http_media_type.html", null ],
+    [ "IBM.Cloud.SDK.Core.Authentication.Iam.IamToken", "db/dc3/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_token.html", null ],
     [ "IBM.Cloud.SDK.Core.Util.IamTokenData", "d1/dd3/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_util_1_1_iam_token_data.html", null ],
+    [ "IBM.Cloud.SDK.Core.Authentication.Iam.IamTokenResponse", "d4/daf/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_token_response.html", null ],
+    [ "IBM.Cloud.SDK.Core.Authentication.IAuthenticatorConfig", "d1/d9f/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_i_authenticator_config.html", [
+      [ "IBM.Cloud.SDK.Core.Authentication.BasicAuth.BasicAuthConfig", "d7/d59/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_basic_auth_1_1_basic_auth_config.html", null ],
+      [ "IBM.Cloud.SDK.Core.Authentication.Iam.IamConfig", "da/de2/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_config.html", null ],
+      [ "IBM.Cloud.SDK.Core.Authentication.Icp4d.Icp4dConfig", "d1/d83/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_icp4d_1_1_icp4d_config.html", null ],
+      [ "IBM.Cloud.SDK.Core.Authentication.Noauth.NoauthConfig", "d6/d7e/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_noauth_1_1_noauth_config.html", null ]
+    ] ],
     [ "IBM.Cloud.SDK.Core.Http.Exceptions.IBMError", "db/d80/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_exceptions_1_1_i_b_m_error.html", null ],
+    [ "IBM.Cloud.SDK.Core.Authentication.Icp4d.Icp4dToken", "d4/d9c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_icp4d_1_1_icp4d_token.html", null ],
+    [ "IBM.Cloud.SDK.Core.Authentication.Icp4d.Icp4dTokenResponse", "d5/d86/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_icp4d_1_1_icp4d_token_response.html", null ],
     [ "IDisposable", null, [
       [ "IBM.Cloud.SDK.Core.Http.IClient", "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html", [
         [ "IBM.Cloud.SDK.Core.Http.IBMHttpClient", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html", null ]

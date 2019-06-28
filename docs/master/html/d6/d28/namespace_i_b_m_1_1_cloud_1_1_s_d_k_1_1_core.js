@@ -1,5 +1,6 @@
 var namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core =
 [
+    [ "Authentication", "d4/d0d/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication.html", "d4/d0d/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication" ],
     [ "Http", "dd/d23/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http.html", "dd/d23/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http" ],
     [ "Model", "d6/d63/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_model.html", "d6/d63/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_model" ],
     [ "Service", "d8/d32/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service.html", "d8/d32/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service" ],
