@@ -1,3 +1,10 @@
+## [0.8.2](https://github.com/IBM/dotnet-sdk-core/compare/v0.8.1...v0.8.2) (2019-07-22)
+
+
+### Bug Fixes
+
+* **Query params:** Query params were alredy being escaped ([6a055c6](https://github.com/IBM/dotnet-sdk-core/commit/6a055c6))
+
 ## [0.8.1](https://github.com/IBM/dotnet-sdk-core/compare/v0.8.0...v0.8.1) (2019-07-22)
 
 
