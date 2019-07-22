@@ -50,5 +50,4 @@ namespace IBM.Cloud.SDK.Core.Tests
         }
         #endregion
     }
-
 }
