@@ -33,7 +33,7 @@ namespace IBM.Cloud.SDK.Core.Tests
 
             restRequest.WithArgument("myArg", "Is this a valid arg?");
 
-            Assert.IsTrue(restRequest.Message.RequestUri == new Uri("http://baseuri.com/v1/operation?myArg=Is%2Bthis%2Ba%2Bvalid%2Barg%253F"));
+            Assert.IsTrue(restRequest.Message.RequestUri == new Uri("http://baseuri.com/v1/operation?myArg=Is+this+a+valid+arg%3F"));
         }
     }
 }

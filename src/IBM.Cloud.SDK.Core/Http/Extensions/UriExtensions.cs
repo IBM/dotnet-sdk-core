@@ -34,7 +34,7 @@ namespace IBM.Cloud.SDK.Core.Http.Extensions
                                     WebUtility.UrlEncode(argument.Value.ToString().ToLower()) : 
                                         WebUtility.UrlEncode(argument.Value.ToString()) : 
                                             string.Empty
-                select key + "=" + Uri.EscapeDataString(value)
+                select key + "=" + value
             );
             return new Uri(
                 uri
