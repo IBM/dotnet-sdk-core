@@ -35,17 +35,17 @@ namespace IBM.Cloud.SDK.Core.Tests.Util
             Assert.IsTrue(paths.Count > 0);
         }
 
-        [TestMethod]
-        public void LoadEnvFileSuccess()
-        {
-            List<string> paths = Utility.GetCredentialsPaths();
+        //[TestMethod]
+        //public void LoadEnvFileSuccess()
+        //{
+        //    List<string> paths = Utility.GetCredentialsPaths();
 
-            bool success = false;
-            if (paths.Count > 0)
-                success = Utility.LoadEnvFile(paths[0]);
+        //    bool success = false;
+        //    if (paths.Count > 0)
+        //        success = Utility.LoadEnvFile(paths[0]);
 
-            Assert.IsTrue(success);
-        }
+        //    Assert.IsTrue(success);
+        //}
 
         [TestMethod]
         public void LoadIBMCredentialsFileFromEnv()
@@ -58,53 +58,53 @@ namespace IBM.Cloud.SDK.Core.Tests.Util
             Assert.IsTrue(paths.Count > 0);
         }
 
-        [TestMethod]
-        public void LoadEnvFileFail()
-        {
-            List<string> paths = new List<string>();
-            bool success = Utility.LoadEnvFile("bogus-filepath");
-            Assert.IsFalse(success);
-        }
+        //[TestMethod]
+        //public void LoadEnvFileFail()
+        //{
+        //    List<string> paths = new List<string>();
+        //    bool success = Utility.LoadEnvFile("bogus-filepath");
+        //    Assert.IsFalse(success);
+        //}
 
         [TestMethod]
         public void HasBadFirstOrLastCharacterSuccessStartingBracket()
         {
-            bool success = Utility.HasBadFirstOrLastCharacter("{bogus-string");
+            bool success = CredentialUtils.HasBadStartOrEndChar("{bogus-string");
             Assert.IsTrue(success);
         }
 
         [TestMethod]
         public void HasBadFirstOrLastCharacterSuccessStartingQuote()
         {
-            bool success = Utility.HasBadFirstOrLastCharacter("\"bogus-string");
+            bool success = CredentialUtils.HasBadStartOrEndChar("\"bogus-string");
             Assert.IsTrue(success);
         }
 
         [TestMethod]
         public void HasBadFirstOrLastCharacterSuccessEndingBracket()
         {
-            bool success = Utility.HasBadFirstOrLastCharacter("bogus-string}");
+            bool success = CredentialUtils.HasBadStartOrEndChar("bogus-string}");
             Assert.IsTrue(success);
         }
 
         [TestMethod]
         public void HasBadFirstOrLastCharacterSuccessEndingQuote()
         {
-            bool success = Utility.HasBadFirstOrLastCharacter("bogus-string\"");
+            bool success = CredentialUtils.HasBadStartOrEndChar("bogus-string\"");
             Assert.IsTrue(success);
         }
 
         [TestMethod]
         public void HasBadFirstOrLastCharacterSuccessStartingEndingBracket()
         {
-            bool success = Utility.HasBadFirstOrLastCharacter("{bogus-string}");
+            bool success = CredentialUtils.HasBadStartOrEndChar("{bogus-string}");
             Assert.IsTrue(success);
         }
 
         [TestMethod]
         public void HasBadFirstOrLastCharacterSuccessStartingEndingQuote()
         {
-            bool success = Utility.HasBadFirstOrLastCharacter("\"bogus-string\"");
+            bool success = CredentialUtils.HasBadStartOrEndChar("\"bogus-string\"");
             Assert.IsTrue(success);
         }
 

@@ -15,18 +15,22 @@
 *
 */
 
-namespace IBM.Cloud.SDK.Core.Authentication
-{
-    public interface IAuthenticatorConfig
-    {
-        /// <summary>
-        /// Returns the authentication type associated with the AuthenticatorConfig instance.
-        /// </summary>
-        string AuthenticationType { get; }
+using IBM.Cloud.SDK.Core.Authentication;
+using IBM.Cloud.SDK.Core.Authentication.Noauth;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-        /// <summary>
-        /// Validate the configuration and throw an exception if validation fails.
-        /// </summary>
-        void Validate();
+namespace IBM.Cloud.SDK.Core.Tests.Authentication.Noauth
+{
+    [TestClass]
+    public class NoauthTests
+    {
+        [TestMethod]
+        public void TestConstruction()
+        {
+            NoauthAuthenticator authenticator = new NoauthAuthenticator();
+
+            Assert.IsNotNull(authenticator);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeNoauth);
+        }
     }
 }

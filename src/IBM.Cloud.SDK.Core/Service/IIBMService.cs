@@ -15,8 +15,8 @@
 *
 */
 
+using IBM.Cloud.SDK.Core.Authentication;
 using IBM.Cloud.SDK.Core.Http;
-using IBM.Cloud.SDK.Core.Util;
 
 namespace IBM.Cloud.SDK.Core.Service
 {
@@ -25,12 +25,7 @@ namespace IBM.Cloud.SDK.Core.Service
         IClient Client { get; set; }
 
         string ServiceName { get; set; }
-        string ApiKey { get; set; }
-        string UserName { get; set; }
-        string Password { get; set; }
-        string DefaultEndpoint { get; }
-        void SetCredential(string userName, string password);
-        void SetCredential(TokenOptions tokenOptions);
         void SetEndpoint(string endpoint);
+        Authenticator GetAuthenticator();
     }
 }

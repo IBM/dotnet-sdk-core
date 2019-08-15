@@ -21,10 +21,31 @@ namespace IBM.Cloud.SDK.Core.Authentication
 {
     public class Authenticator
     {
+        /// <summary>
+        /// These are the valid authentication types.
+        /// </summary>
         public const string AuthtypeBasic = "basic";
         public const string AuthtypeNoauth = "noauth";
         public const string AuthtypeIam = "iam";
-        public const string AuthtypeIcp4d = "icp4d";
+        public const string AuthtypeCp4d = "cp4d";
+        public const string AuthtypeBearer = "bearerToken";
+
+        /// <summary>
+        /// Constants which define the names of external config propreties (credential file, environment variable, etc.).
+        /// </summary>
+        public static string PropnameAuthType = "AUTH_TYPE";
+        public static string PropnameUsername = "USERNAME";
+        public static string PropnamePassword = "PASSWORD";
+        public static string PropnameBearerToken = "BEARER_TOKEN";
+        public static string PropnameUrl = "AUTH_URL";
+        public static string PropnameDisableSsl = "AUTH_DISABLE_SSL";
+        public static string PropnameApikey = "APIKEY";
+        public static string PropnameClientId = "CLIENT_ID";
+        public static string PropnameClientSecret = "CLIENT_SECRET";
+
+        public static string ErrormsgPropMissing = "The {0} property is required but was not specified.";
+        public static string ErrormsgPropInvalid = "The {0} property is invalid. Please remove any surrounding {{, }}, or \" characters.";
+        public static string ErrormsgReqFailed = "Error while fetching access token from token service: ";
 
         /// <summary>
         /// Returns the authentication type associated with the AuthenticatorConfig instance.

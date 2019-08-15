@@ -20,12 +20,12 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
+namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
 {
     /// <summary>
-    /// This class models a response received from the ICP4D "get token" API.
+    /// This class models a response received from the CloudPakForData "get token" API.
     /// </summary>
-    public class Icp4dTokenResponse
+    public class CloudPakForDataTokenResponse
     {
         [JsonProperty("username", NullValueHandling = NullValueHandling.Ignore)]
         public string Username { get; set; }

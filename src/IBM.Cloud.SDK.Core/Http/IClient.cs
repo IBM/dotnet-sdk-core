@@ -33,7 +33,7 @@ namespace IBM.Cloud.SDK.Core.Http
 
         IClient WithAuthentication(string userName, string password);
 
-        IClient WithAuthentication(string apikey);
+        IClient WithAuthentication(string apiToken);
 
         IRequest DeleteAsync(string resource);
 

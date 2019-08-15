@@ -89,20 +89,10 @@ namespace IBM.Cloud.SDK.Core.Util
         }
 
         /// <summary>
-        /// Checks if the string is wrapped or partially wrapped in bad characters.
-        /// </summary>
-        /// <param name="value">The string to check.</param>
-        /// <returns></returns>
-        public static bool HasBadFirstOrLastCharacter(string value)
-        {
-            return value.StartsWith("{") || value.StartsWith("\"") || value.EndsWith("}") || value.EndsWith("\"");
-        }
-
-        /// <summary>
         /// Loads environment variables from an external file.
         /// </summary>
         /// <param name="filepath">The location in the file system from which to load environment variables.</param>
-        public static bool LoadEnvFile(string filepath)
+        public static Dictionary<string, string> LoadEnvFile(string filepath, string serviceName)
         {
             List<string> lines = new List<string>();
             string[] rawLines = { };
@@ -113,7 +103,7 @@ namespace IBM.Cloud.SDK.Core.Util
             }
             catch
             {
-                return false;
+                return null;
             }
 
             foreach(string line in rawLines)
@@ -128,15 +118,14 @@ namespace IBM.Cloud.SDK.Core.Util
             foreach(string line in lines)
             {
                 string[] kvp = line.Split(new char[] { '=' }, 2);
-                envDict.Add(kvp[0], kvp[1]);
+                if (kvp[0].StartsWith(serviceName.ToUpper()))
+                {
+                    string propName = kvp[0].ToUpper().Substring(serviceName.Length + 1);
+                    envDict.Add(kvp[0], kvp[1]);
+                }
             }
 
-            foreach (KeyValuePair<string, string> keyValuePair in envDict)
-            {
-                Environment.SetEnvironmentVariable(keyValuePair.Key, keyValuePair.Value);
-            }
-
-            return true;
+            return envDict;
         }
 
         public static List<string> GetCredentialsPaths()
@@ -210,19 +199,27 @@ namespace IBM.Cloud.SDK.Core.Util
         /// <summary>
         /// Loads external credentials in specified credentials paths
         /// </summary>
-        public static void LoadExternalCredentials()
+        /// <returns>Dictionary of credentials</returns>
+        public static Dictionary<string, string> LoadExternalCredentials(string serviceName)
         {
             var credentialsPaths = GetCredentialsPaths();
             if (credentialsPaths.Count > 0)
             {
                 foreach (string path in credentialsPaths)
                 {
-                    if (LoadEnvFile(path))
+                    var credentials = LoadEnvFile(path, serviceName);
+                    if(credentials != null)
                     {
-                        break;
+                        return credentials;
+                    }
+                    else
+                    {
+                        continue;
                     }
                 }
             }
+
+            return null;
         }
 
         /// <summary>

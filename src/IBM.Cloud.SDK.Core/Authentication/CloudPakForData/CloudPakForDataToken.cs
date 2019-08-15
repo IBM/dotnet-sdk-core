@@ -20,12 +20,12 @@ using JWT.Serializers;
 using Newtonsoft.Json.Linq;
 using System;
 
-namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
+namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
 {
     /// <summary>
-    /// This class holds relevant info re: an ICP4D access token for use by the ICP4DAuthenticator class.
+    /// This class holds relevant info re: an CP4D access token for use by the CP4DAuthenticator class.
     /// </summary>
-    public class Icp4dToken
+    public class CloudPakForDataToken
     {
         public string AccessToken { get; set; }
         public long ExpirationTimeInMillis { get; set; }
@@ -34,13 +34,13 @@ namespace IBM.Cloud.SDK.Core.Authentication.Icp4d
         /// This ctor is used to store a user-managed access token which will never expire.
         /// </summary>
         /// <param name="accessToken">the user-managed access token</param>
-        public Icp4dToken(string accessToken)
+        public CloudPakForDataToken(string accessToken)
         {
             AccessToken = accessToken;
             ExpirationTimeInMillis = -1;
         }
 
-        public Icp4dToken(Icp4dTokenResponse response)
+        public CloudPakForDataToken(CloudPakForDataTokenResponse response)
         {
             AccessToken = response.AccessToken;
             long? iat = null;
