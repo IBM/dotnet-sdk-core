@@ -160,7 +160,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
         {
             if (string.IsNullOrEmpty(Url))
             {
-                throw new ArgumentNullException(string.Format(ErrormsgPropMissing, "url"));
+                throw new ArgumentNullException(string.Format(ErrormsgPropMissing, "Url"));
             }
 
             if (string.IsNullOrEmpty(Username))

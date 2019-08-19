@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using IBM.Cloud.SDK.Core.Authentication;
-using IBM.Cloud.SDK.Core.Authentication.Cp4d;
 using IBM.Cloud.SDK.Core.Authentication.Noauth;
 using IBM.Cloud.SDK.Core.Http;
 using IBM.Cloud.SDK.Core.Util;
@@ -28,6 +27,9 @@ namespace IBM.Cloud.SDK.Core.Service
 {
     public abstract class IBMService : IIBMService
     {
+        public static string propnameUrl = "URL";
+        public static string propnameDisableSsl = "DISABLE_SSL";
+
         private const string icpPrefix = "icp-";
         private const string apikeyAsUsername = "apikey";
         public string serviceName;
@@ -35,6 +37,7 @@ namespace IBM.Cloud.SDK.Core.Service
         public string ServiceName { get; set; }
         public string Url { get { return Endpoint; } }
         protected Dictionary<string, string> customRequestHeaders = new Dictionary<string, string>();
+        private const string errormsgNoAuthenticator = "Authentication information was not properly configured.";
 
         protected string Endpoint
         {
@@ -56,20 +59,10 @@ namespace IBM.Cloud.SDK.Core.Service
             }
         }
 
-        private Authenticator authenticator;
+        private IAuthenticator authenticator;
 
         protected bool _userSetEndpoint = false;
         
-        protected IBMService(string serviceName, string defaultEndpoint)
-        {
-            ServiceName = serviceName;
-            Client = new IBMHttpClient();
-            authenticator = ConfigBasedAuthenticatorFactory.GetAuthenticator(serviceName);
-            var creds = CredentialUtils.GetServiceProperties(serviceName);
-            creds.TryGetValue("URL", out string url);
-            SetEndpoint(string.IsNullOrEmpty(url) ? defaultEndpoint : url);
-        }
-
         protected IBMService(string serviceName, string url, IClient httpClient)
         {
             ServiceName = serviceName;
@@ -80,34 +73,36 @@ namespace IBM.Cloud.SDK.Core.Service
                 Endpoint = url;
         }
 
-        protected IBMService(string serviceName, Authenticator authenticator)
+        protected IBMService(string serviceName, IAuthenticator authenticator)
         {
-            Client = new IBMHttpClient();
             ServiceName = serviceName;
-            this.authenticator = authenticator;
-        }
-        
-        /// <summary>
-        /// Initializes a new Authenticator instance based on the input AuthenticatorConfig instance and sets it as
-        /// the current authenticator on the BaseService instance.
-        /// </summary>
-        /// <param name="authConfig">the AuthenticatorConfig instance containing the authentication configuration</param>
-        protected void SetAuthenticator(Authenticator authenticator)
-        {
-            try
+
+            this.authenticator = authenticator ?? throw new ArgumentNullException(errormsgNoAuthenticator);
+
+            Client = new IBMHttpClient();
+
+            // Try to retrieve the service URL from either a credential file, environment, or VCAP_SERVICES.
+            Dictionary<string, string> props = CredentialUtils.GetServiceProperties(serviceName);
+            props.TryGetValue(propnameUrl, out string url);
+            if (!string.IsNullOrEmpty(url))
             {
-                authenticator = this.authenticator;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(string.Format("Error: {0}", e));
+                SetEndpoint(url);
             }
 
+            // Check to see if "disable ssl" was set in the service properties.
+            bool disableSsl = false;
+            props.TryGetValue(propnameDisableSsl, out string tempDisableSsl);
+            if (!string.IsNullOrEmpty(tempDisableSsl))
+            {
+                bool.TryParse(tempDisableSsl, out disableSsl);
+            }
+
+            DisableSslVerification(disableSsl);
         }
 
         protected void SetAuthentication()
         {
-            if(authenticator != null)
+            if (authenticator != null)
             {
                 authenticator.Authenticate(Client);
             }
@@ -172,7 +167,7 @@ namespace IBM.Cloud.SDK.Core.Service
         /// <summary>
         /// Returns the authenticator for the service.
         /// </summary>
-        public Authenticator GetAuthenticator()
+        public IAuthenticator GetAuthenticator()
         {
             return authenticator;
         }

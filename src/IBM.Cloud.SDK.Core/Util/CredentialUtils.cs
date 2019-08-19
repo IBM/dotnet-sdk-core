@@ -113,9 +113,9 @@ namespace IBM.Cloud.SDK.Core.Util
         /// Top-level directory of the project this code is being called in
         /// </summary>
         /// <returns>List of credential files to check</returns>
-        private static List<List<string>> GetFilesToCheck()
+        private static List<string> GetFilesToCheck()
         {
-            List<List<string>> files = new List<List<string>>();
+            List<string> files = new List<string>();
 
             string userSpecifedPath = Environment.GetEnvironmentVariable("IBM_CREDENTIALS_FILE");
             string unixHomeDirectory = Environment.GetEnvironmentVariable("HOME");
@@ -123,56 +123,48 @@ namespace IBM.Cloud.SDK.Core.Util
             string windowsSecondHomeDirectory = Environment.GetEnvironmentVariable("USERPROFILE");
             string projectDirectory = Directory.GetCurrentDirectory();
 
-            if (!string.IsNullOrEmpty(userSpecifedPath))
+            if (!string.IsNullOrEmpty(userSpecifedPath) && File.Exists(userSpecifedPath))
             {
-                if (File.Exists(userSpecifedPath))
-                {
-                    files.Add(new List<string>(File.ReadAllLines(userSpecifedPath)));
-                }
+                files.Add(userSpecifedPath);
             }
 
             if (!string.IsNullOrEmpty(unixHomeDirectory))
             {
-                files.Add(GetFileContents(unixHomeDirectory));
+                var fullPath = Path.GetFullPath(Path.Combine(unixHomeDirectory, defaultCredentialFileName));
+                if(File.Exists(fullPath))
+                {
+                    files.Add(fullPath);
+                }
             }
 
             if (!string.IsNullOrEmpty(windowsFirstHomeDirectory))
             {
-                files.Add(GetFileContents(windowsFirstHomeDirectory));
+                var fullPath = Path.GetFullPath(Path.Combine(windowsFirstHomeDirectory, defaultCredentialFileName));
+                if (File.Exists(fullPath))
+                {
+                    files.Add(fullPath);
+                }
             }
 
             if (!string.IsNullOrEmpty(windowsSecondHomeDirectory))
             {
-                files.Add(GetFileContents(windowsSecondHomeDirectory));
+                var fullPath = Path.GetFullPath(Path.Combine(windowsSecondHomeDirectory, defaultCredentialFileName));
+                if (File.Exists(fullPath))
+                {
+                    files.Add(fullPath);
+                }
             }
 
             if (!string.IsNullOrEmpty(projectDirectory))
             {
-                files.Add(GetFileContents(projectDirectory));
+                var fullPath = Path.GetFullPath(Path.Combine(projectDirectory, defaultCredentialFileName));
+                if (File.Exists(fullPath))
+                {
+                    files.Add(fullPath);
+                }
             }
 
             return files;
-        }
-
-        private static List<string> GetFileContents(string filePath)
-        {
-            var fullpath = Path.GetFullPath(Path.Combine(filePath, defaultCredentialFileName));
-            if (File.Exists(fullpath))
-            {
-                List<string> fileContents;
-                try
-                {
-                    var contentsArray = File.ReadAllLines(fullpath);
-                    fileContents = new List<string>(contentsArray);
-                    return fileContents;
-                }
-                catch (IOException e)
-                {
-                    Console.WriteLine(string.Format("There was a problem trying to read the credential file {0}: {1}", fullpath, e.Message));
-                }
-            }
-
-            return null;
         }
 
         /// <summary>
@@ -180,14 +172,21 @@ namespace IBM.Cloud.SDK.Core.Util
         /// </summary>
         /// <param name="files"></param>
         /// <returns>list of lines in the credential file, or null if no file is found</returns>
-        private static List<string> GetFirstExistingFileContents(List<List<string>> files)
+        private static List<string> GetFirstExistingFileContents(List<string> files)
         {
             List<string> credentialFileContents = null;
-
-            foreach (List<string> file in files)
+            try
             {
-                credentialFileContents = file;
-                break;
+                foreach (string file in files)
+                {
+                    var contentsArray = File.ReadAllLines(file);
+                    credentialFileContents = new List<string>(contentsArray);
+                    break;
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(string.Format("There was a problem trying to read the credential file: {0}", e.Message));
             }
 
             return credentialFileContents;
@@ -195,7 +194,7 @@ namespace IBM.Cloud.SDK.Core.Util
 
         public static Dictionary<string, string> GetFileCredentialsAsMap(string serviceName)
         {
-            List<List<string>> files = GetFilesToCheck();
+            List<string> files = GetFilesToCheck();
             List<string> contents = GetFirstExistingFileContents(files);
             if (contents != null && contents.Count > 0)
             {
