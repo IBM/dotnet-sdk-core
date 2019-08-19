@@ -26,7 +26,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
     /// This class implements support for Basic Authentication. The main purpose of this authenticator is to construct the
     /// Authorization header and then add it to each outgoing REST API request.
     /// </summary>
-    public class BasicAuthenticator : Authenticator, IAuthenticator
+    public class BasicAuthenticator : Authenticator
     {
         /// <summary>
         /// The username configured on this authenticator
@@ -83,7 +83,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
             client.WithAuthentication(Username, Password);
         }
 
-        public void Validate()
+        public override void Validate()
         {
             if (string.IsNullOrEmpty(Username))
             {

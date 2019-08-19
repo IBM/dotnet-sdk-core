@@ -25,7 +25,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
     /// <summary>
     /// This class implements support for the CP4D authentication mechanism.
     /// </summary>
-    public class CloudPakForDataAuthenticator : Authenticator, IAuthenticator
+    public class CloudPakForDataAuthenticator : Authenticator
     {
         public IClient Client { get; set; }
 
@@ -156,7 +156,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
             return result;
         }
 
-        public void Validate()
+        public override void Validate()
         {
             if (string.IsNullOrEmpty(Url))
             {

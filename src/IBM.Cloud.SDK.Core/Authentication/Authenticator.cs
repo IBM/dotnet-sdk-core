@@ -19,7 +19,7 @@ using IBM.Cloud.SDK.Core.Http;
 
 namespace IBM.Cloud.SDK.Core.Authentication
 {
-    public class Authenticator
+    public class Authenticator : IAuthenticator
     {
         /// <summary>
         /// These are the valid authentication types.
@@ -53,8 +53,13 @@ namespace IBM.Cloud.SDK.Core.Authentication
         virtual public string AuthenticationType { get; }
 
         /// <summary>
-        /// Validate the configuration and throw an exception if validation fails.
+        /// Perform the necessary authentication steps for the specified request.
         /// </summary>
         virtual public void Authenticate(IClient client) { }
+
+        /// <summary>
+        /// Validates the current set of configuration information in the Authenticator.
+        /// </summary>
+        virtual public void Validate() { }
     }
 }

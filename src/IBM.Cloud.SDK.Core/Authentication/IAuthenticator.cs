@@ -32,7 +32,7 @@ namespace IBM.Cloud.SDK.Core.Authentication
         string AuthenticationType { get; }
 
         /// <summary>
-        /// Validate the configuration and throw an exception if validation fails.
+        /// Perform the necessary authentication steps for the specified request.
         /// </summary>
         void Authenticate(IClient client);
     }

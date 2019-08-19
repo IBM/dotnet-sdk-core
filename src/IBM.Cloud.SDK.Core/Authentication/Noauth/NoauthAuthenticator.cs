@@ -15,7 +15,6 @@
 *
 */
 
-using IBM.Cloud.SDK.Core.Http;
 using System.Collections.Generic;
 
 namespace IBM.Cloud.SDK.Core.Authentication.Noauth
@@ -23,7 +22,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Noauth
     /// <summary>
     /// This class is a placeholder implementation for performing no authentication of outgoing REST API requests.
     /// </summary>
-    public class NoauthAuthenticator : Authenticator, IAuthenticator
+    public class NoauthAuthenticator : Authenticator
     {
         public NoauthAuthenticator() { }
 
@@ -33,12 +32,5 @@ namespace IBM.Cloud.SDK.Core.Authentication.Noauth
         {
             get { return AuthtypeNoauth; }
         }
-
-        public override void Authenticate(IClient client)
-        {
-            // do nothing
-        }
-
-        public void Validate() { }
     }
 }

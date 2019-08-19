@@ -26,7 +26,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Bearer
     /// This class implements support for Bearer Token Authentication. The main purpose of this authenticator is to construct the
     /// Authorization header and then add it to each outgoing REST API request.
     /// </summary>
-    public class BearerTokenAuthenticator : Authenticator, IAuthenticator
+    public class BearerTokenAuthenticator : Authenticator
     {
         /// <summary>
         /// The access token configured for this authenticator
@@ -76,7 +76,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Bearer
             client.WithAuthentication(BearerToken);
         }
 
-        public void Validate()
+        public override void Validate()
         {
             if (string.IsNullOrEmpty(BearerToken))
             {

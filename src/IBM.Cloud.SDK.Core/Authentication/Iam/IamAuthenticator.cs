@@ -26,7 +26,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
     /// <summary>
     /// This class implements support for the IAM authentication mechanism.
     /// </summary>
-    public class IamAuthenticator : Authenticator, IAuthenticator
+    public class IamAuthenticator : Authenticator
     {
         public IClient Client { get; set; }
 
@@ -193,7 +193,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
             return result;
         }
 
-        public void Validate()
+        public override void Validate()
         {
             if (string.IsNullOrEmpty(Apikey))
             {
