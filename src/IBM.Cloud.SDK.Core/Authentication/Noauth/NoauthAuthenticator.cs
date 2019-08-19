@@ -23,7 +23,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Noauth
     /// <summary>
     /// This class is a placeholder implementation for performing no authentication of outgoing REST API requests.
     /// </summary>
-    public class NoauthAuthenticator : Authenticator
+    public class NoauthAuthenticator : Authenticator, IAuthenticator
     {
         public NoauthAuthenticator() { }
 

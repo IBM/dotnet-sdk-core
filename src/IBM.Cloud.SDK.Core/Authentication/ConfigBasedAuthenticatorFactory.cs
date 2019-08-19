@@ -61,13 +61,11 @@ namespace IBM.Cloud.SDK.Core.Authentication
             return authenticator;
         }
 
-        /**
-   * Instantiates an Authenticator that reflects the properties contains in the specified Map.
-   * @param props a Map containing configuration properties
-   * @return an Authenticator instance
-   */
-
-
+        /// <summary>
+        /// Instantiates an Authenticator that reflects the properties contains in the specified Map.
+        /// </summary>
+        /// <param name="props">A Map containing configuration properties</param>
+        /// <returns>An Authenticator instance</returns>
         private static Authenticator CreateAuthenticator(Dictionary<string, string> props)
         {
             Authenticator authenticator = null;

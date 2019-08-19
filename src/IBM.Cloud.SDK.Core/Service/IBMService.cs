@@ -32,16 +32,6 @@ namespace IBM.Cloud.SDK.Core.Service
         private const string apikeyAsUsername = "apikey";
         public string serviceName;
         public IClient Client { get; set; }
-        private bool skipAuthentication = false;
-        public bool SkipAuthentication
-        {
-            get { return skipAuthentication; }
-            set
-            {
-                skipAuthentication = value;
-                authenticator = new NoauthAuthenticator();
-            }
-        }
         public string ServiceName { get; set; }
         public string Url { get { return Endpoint; } }
         protected Dictionary<string, string> customRequestHeaders = new Dictionary<string, string>();
@@ -82,9 +72,9 @@ namespace IBM.Cloud.SDK.Core.Service
 
         protected IBMService(string serviceName, string url, IClient httpClient)
         {
-            SkipAuthentication = true;
             ServiceName = serviceName;
             Client = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            authenticator = new NoauthAuthenticator();
 
             if (!string.IsNullOrEmpty(Endpoint))
                 Endpoint = url;
@@ -92,14 +82,7 @@ namespace IBM.Cloud.SDK.Core.Service
 
         protected IBMService(string serviceName, Authenticator authenticator)
         {
-            if (authenticator.AuthenticationType == Authenticator.AuthtypeCp4d)
-            {
-                Client = new IBMHttpClient((this.authenticator as CloudPakForDataAuthenticator).DisableSslVerification);
-            }
-            else
-            {
-                Client = new IBMHttpClient();
-            }
+            Client = new IBMHttpClient();
             ServiceName = serviceName;
             this.authenticator = authenticator;
         }
@@ -114,10 +97,6 @@ namespace IBM.Cloud.SDK.Core.Service
             try
             {
                 authenticator = this.authenticator;
-                if (authenticator is NoauthAuthenticator)
-                {
-                    SkipAuthentication = true;
-                }
             }
             catch (Exception e)
             {
@@ -128,11 +107,6 @@ namespace IBM.Cloud.SDK.Core.Service
 
         protected void SetAuthentication()
         {
-            if (SkipAuthentication)
-            {
-                return;
-            }
-
             if(authenticator != null)
             {
                 authenticator.Authenticate(Client);

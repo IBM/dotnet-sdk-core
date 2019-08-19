@@ -17,9 +17,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using IBM.Cloud.SDK.Core.Util;
-using System.Collections.Generic;
 using System.IO;
-using System;
 using System.Globalization;
 
 namespace IBM.Cloud.SDK.Core.Tests.Util
@@ -27,45 +25,6 @@ namespace IBM.Cloud.SDK.Core.Tests.Util
     [TestClass]
     public class UtilTests
     {
-        [TestMethod]
-        public void GetCredentialPaths()
-        {
-            List<string> paths = Utility.GetCredentialsPaths();
-            Assert.IsNotNull(paths);
-            Assert.IsTrue(paths.Count > 0);
-        }
-
-        //[TestMethod]
-        //public void LoadEnvFileSuccess()
-        //{
-        //    List<string> paths = Utility.GetCredentialsPaths();
-
-        //    bool success = false;
-        //    if (paths.Count > 0)
-        //        success = Utility.LoadEnvFile(paths[0]);
-
-        //    Assert.IsTrue(success);
-        //}
-
-        [TestMethod]
-        public void LoadIBMCredentialsFileFromEnv()
-        {
-            List<string> paths = Utility.GetCredentialsPaths();
-            Environment.SetEnvironmentVariable("IBM_CREDENTIALS_FILE", paths[0]);
-            paths = Utility.GetCredentialsPaths();
-
-            Assert.IsNotNull(paths);
-            Assert.IsTrue(paths.Count > 0);
-        }
-
-        //[TestMethod]
-        //public void LoadEnvFileFail()
-        //{
-        //    List<string> paths = new List<string>();
-        //    bool success = Utility.LoadEnvFile("bogus-filepath");
-        //    Assert.IsFalse(success);
-        //}
-
         [TestMethod]
         public void HasBadFirstOrLastCharacterSuccessStartingBracket()
         {

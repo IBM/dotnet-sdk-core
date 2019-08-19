@@ -128,41 +128,6 @@ namespace IBM.Cloud.SDK.Core.Util
             return envDict;
         }
 
-        public static List<string> GetCredentialsPaths()
-        {
-            List<string> filePathsToLoad = new List<string>();
-            string ibmCredentialsEnvVariable = Environment.GetEnvironmentVariable("IBM_CREDENTIALS_FILE");
-            if (!string.IsNullOrEmpty(ibmCredentialsEnvVariable))
-            {
-                filePathsToLoad.Add(ibmCredentialsEnvVariable);
-            }
-
-            string unixHomePath = Environment.GetEnvironmentVariable("HOME") + "/ibm-credentials.env";
-            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("HOME")) && File.Exists(unixHomePath))
-            {
-                filePathsToLoad.Add(unixHomePath);
-            }
-
-            string windowsHomePath = Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%") + "\\ibm-credentials.env";
-            if (!string.IsNullOrEmpty(Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%")) && File.Exists(windowsHomePath))
-            {
-                filePathsToLoad.Add(windowsHomePath);
-            }
-
-            string userProfilePath = Environment.ExpandEnvironmentVariables("%USERPROFILE%") + "\\ibm-credentials.env";
-            if (!string.IsNullOrEmpty(Environment.ExpandEnvironmentVariables("%USERPROFILE%")) && File.Exists(userProfilePath))
-            {
-                filePathsToLoad.Add(userProfilePath);
-            }
-
-            if (File.Exists(@"ibm-credentials.env"))
-            {
-                filePathsToLoad.Add(@"ibm-credentials.env");
-            }
-
-            return filePathsToLoad;
-        }
-
         public static string GetErrorMessage(string input)
         {
             JObject o = JObject.Parse(input);
@@ -194,32 +159,6 @@ namespace IBM.Cloud.SDK.Core.Util
         public static string ParseCultureInvariantFloatToString(float value)
         {
             return value.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// Loads external credentials in specified credentials paths
-        /// </summary>
-        /// <returns>Dictionary of credentials</returns>
-        public static Dictionary<string, string> LoadExternalCredentials(string serviceName)
-        {
-            var credentialsPaths = GetCredentialsPaths();
-            if (credentialsPaths.Count > 0)
-            {
-                foreach (string path in credentialsPaths)
-                {
-                    var credentials = LoadEnvFile(path, serviceName);
-                    if(credentials != null)
-                    {
-                        return credentials;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-            }
-
-            return null;
         }
 
         /// <summary>
