@@ -79,6 +79,11 @@ namespace IBM.Cloud.SDK.Core.Util
         /// <returns>The first set of credentials that match the search criteria, service name and plan. May return null</returns>
         private static VcapCredential GetVcapCredentialsObject(Dictionary<string, List<VcapCredential>> vcapServices, string serviceName, string plan = null)
         {
+            if (vcapServices == null || vcapServices.Count == 0)
+            {
+                return null;
+            }
+
             foreach (KeyValuePair<string, List<VcapCredential>> kvp in vcapServices)
             {
                 if (kvp.Key.StartsWith(serviceName))
@@ -131,7 +136,7 @@ namespace IBM.Cloud.SDK.Core.Util
             if (!string.IsNullOrEmpty(unixHomeDirectory))
             {
                 var fullPath = Path.GetFullPath(Path.Combine(unixHomeDirectory, defaultCredentialFileName));
-                if(File.Exists(fullPath))
+                if (File.Exists(fullPath))
                 {
                     files.Add(fullPath);
                 }
@@ -242,13 +247,19 @@ namespace IBM.Cloud.SDK.Core.Util
         public static Dictionary<string, string> GetVcapCredentialsAsMap(string serviceName)
         {
             Dictionary<string, string> props = new Dictionary<string, string>();
-            AddToDictionary(props, Authenticator.PropnameUsername, GetVcapCredentialsObject(GetVcapServices(), serviceName).Credentials.Username);
-            AddToDictionary(props, Authenticator.PropnamePassword, GetVcapCredentialsObject(GetVcapServices(), serviceName).Credentials.Password);
-            AddToDictionary(props, Authenticator.PropnameUrl, GetVcapCredentialsObject(GetVcapServices(), serviceName).Credentials.Url);
+            var vcapServices = GetVcapServices();
+            if (vcapServices == null || vcapServices.Count == 0)
+            {
+                return props;
+            }
+
+            AddToDictionary(props, Authenticator.PropnameUsername, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.Username);
+            AddToDictionary(props, Authenticator.PropnamePassword, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.Password);
+            AddToDictionary(props, Authenticator.PropnameUrl, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.Url);
 
             // For the IAM apikey, the "apikey" property has higher precedence than "iam_apikey".
-            AddToDictionary(props, Authenticator.PropnameApikey, GetVcapCredentialsObject(GetVcapServices(), serviceName).Credentials.IamApikey);
-            AddToDictionary(props, Authenticator.PropnameApikey, GetVcapCredentialsObject(GetVcapServices(), serviceName).Credentials.ApiKey);
+            AddToDictionary(props, Authenticator.PropnameApikey, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.IamApikey);
+            AddToDictionary(props, Authenticator.PropnameApikey, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.ApiKey);
 
             // Try to guess at the auth type based on the properties found.
             if (props.ContainsKey(Authenticator.PropnameApikey))
