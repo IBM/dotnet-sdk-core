@@ -25,7 +25,7 @@ namespace IBM.Cloud.SDK.Core.Authentication
         /// These are the valid authentication types.
         /// </summary>
         public const string AuthTypeBasic = "basic";
-        public const string AuthTypeNoauth = "noauth";
+        public const string AuthTypeNoAuth = "noAuth";
         public const string AuthTypeIam = "iam";
         public const string AuthTypeCp4d = "cp4d";
         public const string AuthTypeBearer = "bearerToken";

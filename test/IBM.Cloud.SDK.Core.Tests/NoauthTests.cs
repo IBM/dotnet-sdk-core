@@ -16,21 +16,21 @@
 */
 
 using IBM.Cloud.SDK.Core.Authentication;
-using IBM.Cloud.SDK.Core.Authentication.Noauth;
+using IBM.Cloud.SDK.Core.Authentication.NoAuth;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace IBM.Cloud.SDK.Core.Tests.Authentication.Noauth
+namespace IBM.Cloud.SDK.Core.Tests.Authentication.NoAuth
 {
     [TestClass]
-    public class NoauthTests
+    public class NoAuthTests
     {
         [TestMethod]
         public void TestConstruction()
         {
-            NoauthAuthenticator authenticator = new NoauthAuthenticator();
+            NoAuthAuthenticator authenticator = new NoAuthAuthenticator();
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeNoauth);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeNoAuth);
         }
     }
 }

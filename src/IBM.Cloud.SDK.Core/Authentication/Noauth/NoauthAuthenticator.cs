@@ -17,20 +17,20 @@
 
 using System.Collections.Generic;
 
-namespace IBM.Cloud.SDK.Core.Authentication.Noauth
+namespace IBM.Cloud.SDK.Core.Authentication.NoAuth
 {
     /// <summary>
     /// This class is a placeholder implementation for performing no authentication of outgoing REST API requests.
     /// </summary>
-    public class NoauthAuthenticator : Authenticator
+    public class NoAuthAuthenticator : Authenticator
     {
-        public NoauthAuthenticator() { }
+        public NoAuthAuthenticator() { }
 
-        public NoauthAuthenticator(Dictionary<string, string> config) { }
+        public NoAuthAuthenticator(Dictionary<string, string> config) { }
 
         public override string AuthenticationType
         {
-            get { return AuthTypeNoauth; }
+            get { return AuthTypeNoAuth; }
         }
     }
 }

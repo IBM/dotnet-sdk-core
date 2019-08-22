@@ -19,7 +19,7 @@ using IBM.Cloud.SDK.Core.Authentication.BasicAuth;
 using IBM.Cloud.SDK.Core.Authentication.Bearer;
 using IBM.Cloud.SDK.Core.Authentication.Cp4d;
 using IBM.Cloud.SDK.Core.Authentication.Iam;
-using IBM.Cloud.SDK.Core.Authentication.Noauth;
+using IBM.Cloud.SDK.Core.Authentication.NoAuth;
 using IBM.Cloud.SDK.Core.Util;
 using System.Collections.Generic;
 
@@ -79,8 +79,8 @@ namespace IBM.Cloud.SDK.Core.Authentication
 
             switch (authType)
             {
-                case Authenticator.AuthTypeNoauth:
-                    authenticator = new NoauthAuthenticator(props);
+                case Authenticator.AuthTypeNoAuth:
+                    authenticator = new NoAuthAuthenticator(props);
                     break;
 
                 case Authenticator.AuthTypeBasic:

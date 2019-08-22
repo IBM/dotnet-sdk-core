@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using IBM.Cloud.SDK.Core.Authentication;
-using IBM.Cloud.SDK.Core.Authentication.Noauth;
+using IBM.Cloud.SDK.Core.Authentication.NoAuth;
 using IBM.Cloud.SDK.Core.Http;
 using IBM.Cloud.SDK.Core.Util;
 
@@ -67,7 +67,7 @@ namespace IBM.Cloud.SDK.Core.Service
         {
             ServiceName = serviceName;
             Client = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            authenticator = new NoauthAuthenticator();
+            authenticator = new NoAuthAuthenticator();
 
             if (!string.IsNullOrEmpty(Endpoint))
                 Endpoint = url;
