@@ -55,8 +55,8 @@ namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
         /// <param name="config">A map containing the username and password values</param>
         public BasicAuthenticator(Dictionary<string, string> config)
         {
-            config.TryGetValue(PropnameUsername, out string username);
-            config.TryGetValue(PropnamePassword, out string password);
+            config.TryGetValue(PropNameUsername, out string username);
+            config.TryGetValue(PropNamePassword, out string password);
             Init(username, password);
         }
 
@@ -70,7 +70,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
 
         public override string AuthenticationType
         {
-            get { return AuthtypeBasic; }
+            get { return AuthTypeBasic; }
         }
 
         /// <summary>
@@ -87,22 +87,22 @@ namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
         {
             if (string.IsNullOrEmpty(Username))
             {
-                throw new ArgumentNullException(string.Format(ErrormsgPropMissing, "Username"));
+                throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Username"));
             }
 
             if (string.IsNullOrEmpty(Password))
             {
-                throw new ArgumentNullException(string.Format(ErrormsgPropMissing, "Password"));
+                throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Password"));
             }
 
             if (CredentialUtils.HasBadStartOrEndChar(Username))
             {
-                throw new ArgumentException(string.Format(ErrormsgPropInvalid, "Username"));
+                throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "Username"));
             }
 
             if (CredentialUtils.HasBadStartOrEndChar(Password))
             {
-                throw new ArgumentException(string.Format(ErrormsgPropInvalid, "Password"));
+                throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "Password"));
             }
         }
     }

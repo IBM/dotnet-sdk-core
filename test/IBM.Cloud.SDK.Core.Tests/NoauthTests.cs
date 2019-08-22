@@ -30,7 +30,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.Noauth
             NoauthAuthenticator authenticator = new NoauthAuthenticator();
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeNoauth);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeNoauth);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Noauth
 
         public override string AuthenticationType
         {
-            get { return AuthtypeNoauth; }
+            get { return AuthTypeNoauth; }
         }
     }
 }

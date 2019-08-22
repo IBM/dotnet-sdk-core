@@ -69,11 +69,11 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
         /// <param name="config">A map containing the configuration properties</param>
         public IamAuthenticator(Dictionary<string, string> config)
         {
-            config.TryGetValue(PropnameUrl, out string url);
-            config.TryGetValue(PropnameApikey, out string apikey);
-            config.TryGetValue(PropnameClientId, out string clientId);
-            config.TryGetValue(PropnameClientSecret, out string clientSecret);
-            config.TryGetValue(PropnameDisableSsl, out string disableSslVerficiationString);
+            config.TryGetValue(PropNameUrl, out string url);
+            config.TryGetValue(PropNameApikey, out string apikey);
+            config.TryGetValue(PropNameClientId, out string clientId);
+            config.TryGetValue(PropNameClientSecret, out string clientSecret);
+            config.TryGetValue(PropNameDisableSsl, out string disableSslVerficiationString);
             bool.TryParse(disableSslVerficiationString, out bool disableSslVerification);
             Init(apikey, url, clientId, clientSecret, disableSslVerification);
         }
@@ -111,7 +111,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
 
         public override string AuthenticationType
         {
-            get { return AuthtypeIam; }
+            get { return AuthTypeIam; }
         }
 
         public override void Authenticate(IClient client)
@@ -197,17 +197,17 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
         {
             if (string.IsNullOrEmpty(Apikey))
             {
-                throw new ArgumentNullException(string.Format(ErrormsgPropMissing, "apikey"));
+                throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "apikey"));
             }
 
             if (CredentialUtils.HasBadStartOrEndChar(Apikey))
             {
-                throw new ArgumentException(string.Format(ErrormsgPropInvalid, "apikey"));
+                throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "apikey"));
             }
 
             if (CredentialUtils.HasBadStartOrEndChar(Url))
             {
-                throw new ArgumentException(string.Format(ErrormsgPropInvalid, "url"));
+                throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "url"));
             }
 
             if (Utility.OnlyOne(ClientId, ClientSecret))

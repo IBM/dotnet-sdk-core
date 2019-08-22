@@ -34,7 +34,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.BasicAuth
             BasicAuthenticator authenticator = new BasicAuthenticator("username", "password");
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeBasic);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeBasic);
             Assert.IsTrue(authenticator.Username == "username");
             Assert.IsTrue(authenticator.Password == "password");
         }
@@ -43,13 +43,13 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.BasicAuth
         public void TestConstructionDictionary()
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add(Authenticator.PropnameUsername, "username");
-            config.Add(Authenticator.PropnamePassword, "password");
+            config.Add(Authenticator.PropNameUsername, "username");
+            config.Add(Authenticator.PropNamePassword, "password");
 
             BasicAuthenticator authenticator = new BasicAuthenticator(config);
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeBasic);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeBasic);
             Assert.IsTrue(authenticator.Username == "username");
             Assert.IsTrue(authenticator.Password == "password");
         }

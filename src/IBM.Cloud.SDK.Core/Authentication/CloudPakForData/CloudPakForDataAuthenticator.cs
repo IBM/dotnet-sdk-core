@@ -61,10 +61,10 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
         /// <param name="config">A map containing the configuration properties</param>
         public CloudPakForDataAuthenticator(Dictionary<string, string> config)
         {
-            config.TryGetValue(PropnameUrl, out string url);
-            config.TryGetValue(PropnameUsername, out string username);
-            config.TryGetValue(PropnamePassword, out string password);
-            config.TryGetValue(PropnameDisableSsl, out string disableSslVerficiationString);
+            config.TryGetValue(PropNameUrl, out string url);
+            config.TryGetValue(PropNameUsername, out string username);
+            config.TryGetValue(PropNamePassword, out string password);
+            config.TryGetValue(PropNameDisableSsl, out string disableSslVerficiationString);
             bool.TryParse(disableSslVerficiationString, out bool disableSslVerification);
             Init(url, username, password, disableSslVerification);
         }
@@ -92,7 +92,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
 
         public override string AuthenticationType
         {
-            get { return AuthtypeCp4d; }
+            get { return AuthTypeCp4d; }
         }
 
         public override void Authenticate(IClient client)
@@ -160,32 +160,32 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
         {
             if (string.IsNullOrEmpty(Url))
             {
-                throw new ArgumentNullException(string.Format(ErrormsgPropMissing, "Url"));
+                throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Url"));
             }
 
             if (string.IsNullOrEmpty(Username))
             {
-                throw new ArgumentNullException(string.Format(ErrormsgPropMissing, "Username"));
+                throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Username"));
             }
 
             if (string.IsNullOrEmpty(Password))
             {
-                throw new ArgumentNullException(string.Format(ErrormsgPropMissing, "Password"));
+                throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Password"));
             }
 
             if (CredentialUtils.HasBadStartOrEndChar(Url))
             {
-                throw new ArgumentException(string.Format(ErrormsgPropInvalid, "Url"));
+                throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "Url"));
             }
 
             if (CredentialUtils.HasBadStartOrEndChar(Username))
             {
-                throw new ArgumentException(string.Format(ErrormsgPropInvalid, "Username"));
+                throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "Username"));
             }
 
             if (CredentialUtils.HasBadStartOrEndChar(Password))
             {
-                throw new ArgumentException(string.Format(ErrormsgPropInvalid, "Password"));
+                throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "Password"));
             }
         }
     }

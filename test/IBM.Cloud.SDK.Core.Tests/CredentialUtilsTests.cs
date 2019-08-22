@@ -63,14 +63,14 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
         {
             var apikey = "bogus-apikey";
             Environment.SetEnvironmentVariable(
-                "ASSISTANT_" + Authenticator.PropnameApikey,
+                "ASSISTANT_" + Authenticator.PropNameApikey,
                 apikey);
             var envCredentialsAsMap = CredentialUtils.GetEnvCredentialsAsMap("assistant");
             Assert.IsNotNull(envCredentialsAsMap);
-            Assert.IsTrue(envCredentialsAsMap.ContainsKey(Authenticator.PropnameApikey));
+            Assert.IsTrue(envCredentialsAsMap.ContainsKey(Authenticator.PropNameApikey));
             Assert.IsTrue(envCredentialsAsMap.ContainsValue(apikey));
             envCredentialsAsMap.TryGetValue(
-                Authenticator.PropnameApikey,
+                Authenticator.PropNameApikey,
                 out string extractedKey);
             Assert.IsTrue(extractedKey == apikey);
         }
@@ -96,7 +96,7 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
             var vcapCredentaialsAsMap = CredentialUtils.GetVcapCredentialsAsMap("assistant");
             Assert.IsNotNull(vcapCredentaialsAsMap);
             vcapCredentaialsAsMap.TryGetValue(
-                Authenticator.PropnameApikey,
+                Authenticator.PropNameApikey,
                 out string extractedKey);
             Assert.IsTrue(extractedKey == apikey);
         }

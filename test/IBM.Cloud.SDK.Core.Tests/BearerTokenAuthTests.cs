@@ -34,7 +34,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.BearerTokenAuth
             BearerTokenAuthenticator authenticator = new BearerTokenAuthenticator(bearerToken);
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeBearer);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeBearer);
             Assert.IsTrue(authenticator.BearerToken == bearerToken);
         }
 
@@ -47,7 +47,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.BearerTokenAuth
             authenticator.BearerToken = bearerToken1;
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeBearer);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeBearer);
             Assert.IsTrue(authenticator.BearerToken == bearerToken1);
         }
 
@@ -57,12 +57,12 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.BearerTokenAuth
             var bearerToken = "bearerToken";
 
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add(Authenticator.PropnameBearerToken, bearerToken);
+            config.Add(Authenticator.PropNameBearerToken, bearerToken);
 
             BearerTokenAuthenticator authenticator = new BearerTokenAuthenticator(config);
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeBearer);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeBearer);
             Assert.IsTrue(authenticator.BearerToken == bearerToken);
         }
 
