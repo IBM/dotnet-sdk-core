@@ -38,7 +38,7 @@ namespace IBM.Cloud.SDK.Core.Authentication
         public static string PropNamePassword = "PASSWORD";
         public static string PropNameBearerToken = "BEARER_TOKEN";
         public static string PropNameUrl = "AUTH_URL";
-        public static string PropNameDisableSsl = "AUTH_DISABLE_SSL";
+        public static string PropNameDisableSslVerification = "AUTH_DISABLE_SSL";
         public static string PropNameApikey = "APIKEY";
         public static string PropNameClientId = "CLIENT_ID";
         public static string PropNameClientSecret = "CLIENT_SECRET";

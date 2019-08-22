@@ -64,7 +64,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
             config.TryGetValue(PropNameUrl, out string url);
             config.TryGetValue(PropNameUsername, out string username);
             config.TryGetValue(PropNamePassword, out string password);
-            config.TryGetValue(PropNameDisableSsl, out string disableSslVerficiationString);
+            config.TryGetValue(PropNameDisableSslVerification, out string disableSslVerficiationString);
             bool.TryParse(disableSslVerficiationString, out bool disableSslVerification);
             Init(url, username, password, disableSslVerification);
         }

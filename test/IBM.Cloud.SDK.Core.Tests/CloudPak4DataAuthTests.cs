@@ -105,7 +105,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             config.Add(Authenticator.PropNameUrl, url);
             config.Add(Authenticator.PropNameUsername, username);
             config.Add(Authenticator.PropNamePassword, password);
-            config.Add(Authenticator.PropNameDisableSsl, disableSslVerification.ToString());
+            config.Add(Authenticator.PropNameDisableSslVerification, disableSslVerification.ToString());
 
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator(config);
 

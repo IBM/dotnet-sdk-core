@@ -128,7 +128,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.IamAuth
             config.Add(Authenticator.PropNameUrl, url);
             config.Add(Authenticator.PropNameClientId, clientId);
             config.Add(Authenticator.PropNameClientSecret, clientSecret);
-            config.Add(Authenticator.PropNameDisableSsl, disableSsl.ToString());
+            config.Add(Authenticator.PropNameDisableSslVerification, disableSsl.ToString());
 
             IamAuthenticator authenticator = new IamAuthenticator(config);
 

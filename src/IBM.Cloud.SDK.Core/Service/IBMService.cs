@@ -27,8 +27,8 @@ namespace IBM.Cloud.SDK.Core.Service
 {
     public abstract class IBMService : IIBMService
     {
-        public static string propNameServiceUrl = "URL";
-        public static string propNameServiceDisableSsl = "DISABLE_SSL";
+        public static string PropNameServiceUrl = "URL";
+        public static string PropNameServiceDisableSslVerification = "DISABLE_SSL";
 
         private const string icpPrefix = "icp-";
         private const string apikeyAsUsername = "apikey";
@@ -37,7 +37,7 @@ namespace IBM.Cloud.SDK.Core.Service
         public string ServiceName { get; set; }
         public string Url { get { return Endpoint; } }
         protected Dictionary<string, string> customRequestHeaders = new Dictionary<string, string>();
-        private const string errormsgNoAuthenticator = "Authentication information was not properly configured.";
+        private const string ErrorMessageNoAuthenticator = "Authentication information was not properly configured.";
 
         protected string Endpoint
         {
@@ -77,13 +77,13 @@ namespace IBM.Cloud.SDK.Core.Service
         {
             ServiceName = serviceName;
 
-            this.authenticator = authenticator ?? throw new ArgumentNullException(errormsgNoAuthenticator);
+            this.authenticator = authenticator ?? throw new ArgumentNullException(ErrorMessageNoAuthenticator);
 
             Client = new IBMHttpClient();
 
             // Try to retrieve the service URL from either a credential file, environment, or VCAP_SERVICES.
             Dictionary<string, string> props = CredentialUtils.GetServiceProperties(serviceName);
-            props.TryGetValue(propNameServiceUrl, out string url);
+            props.TryGetValue(PropNameServiceUrl, out string url);
             if (!string.IsNullOrEmpty(url))
             {
                 SetEndpoint(url);
@@ -91,7 +91,7 @@ namespace IBM.Cloud.SDK.Core.Service
 
             // Check to see if "disable ssl" was set in the service properties.
             bool disableSsl = false;
-            props.TryGetValue(propNameServiceDisableSsl, out string tempDisableSsl);
+            props.TryGetValue(PropNameServiceDisableSslVerification, out string tempDisableSsl);
             if (!string.IsNullOrEmpty(tempDisableSsl))
             {
                 bool.TryParse(tempDisableSsl, out disableSsl);

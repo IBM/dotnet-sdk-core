@@ -73,7 +73,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
             config.TryGetValue(PropNameApikey, out string apikey);
             config.TryGetValue(PropNameClientId, out string clientId);
             config.TryGetValue(PropNameClientSecret, out string clientSecret);
-            config.TryGetValue(PropNameDisableSsl, out string disableSslVerficiationString);
+            config.TryGetValue(PropNameDisableSslVerification, out string disableSslVerficiationString);
             bool.TryParse(disableSslVerficiationString, out bool disableSslVerification);
             Init(apikey, url, clientId, clientSecret, disableSslVerification);
         }
