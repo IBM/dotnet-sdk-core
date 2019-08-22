@@ -24,28 +24,28 @@ namespace IBM.Cloud.SDK.Core.Authentication
         /// <summary>
         /// These are the valid authentication types.
         /// </summary>
-        public const string AuthtypeBasic = "basic";
-        public const string AuthtypeNoauth = "noauth";
-        public const string AuthtypeIam = "iam";
-        public const string AuthtypeCp4d = "cp4d";
-        public const string AuthtypeBearer = "bearerToken";
+        public const string AuthTypeBasic = "basic";
+        public const string AuthTypeNoAuth = "noAuth";
+        public const string AuthTypeIam = "iam";
+        public const string AuthTypeCp4d = "cp4d";
+        public const string AuthTypeBearer = "bearerToken";
 
         /// <summary>
         /// Constants which define the names of external config propreties (credential file, environment variable, etc.).
         /// </summary>
-        public static string PropnameAuthType = "AUTH_TYPE";
-        public static string PropnameUsername = "USERNAME";
-        public static string PropnamePassword = "PASSWORD";
-        public static string PropnameBearerToken = "BEARER_TOKEN";
-        public static string PropnameUrl = "AUTH_URL";
-        public static string PropnameDisableSsl = "AUTH_DISABLE_SSL";
-        public static string PropnameApikey = "APIKEY";
-        public static string PropnameClientId = "CLIENT_ID";
-        public static string PropnameClientSecret = "CLIENT_SECRET";
+        public static string PropNameAuthType = "AUTH_TYPE";
+        public static string PropNameUsername = "USERNAME";
+        public static string PropNamePassword = "PASSWORD";
+        public static string PropNameBearerToken = "BEARER_TOKEN";
+        public static string PropNameUrl = "AUTH_URL";
+        public static string PropNameDisableSslVerification = "AUTH_DISABLE_SSL";
+        public static string PropNameApikey = "APIKEY";
+        public static string PropNameClientId = "CLIENT_ID";
+        public static string PropNameClientSecret = "CLIENT_SECRET";
 
-        public static string ErrormsgPropMissing = "The {0} property is required but was not specified.";
-        public static string ErrormsgPropInvalid = "The {0} property is invalid. Please remove any surrounding {{, }}, or \" characters.";
-        public static string ErrormsgReqFailed = "Error while fetching access token from token service: ";
+        public static string ErrorMessagePropMissing = "The {0} property is required but was not specified.";
+        public static string ErrorMessagePropInvalid = "The {0} property is invalid. Please remove any surrounding {{, }}, or \" characters.";
+        public static string ErrorMessageReqFailed = "Error while fetching access token from token service: ";
 
         /// <summary>
         /// Returns the authentication type associated with the Authenticator instance.

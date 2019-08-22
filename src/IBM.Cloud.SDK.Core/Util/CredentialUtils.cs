@@ -253,22 +253,22 @@ namespace IBM.Cloud.SDK.Core.Util
                 return props;
             }
 
-            AddToDictionary(props, Authenticator.PropnameUsername, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.Username);
-            AddToDictionary(props, Authenticator.PropnamePassword, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.Password);
-            AddToDictionary(props, Authenticator.PropnameUrl, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.Url);
+            AddToDictionary(props, Authenticator.PropNameUsername, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.Username);
+            AddToDictionary(props, Authenticator.PropNamePassword, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.Password);
+            AddToDictionary(props, Authenticator.PropNameUrl, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.Url);
 
             // For the IAM apikey, the "apikey" property has higher precedence than "iam_apikey".
-            AddToDictionary(props, Authenticator.PropnameApikey, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.IamApikey);
-            AddToDictionary(props, Authenticator.PropnameApikey, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.ApiKey);
+            AddToDictionary(props, Authenticator.PropNameApikey, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.IamApikey);
+            AddToDictionary(props, Authenticator.PropNameApikey, GetVcapCredentialsObject(vcapServices, serviceName).Credentials.ApiKey);
 
             // Try to guess at the auth type based on the properties found.
-            if (props.ContainsKey(Authenticator.PropnameApikey))
+            if (props.ContainsKey(Authenticator.PropNameApikey))
             {
-                AddToDictionary(props, Authenticator.PropnameAuthType, Authenticator.AuthtypeIam);
+                AddToDictionary(props, Authenticator.PropNameAuthType, Authenticator.AuthTypeIam);
             }
-            else if (props.ContainsKey(Authenticator.PropnameUsername) || props.ContainsKey(Authenticator.PropnamePassword))
+            else if (props.ContainsKey(Authenticator.PropNameUsername) || props.ContainsKey(Authenticator.PropNamePassword))
             {
-                AddToDictionary(props, Authenticator.PropnameAuthType, Authenticator.AuthtypeBasic);
+                AddToDictionary(props, Authenticator.PropNameAuthType, Authenticator.AuthTypeBasic);
             }
 
             return props;

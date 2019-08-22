@@ -19,7 +19,7 @@ using IBM.Cloud.SDK.Core.Authentication.BasicAuth;
 using IBM.Cloud.SDK.Core.Authentication.Bearer;
 using IBM.Cloud.SDK.Core.Authentication.Cp4d;
 using IBM.Cloud.SDK.Core.Authentication.Iam;
-using IBM.Cloud.SDK.Core.Authentication.Noauth;
+using IBM.Cloud.SDK.Core.Authentication.NoAuth;
 using IBM.Cloud.SDK.Core.Util;
 using System.Collections.Generic;
 
@@ -71,31 +71,31 @@ namespace IBM.Cloud.SDK.Core.Authentication
             Authenticator authenticator = null;
 
             // If auth type was not specified, we'll use "iam" as the default.
-            props.TryGetValue(Authenticator.PropnameAuthType, out string authType);
+            props.TryGetValue(Authenticator.PropNameAuthType, out string authType);
             if (string.IsNullOrEmpty(authType))
             {
-                authType = Authenticator.AuthtypeIam;
+                authType = Authenticator.AuthTypeIam;
             }
 
             switch (authType)
             {
-                case Authenticator.AuthtypeNoauth:
-                    authenticator = new NoauthAuthenticator(props);
+                case Authenticator.AuthTypeNoAuth:
+                    authenticator = new NoAuthAuthenticator(props);
                     break;
 
-                case Authenticator.AuthtypeBasic:
+                case Authenticator.AuthTypeBasic:
                     authenticator = new BasicAuthenticator(props);
                     break;
 
-                case Authenticator.AuthtypeIam:
+                case Authenticator.AuthTypeIam:
                     authenticator = new IamAuthenticator(props);
                     break;
 
-                case Authenticator.AuthtypeCp4d:
+                case Authenticator.AuthTypeCp4d:
                     authenticator = new CloudPakForDataAuthenticator(props);
                     break;
 
-                case Authenticator.AuthtypeBearer:
+                case Authenticator.AuthTypeBearer:
                     authenticator = new BearerTokenAuthenticator(props);
                     break;
                 default:

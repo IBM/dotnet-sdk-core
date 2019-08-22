@@ -33,7 +33,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.IamAuth
             IamAuthenticator authenticator = new IamAuthenticator(apikey);
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeIam);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeIam);
             Assert.IsTrue(authenticator.Apikey == apikey);
         }
 
@@ -49,7 +49,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.IamAuth
                 );
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeIam);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeIam);
             Assert.IsTrue(authenticator.Apikey == apikey);
             Assert.IsTrue(authenticator.Url == url);
         }
@@ -68,7 +68,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.IamAuth
                 );
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeIam);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeIam);
             Assert.IsTrue(authenticator.Apikey == apikey);
             Assert.IsTrue(authenticator.ClientId == clientId);
             Assert.IsTrue(authenticator.ClientSecret == clientSecret);
@@ -86,7 +86,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.IamAuth
                 );
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeIam);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeIam);
             Assert.IsTrue(authenticator.Apikey == apikey);
             Assert.IsTrue(authenticator.DisableSslVerification == disableSslVerification);
         }
@@ -107,7 +107,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.IamAuth
 
             authenticator.Headers.TryGetValue(headerName, out string retrievedHeaderValue);
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeIam);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeIam);
             Assert.IsTrue(authenticator.Apikey == apikey);
             Assert.IsTrue(authenticator.Headers.ContainsKey(headerName));
             Assert.IsTrue(authenticator.Headers.ContainsValue(headervalue));
@@ -124,16 +124,16 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.IamAuth
             var disableSsl = true;
 
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add(Authenticator.PropnameApikey, apikey);
-            config.Add(Authenticator.PropnameUrl, url);
-            config.Add(Authenticator.PropnameClientId, clientId);
-            config.Add(Authenticator.PropnameClientSecret, clientSecret);
-            config.Add(Authenticator.PropnameDisableSsl, disableSsl.ToString());
+            config.Add(Authenticator.PropNameApikey, apikey);
+            config.Add(Authenticator.PropNameUrl, url);
+            config.Add(Authenticator.PropNameClientId, clientId);
+            config.Add(Authenticator.PropNameClientSecret, clientSecret);
+            config.Add(Authenticator.PropNameDisableSslVerification, disableSsl.ToString());
 
             IamAuthenticator authenticator = new IamAuthenticator(config);
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeIam);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeIam);
             Assert.IsTrue(authenticator.Apikey == apikey);
             Assert.IsTrue(authenticator.Url == url);
             Assert.IsTrue(authenticator.ClientId == clientId);
@@ -147,12 +147,12 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.IamAuth
             var apikey = "apikey";
 
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add(Authenticator.PropnameApikey, apikey);
+            config.Add(Authenticator.PropNameApikey, apikey);
 
             IamAuthenticator authenticator = new IamAuthenticator(config);
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeIam);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeIam);
             Assert.IsTrue(authenticator.Apikey == apikey);
             Assert.IsTrue(authenticator.ClientId == null);
         }

@@ -38,7 +38,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
                 password: password);
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeCp4d);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeCp4d);
             Assert.IsTrue(authenticator.Url == url);
             Assert.IsTrue(authenticator.Username == username);
             Assert.IsTrue(authenticator.Password == password);
@@ -58,7 +58,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
                 disableSslVerification: disableSslVerification);
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeCp4d);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeCp4d);
             Assert.IsTrue(authenticator.Url == url);
             Assert.IsTrue(authenticator.Username == username);
             Assert.IsTrue(authenticator.Password == password);
@@ -85,7 +85,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
 
             authenticator.Headers.TryGetValue(headerName, out string retrievedHeaderValue);
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeCp4d);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeCp4d);
             Assert.IsTrue(authenticator.Username == username);
             Assert.IsTrue(authenticator.Password == password);
             Assert.IsTrue(authenticator.Headers.ContainsKey(headerName));
@@ -102,15 +102,15 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             var disableSslVerification = true;
 
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add(Authenticator.PropnameUrl, url);
-            config.Add(Authenticator.PropnameUsername, username);
-            config.Add(Authenticator.PropnamePassword, password);
-            config.Add(Authenticator.PropnameDisableSsl, disableSslVerification.ToString());
+            config.Add(Authenticator.PropNameUrl, url);
+            config.Add(Authenticator.PropNameUsername, username);
+            config.Add(Authenticator.PropNamePassword, password);
+            config.Add(Authenticator.PropNameDisableSslVerification, disableSslVerification.ToString());
 
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator(config);
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeCp4d);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeCp4d);
             Assert.IsTrue(authenticator.Url == url);
             Assert.IsTrue(authenticator.Username == username);
             Assert.IsTrue(authenticator.Password == password);
@@ -125,14 +125,14 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             var password = "password";
 
             Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add(Authenticator.PropnameUrl, url);
-            config.Add(Authenticator.PropnameUsername, username);
-            config.Add(Authenticator.PropnamePassword, password);
+            config.Add(Authenticator.PropNameUrl, url);
+            config.Add(Authenticator.PropNameUsername, username);
+            config.Add(Authenticator.PropNamePassword, password);
 
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator(config);
 
             Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthtypeCp4d);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeCp4d);
             Assert.IsTrue(authenticator.Url == url);
             Assert.IsTrue(authenticator.Username == username);
             Assert.IsTrue(authenticator.Password == password);

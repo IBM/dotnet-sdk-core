@@ -50,7 +50,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Bearer
         /// <param name="config">Config a map containing the access token value</param>
         public BearerTokenAuthenticator(Dictionary<string, string> config)
         {
-            config.TryGetValue(PropnameBearerToken, out string bearerToken);
+            config.TryGetValue(PropNameBearerToken, out string bearerToken);
             Init(bearerToken);
         }
 
@@ -63,7 +63,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Bearer
 
         public override string AuthenticationType
         {
-            get { return AuthtypeBearer; }
+            get { return AuthTypeBearer; }
         }
 
         /// <summary>
@@ -80,12 +80,12 @@ namespace IBM.Cloud.SDK.Core.Authentication.Bearer
         {
             if (string.IsNullOrEmpty(BearerToken))
             {
-                throw new ArgumentNullException(string.Format(ErrormsgPropMissing, "BearerToken"));
+                throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "BearerToken"));
             }
 
             if (CredentialUtils.HasBadStartOrEndChar(BearerToken))
             {
-                throw new ArgumentException(string.Format(ErrormsgPropInvalid, "BearerToken"));
+                throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "BearerToken"));
             }
         }
     }
