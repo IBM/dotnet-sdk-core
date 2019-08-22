@@ -15,7 +15,7 @@
 *
 */
 
-using IBM.Cloud.SDK.Core.Http;
+using System.Collections.Generic;
 
 namespace IBM.Cloud.SDK.Core.Authentication.Noauth
 {
@@ -24,16 +24,13 @@ namespace IBM.Cloud.SDK.Core.Authentication.Noauth
     /// </summary>
     public class NoauthAuthenticator : Authenticator
     {
-        public NoauthAuthenticator(NoauthConfig config) { }
+        public NoauthAuthenticator() { }
+
+        public NoauthAuthenticator(Dictionary<string, string> config) { }
 
         public override string AuthenticationType
         {
             get { return AuthtypeNoauth; }
-        }
-
-        public override void Authenticate(IClient client)
-        {
-            // do nothing
         }
     }
 }

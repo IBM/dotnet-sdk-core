@@ -16,6 +16,7 @@
 */
 
 using IBM.Cloud.SDK.Core.Http;
+using IBM.Cloud.SDK.Core.Util;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -30,15 +31,82 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
         public IClient Client { get; set; }
 
         // Configuration properties for this authenticator.
-        private IamConfig config;
+        public string Apikey { get; private set; }
+        public string Url { get; set; }
+        public bool? DisableSslVerification { get; set; }
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
+        public Dictionary<string, string> Headers { get; set; }
+        private readonly string defaultUrl = "https://iam.cloud.ibm.com/identity/token";
 
         // This field holds an access token and its expiration time.
         private IamToken tokenData;
 
-        public IamAuthenticator(IamConfig config)
+        private const string constDefaultIamUrl = "https://iam.cloud.ibm.com/identity/token";
+        private const string constGrantType = "grant_type";
+        private const string constRequestGrantType = "urn:ibm:params:oauth:grant-type:apikey";
+        private const string constApikey = "apikey";
+        private const string constResponseType = "response_type";
+        private const string constCloudIam = "cloud_iam";
+
+        /// <summary>
+        /// Constructs an IamAuthenticator with all properties.
+        /// </summary>
+        /// <param name="apikey">The apikey to be used when retrieving the access token</param>
+        /// <param name="url">The URL representing the token server endpoint</param>
+        /// <param name="clientId">The clientId to be used in token server interactions</param>
+        /// <param name="clientSecret">The clientSecret to be used in token server interactions</param>
+        /// <param name="disableSslVerification">A flag indicating whether SSL hostname verification should be disabled</param>
+        /// <param name="headers">A set of user-supplied headers to be included in token server interactions</param>
+        public IamAuthenticator(string apikey, string url = null, string clientId = null, string clientSecret = null, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
         {
-            this.config = config;
-            Client = new IBMHttpClient(config.IamUrl);
+            Init(apikey, url, clientId, clientSecret, disableSslVerification, headers);
+        }
+
+        /// <summary>
+        /// Construct an IamAuthenticator instance using properties retrieved from the specified Map.
+        /// </summary>
+        /// <param name="config">A map containing the configuration properties</param>
+        public IamAuthenticator(Dictionary<string, string> config)
+        {
+            config.TryGetValue(PropnameUrl, out string url);
+            config.TryGetValue(PropnameApikey, out string apikey);
+            config.TryGetValue(PropnameClientId, out string clientId);
+            config.TryGetValue(PropnameClientSecret, out string clientSecret);
+            config.TryGetValue(PropnameDisableSsl, out string disableSslVerficiationString);
+            bool.TryParse(disableSslVerficiationString, out bool disableSslVerification);
+            Init(apikey, url, clientId, clientSecret, disableSslVerification);
+        }
+
+        private void Init(string apikey, string url = null, string clientId = null, string clientSecret = null, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
+        {
+            Apikey = apikey;
+
+            if (string.IsNullOrEmpty(url))
+            {
+                url = defaultUrl;
+            }
+            this.Url = url;
+            if (!string.IsNullOrEmpty(clientId))
+            {
+                ClientId = clientId;
+            }
+            if (!string.IsNullOrEmpty(clientSecret))
+            {
+                ClientSecret = clientSecret;
+            }
+            if (disableSslVerification != null)
+            {
+                DisableSslVerification = disableSslVerification;
+            }
+            if (headers != null)
+            {
+                this.Headers = headers;
+            }
+
+            Validate();
+
+            Client = new IBMHttpClient(Url);
         }
 
         public override string AuthenticationType
@@ -55,22 +123,14 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
         {
             string token;
 
-            if (!string.IsNullOrEmpty(config.UserManagedAccessToken))
+            // Request a new token if necessary.
+            if (tokenData == null || !tokenData.IsTokenValid())
             {
-                // If the user set their own access token, then use it.
-                token = config.UserManagedAccessToken;
+                tokenData = new IamToken(RequestToken().Result);
             }
-            else
-            {
-                // Request a new token if necessary.
-                if (tokenData == null || !tokenData.IsTokenValid())
-                {
-                    tokenData = new IamToken(RequestToken().Result);
-                }
 
-                // Return the access token from our IamToken object.
-                token = tokenData.AccessToken;
-            }
+            // Return the access token from our IamToken object.
+            token = tokenData.AccessToken;
 
             return token;
         }
@@ -84,28 +144,33 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
             var clientSecret = "bx";
 
             // If both the clientId and secret were specified by the user, then use them.
-            if (!string.IsNullOrEmpty(config.IamClientId) && !string.IsNullOrEmpty(config.IamClientSecret))
+            if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(ClientSecret))
             {
-                clientId = config.IamClientId;
-                clientSecret = config.IamClientSecret;
+                clientId = ClientId;
+                clientSecret = ClientSecret;
             }
 
             try
             {
-                if (string.IsNullOrEmpty(config.Apikey))
+                if (string.IsNullOrEmpty(Apikey))
                     throw new ArgumentNullException("Apikey is required to request a token");
 
                 IClient client = Client.WithAuthentication(clientId, clientSecret);
-                var request = Client.PostAsync(config.IamUrl);
+                var request = Client.PostAsync(Url);
                 request.WithHeader("Content-type", "application/x-www-form-urlencoded");
 
-                if (config.DisableSslVerification != null)
-                    client.DisableSslVerification((bool)config.DisableSslVerification);
+                if (Headers != null)
+                {
+                    request.WithHeaders(Headers);
+                }
+
+                if (DisableSslVerification != null)
+                    client.DisableSslVerification((bool)DisableSslVerification);
 
                 List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>();
-                KeyValuePair<string, string> grantType = new KeyValuePair<string, string>("grant_type", "urn:ibm:params:oauth:grant-type:apikey");
-                KeyValuePair<string, string> responseType = new KeyValuePair<string, string>("response_type", "cloud_iam");
-                KeyValuePair<string, string> apikey = new KeyValuePair<string, string>("apikey", config.Apikey);
+                KeyValuePair<string, string> grantType = new KeyValuePair<string, string>(constGrantType, constRequestGrantType);
+                KeyValuePair<string, string> responseType = new KeyValuePair<string, string>(constResponseType, constCloudIam);
+                KeyValuePair<string, string> apikey = new KeyValuePair<string, string>(constApikey, Apikey);
                 content.Add(grantType);
                 content.Add(responseType);
                 content.Add(apikey);
@@ -126,6 +191,29 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
             }
 
             return result;
+        }
+
+        public override void Validate()
+        {
+            if (string.IsNullOrEmpty(Apikey))
+            {
+                throw new ArgumentNullException(string.Format(ErrormsgPropMissing, "apikey"));
+            }
+
+            if (CredentialUtils.HasBadStartOrEndChar(Apikey))
+            {
+                throw new ArgumentException(string.Format(ErrormsgPropInvalid, "apikey"));
+            }
+
+            if (CredentialUtils.HasBadStartOrEndChar(Url))
+            {
+                throw new ArgumentException(string.Format(ErrormsgPropInvalid, "url"));
+            }
+
+            if (Utility.OnlyOne(ClientId, ClientSecret))
+            {
+                Console.WriteLine("Warning: Client ID and Secret must BOTH be given, or the defaults will be used.");
+            }
         }
     }
 }

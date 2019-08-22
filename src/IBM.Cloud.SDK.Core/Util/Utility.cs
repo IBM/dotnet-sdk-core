@@ -89,20 +89,10 @@ namespace IBM.Cloud.SDK.Core.Util
         }
 
         /// <summary>
-        /// Checks if the string is wrapped or partially wrapped in bad characters.
-        /// </summary>
-        /// <param name="value">The string to check.</param>
-        /// <returns></returns>
-        public static bool HasBadFirstOrLastCharacter(string value)
-        {
-            return value.StartsWith("{") || value.StartsWith("\"") || value.EndsWith("}") || value.EndsWith("\"");
-        }
-
-        /// <summary>
         /// Loads environment variables from an external file.
         /// </summary>
         /// <param name="filepath">The location in the file system from which to load environment variables.</param>
-        public static bool LoadEnvFile(string filepath)
+        public static Dictionary<string, string> LoadEnvFile(string filepath, string serviceName)
         {
             List<string> lines = new List<string>();
             string[] rawLines = { };
@@ -113,7 +103,7 @@ namespace IBM.Cloud.SDK.Core.Util
             }
             catch
             {
-                return false;
+                return null;
             }
 
             foreach(string line in rawLines)
@@ -128,50 +118,14 @@ namespace IBM.Cloud.SDK.Core.Util
             foreach(string line in lines)
             {
                 string[] kvp = line.Split(new char[] { '=' }, 2);
-                envDict.Add(kvp[0], kvp[1]);
+                if (kvp[0].StartsWith(serviceName.ToUpper()))
+                {
+                    string propName = kvp[0].ToUpper().Substring(serviceName.Length + 1);
+                    envDict.Add(kvp[0], kvp[1]);
+                }
             }
 
-            foreach (KeyValuePair<string, string> keyValuePair in envDict)
-            {
-                Environment.SetEnvironmentVariable(keyValuePair.Key, keyValuePair.Value);
-            }
-
-            return true;
-        }
-
-        public static List<string> GetCredentialsPaths()
-        {
-            List<string> filePathsToLoad = new List<string>();
-            string ibmCredentialsEnvVariable = Environment.GetEnvironmentVariable("IBM_CREDENTIALS_FILE");
-            if (!string.IsNullOrEmpty(ibmCredentialsEnvVariable))
-            {
-                filePathsToLoad.Add(ibmCredentialsEnvVariable);
-            }
-
-            string unixHomePath = Environment.GetEnvironmentVariable("HOME") + "/ibm-credentials.env";
-            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("HOME")) && File.Exists(unixHomePath))
-            {
-                filePathsToLoad.Add(unixHomePath);
-            }
-
-            string windowsHomePath = Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%") + "\\ibm-credentials.env";
-            if (!string.IsNullOrEmpty(Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%")) && File.Exists(windowsHomePath))
-            {
-                filePathsToLoad.Add(windowsHomePath);
-            }
-
-            string userProfilePath = Environment.ExpandEnvironmentVariables("%USERPROFILE%") + "\\ibm-credentials.env";
-            if (!string.IsNullOrEmpty(Environment.ExpandEnvironmentVariables("%USERPROFILE%")) && File.Exists(userProfilePath))
-            {
-                filePathsToLoad.Add(userProfilePath);
-            }
-
-            if (File.Exists(@"ibm-credentials.env"))
-            {
-                filePathsToLoad.Add(@"ibm-credentials.env");
-            }
-
-            return filePathsToLoad;
+            return envDict;
         }
 
         public static string GetErrorMessage(string input)
@@ -205,24 +159,6 @@ namespace IBM.Cloud.SDK.Core.Util
         public static string ParseCultureInvariantFloatToString(float value)
         {
             return value.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
-        /// Loads external credentials in specified credentials paths
-        /// </summary>
-        public static void LoadExternalCredentials()
-        {
-            var credentialsPaths = GetCredentialsPaths();
-            if (credentialsPaths.Count > 0)
-            {
-                foreach (string path in credentialsPaths)
-                {
-                    if (LoadEnvFile(path))
-                    {
-                        break;
-                    }
-                }
-            }
         }
 
         /// <summary>

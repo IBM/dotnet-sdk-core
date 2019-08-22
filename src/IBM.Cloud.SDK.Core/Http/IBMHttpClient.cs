@@ -133,11 +133,11 @@ namespace IBM.Cloud.SDK.Core.Http
             return this;
         }
 
-        public IClient WithAuthentication(string apiToken)
+        public IClient WithAuthentication(string bearerToken)
         {
-            if(!string.IsNullOrEmpty(apiToken))
+            if(!string.IsNullOrEmpty(bearerToken))
             {
-                this.BaseClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+                this.BaseClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
             }
 
             return this;

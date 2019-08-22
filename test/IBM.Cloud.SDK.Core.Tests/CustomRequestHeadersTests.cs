@@ -24,14 +24,14 @@ using System.Collections.Generic;
 namespace IBM.Cloud.SDK.Core.Tests
 {
     [TestClass]
-    public class CustomRequestHeadersTest
+    public class CustomRequestHeadersTests
     {
         [TestMethod]
         public void TestAddHeader()
         {
             IClient client = CreateClient();
 
-            IBMService service = Substitute.For<IBMService>("serviceName", "url", client);
+            IBMService service = Substitute.For<IBMService>("serviceName", "http://service-endpoint.com", client);
             service.WithHeader("header0", "value0");
 
             var headers = service.GetCustomRequestHeaders();
@@ -45,7 +45,7 @@ namespace IBM.Cloud.SDK.Core.Tests
         {
             IClient client = CreateClient();
 
-            IBMService service = Substitute.For<IBMService>("serviceName", "url", client);
+            IBMService service = Substitute.For<IBMService>("serviceName", "http://service-endpoint.com", client);
             service.WithHeader("header0", "value0");
 
             var headers = service.GetCustomRequestHeaders();
@@ -65,7 +65,7 @@ namespace IBM.Cloud.SDK.Core.Tests
         {
             IClient client = CreateClient();
 
-            IBMService service = Substitute.For<IBMService>("serviceName", "url", client);
+            IBMService service = Substitute.For<IBMService>("serviceName", "http://service-endpoint.com", client);
             Dictionary<string, string> customRequestHeaders = new Dictionary<string, string>();
             customRequestHeaders.Add("header0", "value0");
             customRequestHeaders.Add("header1", "value1");
