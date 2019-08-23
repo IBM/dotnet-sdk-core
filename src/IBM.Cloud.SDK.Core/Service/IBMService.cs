@@ -32,7 +32,6 @@ namespace IBM.Cloud.SDK.Core.Service
 
         private const string icpPrefix = "icp-";
         private const string apikeyAsUsername = "apikey";
-        public string serviceName;
         public IClient Client { get; set; }
         public string ServiceName { get; set; }
         public string Url { get { return Endpoint; } }
@@ -61,8 +60,6 @@ namespace IBM.Cloud.SDK.Core.Service
 
         private IAuthenticator authenticator;
 
-        protected bool _userSetEndpoint = false;
-        
         protected IBMService(string serviceName, string url, IClient httpClient)
         {
             ServiceName = serviceName;
@@ -114,7 +111,6 @@ namespace IBM.Cloud.SDK.Core.Service
 
         public void SetEndpoint(string url)
         {
-            _userSetEndpoint = true;
             Endpoint = url;
         }
 
