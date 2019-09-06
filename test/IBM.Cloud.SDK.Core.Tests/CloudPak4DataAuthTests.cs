@@ -205,7 +205,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
         [TestMethod, ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlBeginningBracketEnd()
         {
-            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("{url}", "username", "password");
+            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("{serviceUrl}", "username", "password");
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentException))]
