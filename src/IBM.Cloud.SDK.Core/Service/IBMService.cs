@@ -54,20 +54,17 @@ namespace IBM.Cloud.SDK.Core.Service
                 {
                     Client.BaseClient = new HttpClient();
                 }
-                Client.BaseClient.BaseAddress = new Uri(value);
+                Client.ServiceUrl = value;
             }
         }
 
         private IAuthenticator authenticator;
 
-        protected IBMService(string serviceName, string serviceUrl, IClient httpClient)
+        protected IBMService(string serviceName, IClient httpClient)
         {
             ServiceName = serviceName;
             Client = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             authenticator = new NoAuthAuthenticator();
-
-            if (!string.IsNullOrEmpty(Endpoint))
-                Endpoint = serviceUrl;
         }
 
         protected IBMService(string serviceName, IAuthenticator authenticator)
