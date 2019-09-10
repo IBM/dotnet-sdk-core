@@ -21,12 +21,15 @@ using IBM.Cloud.SDK.Core.Authentication.Cp4d;
 using IBM.Cloud.SDK.Core.Authentication.Iam;
 using IBM.Cloud.SDK.Core.Authentication.NoAuth;
 using IBM.Cloud.SDK.Core.Util;
+using System;
 using System.Collections.Generic;
 
 namespace IBM.Cloud.SDK.Core.Authentication
 {
     public class ConfigBasedAuthenticatorFactory
     {
+        public static string ErrorMessageAuthTypeUnknown = "Unrecognized authentication type: {0}";
+
         public static Authenticator GetAuthenticator(string serviceName)
         {
             Authenticator authenticator = null;
@@ -77,29 +80,29 @@ namespace IBM.Cloud.SDK.Core.Authentication
                 authType = Authenticator.AuthTypeIam;
             }
 
-            switch (authType)
+            if (authType.Equals(Authenticator.AuthTypeNoAuth, StringComparison.InvariantCultureIgnoreCase))
             {
-                case Authenticator.AuthTypeNoAuth:
-                    authenticator = new NoAuthAuthenticator(props);
-                    break;
-
-                case Authenticator.AuthTypeBasic:
-                    authenticator = new BasicAuthenticator(props);
-                    break;
-
-                case Authenticator.AuthTypeIam:
-                    authenticator = new IamAuthenticator(props);
-                    break;
-
-                case Authenticator.AuthTypeCp4d:
-                    authenticator = new CloudPakForDataAuthenticator(props);
-                    break;
-
-                case Authenticator.AuthTypeBearer:
-                    authenticator = new BearerTokenAuthenticator(props);
-                    break;
-                default:
-                    break;
+                authenticator = new NoAuthAuthenticator(props);
+            }
+            else if (authType.Equals(Authenticator.AuthTypeBasic, StringComparison.InvariantCultureIgnoreCase))
+            {
+                authenticator = new BasicAuthenticator(props);
+            }
+            else if (authType.Equals(Authenticator.AuthTypeIam, StringComparison.InvariantCultureIgnoreCase))
+            {
+                authenticator = new IamAuthenticator(props);
+            }
+            else if (authType.Equals(Authenticator.AuthTypeCp4d, StringComparison.InvariantCultureIgnoreCase))
+            {
+                authenticator = new CloudPakForDataAuthenticator(props);
+            }
+            else if (authType.Equals(Authenticator.AuthTypeBearer, StringComparison.InvariantCultureIgnoreCase))
+            {
+                authenticator = new BearerTokenAuthenticator(props);
+            }
+            else
+            {
+                throw new ArgumentException(string.Format(ErrorMessageAuthTypeUnknown, authType));
             }
 
             return authenticator;

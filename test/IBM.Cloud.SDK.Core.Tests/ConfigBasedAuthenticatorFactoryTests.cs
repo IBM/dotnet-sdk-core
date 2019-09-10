@@ -51,5 +51,75 @@ namespace IBM.Cloud.SDK.Core.Tests.ConfigBasedAuthenticatorFactoryTests
             Assert.IsNotNull(authenticator);
             Assert.IsNotNull(authenticator.AuthenticationType);
         }
+
+        [TestMethod]
+        public void TestAuthTypeCase()
+        {
+            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_TYPE", Authenticator.AuthTypeIam);
+            Environment.SetEnvironmentVariable("TEST_SERVICE_APIKEY", "bogus_apikey");
+            Environment.SetEnvironmentVariable("TEST_SERVICE_USERNAME", "bogus_username");
+            Environment.SetEnvironmentVariable("TEST_SERVICE_PASSWORD", "bogus_password");
+            Environment.SetEnvironmentVariable("TEST_SERVICE_BEARER_TOKEN", "bogus_bearer_token");
+            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_URL", "http://bogus-auth-url.com");
+            Authenticator authenticator = ConfigBasedAuthenticatorFactory.GetAuthenticator("test_service");
+            Assert.IsNotNull(authenticator);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeIam);
+
+            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_TYPE", "iAm");
+            authenticator = ConfigBasedAuthenticatorFactory.GetAuthenticator("test_service");
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeIam);
+
+            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_TYPE", "bAsIc");
+            authenticator = ConfigBasedAuthenticatorFactory.GetAuthenticator("test_service");
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeBasic);
+
+            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_TYPE", "Noauth");
+            authenticator = ConfigBasedAuthenticatorFactory.GetAuthenticator("test_service");
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeNoAuth);
+
+            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_TYPE", "cP4d");
+            authenticator = ConfigBasedAuthenticatorFactory.GetAuthenticator("test_service");
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeCp4d);
+
+            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_TYPE", "bEaReRtOkEn");
+            authenticator = ConfigBasedAuthenticatorFactory.GetAuthenticator("test_service");
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeBearer);
+
+            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_TYPE", null);
+            Environment.SetEnvironmentVariable("TEST_SERVICE_APIKEY", null);
+            Environment.SetEnvironmentVariable("TEST_SERVICE_USERNAME", null);
+            Environment.SetEnvironmentVariable("TEST_SERVICE_PASSWORD", null);
+            Environment.SetEnvironmentVariable("TEST_SERVICE_BEARER_TOKEN", null);
+            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_URL", null);
+        }
+
+        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        public void TestBadAuthType()
+        {
+            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_TYPE", "badAuthType");
+            Authenticator authenticator = ConfigBasedAuthenticatorFactory.GetAuthenticator("test_service");
+
+            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_TYPE", null);
+        }
+
+        [TestMethod]
+        public void TestBadAuthTypeMessage()
+        {
+            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_TYPE", "badAuthType");
+            try
+            {
+                Authenticator authenticator = ConfigBasedAuthenticatorFactory.GetAuthenticator("test_service");
+            }
+            catch (ArgumentException ae)
+            {
+                Assert.AreEqual(ae.Message, "Unrecognized authentication type: badAuthType");
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(string.Format("Unexpected exception of type {0} caught: {1}", e.GetType(), e.Message));
+            }
+
+            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_TYPE", null); 
+        }
     }
 }
