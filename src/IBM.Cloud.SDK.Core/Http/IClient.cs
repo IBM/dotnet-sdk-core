@@ -31,6 +31,8 @@ namespace IBM.Cloud.SDK.Core.Http
 
         List<IHttpFilter> Filters { get; }
 
+        string ServiceUrl { get; set; }
+
         IClient WithAuthentication(string userName, string password);
 
         IClient WithAuthentication(string bearerToken);

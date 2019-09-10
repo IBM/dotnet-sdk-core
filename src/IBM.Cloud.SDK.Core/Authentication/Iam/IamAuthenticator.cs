@@ -106,7 +106,10 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
 
             Validate();
 
-            Client = new IBMHttpClient(Url);
+            Client = new IBMHttpClient()
+            {
+                ServiceUrl = Url
+            };
         }
 
         public override string AuthenticationType

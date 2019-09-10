@@ -28,7 +28,7 @@ namespace IBM.Cloud.SDK.Core.Authentication
 {
     public class ConfigBasedAuthenticatorFactory
     {
-        public static string ErrorMessageAuthTypeUnknown = "Unrecognized authentication type: %s";
+        public static string ErrorMessageAuthTypeUnknown = "Unrecognized authentication type: {0}";
 
         public static Authenticator GetAuthenticator(string serviceName)
         {

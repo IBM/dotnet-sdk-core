@@ -16,6 +16,7 @@
 */
 
 using IBM.Cloud.SDK.Core.Http;
+using IBM.Cloud.SDK.Core.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
@@ -28,12 +29,45 @@ namespace IBM.Cloud.SDK.Core.Tests
         [TestMethod]
         public void TestArgEscape()
         {
-            IClient client = new IBMHttpClient("http://baseuri.com");
+            IClient client = new IBMHttpClient()
+            {
+                ServiceUrl = "http://baseuri.com"
+            };
+
             var restRequest = client.GetAsync("/v1/operation");
 
             restRequest.WithArgument("myArg", "Is this a valid arg?");
 
             Assert.IsTrue(restRequest.Message.RequestUri == new Uri("http://baseuri.com/v1/operation?myArg=Is+this+a+valid+arg%3F"));
+        }
+
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        public void NoUrlTest()
+        {
+            IClient client = new IBMHttpClient();
+            var restRequest = client.GetAsync("/v1/operation");
+        }
+
+        [TestMethod]
+        public void SetServiceUrlTest()
+        {
+            IClient client = new IBMHttpClient()
+            {
+                ServiceUrl = "http://www.service-url.com"
+            };
+
+            var restRequest = client.GetAsync("/v1/operation");
+            Assert.IsTrue(restRequest.Message.RequestUri.AbsoluteUri == "http://www.service-url.com/v1/operation");
+        }
+
+        [TestMethod]
+        public void SetServiceUrlPropertyTest()
+        {
+            IClient client = new IBMHttpClient();
+            client.ServiceUrl = "http://www.service-url.com";
+
+            var restRequest = client.GetAsync("/v1/operation");
+            Assert.IsTrue(restRequest.Message.RequestUri.AbsoluteUri == "http://www.service-url.com/v1/operation");
         }
     }
 }
