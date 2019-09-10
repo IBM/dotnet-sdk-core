@@ -34,7 +34,7 @@ namespace IBM.Cloud.SDK.Core.Service
         private const string apikeyAsUsername = "apikey";
         public IClient Client { get; set; }
         public string ServiceName { get; set; }
-        public string Url { get { return Endpoint; } }
+        public string ServiceUrl { get { return Endpoint; } }
         protected Dictionary<string, string> customRequestHeaders = new Dictionary<string, string>();
         private const string ErrorMessageNoAuthenticator = "Authentication information was not properly configured.";
 
@@ -54,20 +54,17 @@ namespace IBM.Cloud.SDK.Core.Service
                 {
                     Client.BaseClient = new HttpClient();
                 }
-                Client.BaseClient.BaseAddress = new Uri(value);
+                Client.ServiceUrl = value;
             }
         }
 
         private IAuthenticator authenticator;
 
-        protected IBMService(string serviceName, string url, IClient httpClient)
+        protected IBMService(string serviceName, IClient httpClient)
         {
             ServiceName = serviceName;
             Client = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             authenticator = new NoAuthAuthenticator();
-
-            if (!string.IsNullOrEmpty(Endpoint))
-                Endpoint = url;
         }
 
         protected IBMService(string serviceName, IAuthenticator authenticator)
@@ -80,10 +77,10 @@ namespace IBM.Cloud.SDK.Core.Service
 
             // Try to retrieve the service URL from either a credential file, environment, or VCAP_SERVICES.
             Dictionary<string, string> props = CredentialUtils.GetServiceProperties(serviceName);
-            props.TryGetValue(PropNameServiceUrl, out string url);
-            if (!string.IsNullOrEmpty(url))
+            props.TryGetValue(PropNameServiceUrl, out string serviceUrl);
+            if (!string.IsNullOrEmpty(serviceUrl))
             {
-                SetEndpoint(url);
+                SetServiceUrl(serviceUrl);
             }
 
             // Check to see if "disable ssl" was set in the service properties.
@@ -109,9 +106,9 @@ namespace IBM.Cloud.SDK.Core.Service
             }
         }
 
-        public void SetEndpoint(string url)
+        public void SetServiceUrl(string serviceUrl)
         {
-            Endpoint = url;
+            Endpoint = serviceUrl;
         }
 
         public void DisableSslVerification(bool insecure)

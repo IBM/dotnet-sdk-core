@@ -87,7 +87,10 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
 
             Validate();
 
-            Client = new IBMHttpClient(Url + UrlSuffix, DisableSslVerification);
+            Client = new IBMHttpClient()
+            {
+                ServiceUrl = Url + UrlSuffix
+            };
         }
 
         public override string AuthenticationType
