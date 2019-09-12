@@ -142,9 +142,8 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
         {
             DetailedResponse<IamTokenResponse> result = null;
 
-            // Use bx:bx as default auth header creds.
-            var clientId = "bx";
-            var clientSecret = "bx";
+            string clientId = default(string);
+            string clientSecret = default(string);
 
             // If both the clientId and secret were specified by the user, then use them.
             if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(ClientSecret))
@@ -158,7 +157,13 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
                 if (string.IsNullOrEmpty(Apikey))
                     throw new ArgumentNullException("Apikey is required to request a token");
 
-                IClient client = Client.WithAuthentication(clientId, clientSecret);
+                IClient client = Client;
+
+                if (!string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
+                {
+                    client = Client.WithAuthentication(ClientId, ClientSecret);
+                }
+
                 var request = Client.PostAsync(Url);
                 request.WithHeader("Content-type", "application/x-www-form-urlencoded");
 

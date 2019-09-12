@@ -171,5 +171,18 @@ namespace IBM.Cloud.SDK.Core.Util
         {
             return (string.IsNullOrEmpty(a) && !string.IsNullOrEmpty(b)) || (!string.IsNullOrEmpty(a) && string.IsNullOrEmpty(b));
         }
+
+        #region ConvertToUtf8
+        /// <summary>
+        /// Convert a string to a UTF-8 encoded string
+        /// </summary>
+        /// <param name="input">The string to convert</param>
+        /// <returns>UTF-8 encoded string</returns>
+        public static string ConvertToUtf8(string input)
+        {
+            byte[] utf8Bytes = System.Text.Encoding.UTF8.GetBytes(input);
+            return System.Text.Encoding.UTF8.GetString(utf8Bytes);
+        }
+        #endregion
     }
 }
