@@ -124,16 +124,16 @@ namespace IBM.Cloud.SDK.Core.Util
             string unixHomeDirectory = Environment.GetEnvironmentVariable("HOME");
             string windowsFirstHomeDirectory = Environment.GetEnvironmentVariable("HOMEDRIVE") + Environment.GetEnvironmentVariable("HOMEPATH");
             string windowsSecondHomeDirectory = Environment.GetEnvironmentVariable("USERPROFILE");
-            string projectDirectory = Directory.GetCurrentDirectory();
+            string currentDirectory = Directory.GetCurrentDirectory();
 
             if (!string.IsNullOrEmpty(userSpecifedPath) && File.Exists(userSpecifedPath))
             {
                 return userSpecifedPath;
             }
 
-            if (!string.IsNullOrEmpty(projectDirectory))
+            if (!string.IsNullOrEmpty(currentDirectory))
             {
-                var fullPath = Path.GetFullPath(Path.Combine(projectDirectory, defaultCredentialFileName));
+                var fullPath = Path.GetFullPath(Path.Combine(currentDirectory, defaultCredentialFileName));
                 if (File.Exists(fullPath))
                 {
                     return fullPath;
