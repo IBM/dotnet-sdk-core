@@ -119,7 +119,7 @@ namespace IBM.Cloud.SDK.Core.Tests.ConfigBasedAuthenticatorFactoryTests
                 Assert.Fail(string.Format("Unexpected exception of type {0} caught: {1}", e.GetType(), e.Message));
             }
 
-            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_TYPE", null); 
+            Environment.SetEnvironmentVariable("TEST_SERVICE_AUTH_TYPE", null);
         }
     }
 }

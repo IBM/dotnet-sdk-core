@@ -162,7 +162,7 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
 
             using (StreamWriter outputFile = new StreamWriter(docPath))
             {
-                foreach(string line in lines)
+                foreach (string line in lines)
                 {
                     outputFile.WriteLine(line);
                 }
@@ -177,7 +177,7 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
             Assert.IsTrue(props.ContainsKey("LOCATION"));
             props.TryGetValue("LOCATION", out string envLocation);
             Assert.IsTrue(envLocation == "user-set-location");
-            
+
             //  delete created env files
             if (File.Exists(docPath))
             {
