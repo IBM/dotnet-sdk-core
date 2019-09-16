@@ -125,11 +125,72 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
         }
 
         [TestMethod]
-        public void TestConvertToUtf8()
+        public void TestCredentialOrder()
         {
-            var testString = "testString¼";
-            var utf8String = Utility.ConvertToUtf8(testString);
-            Assert.IsTrue(!string.IsNullOrEmpty(utf8String));
+            // store and clear user set env variable
+            string ibmCredFile = Environment.GetEnvironmentVariable("IBM_CREDENTIALS_FILE");
+            Environment.SetEnvironmentVariable("IBM_CREDENTIALS_FILE", "");
+
+            //  create .env file in current directory
+            string[] linesWorking = { "TEST_SERVICE_LOCATION=working-directory" };
+            var directoryPathWorking = Directory.GetCurrentDirectory();
+            var docPathWorking = Path.Combine(directoryPathWorking, "ibm-credentials.env");
+
+            using (StreamWriter outputFile = new StreamWriter(docPathWorking))
+            {
+                foreach (string line in linesWorking)
+                {
+                    outputFile.WriteLine(line);
+                }
+            }
+
+            //  get props
+            Dictionary<string, string> propsWorking = CredentialUtils.GetFileCredentialsAsMap("test_service");
+
+            Assert.IsTrue(propsWorking.ContainsKey("LOCATION"));
+            propsWorking.TryGetValue("LOCATION", out string envWorkingLocation);
+            Assert.IsTrue(envWorkingLocation == "working-directory");
+
+            //  create .env file in user set directory
+            string[] lines = { "TEST_SERVICE_LOCATION=user-set-location" };
+
+            var directoryPath = Environment.GetFolderPath(
+                Environment.SpecialFolder.CommonApplicationData
+                );
+
+            var docPath = Path.Combine(directoryPath, "test-credentials.env");
+
+            using (StreamWriter outputFile = new StreamWriter(docPath))
+            {
+                foreach (string line in lines)
+                {
+                    outputFile.WriteLine(line);
+                }
+            }
+
+            //  set user set env file path variable
+            Environment.SetEnvironmentVariable("IBM_CREDENTIALS_FILE", docPath);
+
+            //  get props
+            Dictionary<string, string> props = CredentialUtils.GetFileCredentialsAsMap("test_service");
+
+            Assert.IsTrue(props.ContainsKey("LOCATION"));
+            props.TryGetValue("LOCATION", out string envLocation);
+            Assert.IsTrue(envLocation == "user-set-location");
+
+            //  delete created env files
+            if (File.Exists(docPath))
+            {
+                File.Delete(docPath);
+            }
+
+            if (File.Exists(docPathWorking))
+            {
+                File.Delete(docPathWorking);
+            }
+
+            //  reset env variable
+            Environment.SetEnvironmentVariable("IBM_CREDENTIALS_FILE", ibmCredFile);
         }
     }
 }
