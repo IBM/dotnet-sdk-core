@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
@@ -27,6 +28,7 @@ namespace IBM.Cloud.SDK.Core.Http
 {
     public class IBMHttpClient : IClient
     {
+        private string errorMessageDisableSsl = "If you're trying to call a service on ICP or Cloud Pak for Data, you may not have a valid SSL certificate. If you need to access the service without setting that up, try using the disableSslVerification option in your authentication configuration and/or setting DisableSslVerification(true); on your service.";
         private bool IsDisposed;
 
         public List<IHttpFilter> Filters { get; private set; }
@@ -74,7 +76,20 @@ namespace IBM.Cloud.SDK.Core.Http
             }
             else
             {
-                BaseClient = new HttpClient();
+                var httpClientHandler = new HttpClientHandler();
+                httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => 
+                {
+                    if (errors == default(System.Net.Security.SslPolicyErrors))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Write(errorMessageDisableSsl);
+                        return false;
+                    }
+                };
+                BaseClient = new HttpClient(httpClientHandler);
             }
 
             if (!string.IsNullOrEmpty(ServiceUrl))
