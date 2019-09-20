@@ -46,7 +46,8 @@ namespace IBM.Cloud.SDK.Core.Service
                     Client.BaseClient.BaseAddress == null)
                     return string.Empty;
 
-                return Client.BaseClient.BaseAddress.AbsoluteUri;
+                //  remove trailing `/` if it exists
+                return Client.BaseClient.BaseAddress.AbsoluteUri.TrimEnd('/');
             }
             set
             {
