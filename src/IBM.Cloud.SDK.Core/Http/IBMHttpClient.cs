@@ -28,7 +28,7 @@ namespace IBM.Cloud.SDK.Core.Http
 {
     public class IBMHttpClient : IClient
     {
-        private string errorMessageDisableSsl = "If you're trying to call a service on ICP or Cloud Pak for Data, you may not have a valid SSL certificate. If you need to access the service without setting that up, try using the disableSslVerification option in your authentication configuration and/or setting DisableSslVerification(true); on your service.";
+        private string errorMessageDisableSsl = "The connection failed because the SSL certificate is not valid. To use a self-signed certificate, set the `disableSslVerification` option in your authentication configuration and/or setting `DisableSslVerification(true);` on your service.";
         private bool IsDisposed;
 
         public List<IHttpFilter> Filters { get; private set; }
