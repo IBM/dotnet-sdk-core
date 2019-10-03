@@ -15,18 +15,22 @@
 *
 */
 
-namespace IBM.Cloud.SDK.Core.Authentication
-{
-    public interface IAuthenticatorConfig
-    {
-        /// <summary>
-        /// Returns the authentication type associated with the AuthenticatorConfig instance.
-        /// </summary>
-        string AuthenticationType { get; }
+using System.Collections.Generic;
 
-        /// <summary>
-        /// Validate the configuration and throw an exception if validation fails.
-        /// </summary>
-        void Validate();
+namespace IBM.Cloud.SDK.Core.Authentication.NoAuth
+{
+    /// <summary>
+    /// This class is a placeholder implementation for performing no authentication of outgoing REST API requests.
+    /// </summary>
+    public class NoAuthAuthenticator : Authenticator
+    {
+        public NoAuthAuthenticator() { }
+
+        public NoAuthAuthenticator(Dictionary<string, string> config) { }
+
+        public override string AuthenticationType
+        {
+            get { return AuthTypeNoAuth; }
+        }
     }
 }

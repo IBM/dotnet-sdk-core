@@ -31,9 +31,11 @@ namespace IBM.Cloud.SDK.Core.Http
 
         List<IHttpFilter> Filters { get; }
 
+        string ServiceUrl { get; set; }
+
         IClient WithAuthentication(string userName, string password);
 
-        IClient WithAuthentication(string apikey);
+        IClient WithAuthentication(string bearerToken);
 
         IRequest DeleteAsync(string resource);
 

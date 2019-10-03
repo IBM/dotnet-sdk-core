@@ -16,6 +16,9 @@
 */
 
 using IBM.Cloud.SDK.Core.Http;
+using IBM.Cloud.SDK.Core.Util;
+using System;
+using System.Collections.Generic;
 
 namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
 {
@@ -25,24 +28,49 @@ namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
     /// </summary>
     public class BasicAuthenticator : Authenticator
     {
-        private string Username;
-        private string Password;
+        /// <summary>
+        /// The username configured on this authenticator
+        /// </summary>
+        public string Username { get; private set; }
+        /// <summary>
+        /// The password configured on this authenticator
+        /// </summary>
+        public string Password { get; private set; }
 
         /// <summary>
-        /// Initialize our Authorization header value using the information in the BasicAuthConfig instance.
-        /// This ctor assumes that the config object has already passed validation.
+        /// Construct a BasicAuthenticator instance with the specified username and password.
+        /// These values are used to construct an Authorization header value that will be included
+        /// in outgoing REST API requests.
         /// </summary>
-        /// <param name="config">the BasicAuthConfig instance that holds the username and password values from which to build the
-        /// Authorization header.</param>
-        public BasicAuthenticator(BasicAuthConfig config)
+        /// <param name="username">The basic auth username</param>
+        /// <param name="password">The basic auth password</param>
+        public BasicAuthenticator(string username, string password)
         {
-            Username = config.Username;
-            Password = config.Password;
+            Init(username, password);
+        }
+
+        /// <summary>
+        /// Construct a BasicAuthenticator using properties retrieved from the specified Map.
+        /// </summary>
+        /// <param name="config">A map containing the username and password values</param>
+        public BasicAuthenticator(Dictionary<string, string> config)
+        {
+            config.TryGetValue(PropNameUsername, out string username);
+            config.TryGetValue(PropNamePassword, out string password);
+            Init(username, password);
+        }
+
+        private void Init(string username, string password)
+        {
+            Username = username;
+            Password = password;
+
+            Validate();
         }
 
         public override string AuthenticationType
         {
-            get { return AuthtypeBasic; }
+            get { return AuthTypeBasic; }
         }
 
         /// <summary>
@@ -53,6 +81,29 @@ namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
         public override void Authenticate(IClient client)
         {
             client.WithAuthentication(Username, Password);
+        }
+
+        public override void Validate()
+        {
+            if (string.IsNullOrEmpty(Username))
+            {
+                throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Username"));
+            }
+
+            if (string.IsNullOrEmpty(Password))
+            {
+                throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Password"));
+            }
+
+            if (CredentialUtils.HasBadStartOrEndChar(Username))
+            {
+                throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "Username"));
+            }
+
+            if (CredentialUtils.HasBadStartOrEndChar(Password))
+            {
+                throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "Password"));
+            }
         }
     }
 }

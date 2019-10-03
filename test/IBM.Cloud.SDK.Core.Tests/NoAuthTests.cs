@@ -15,25 +15,22 @@
 *
 */
 
-using IBM.Cloud.SDK.Core.Http;
+using IBM.Cloud.SDK.Core.Authentication;
+using IBM.Cloud.SDK.Core.Authentication.NoAuth;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace IBM.Cloud.SDK.Core.Authentication.Noauth
+namespace IBM.Cloud.SDK.Core.Tests.Authentication.NoAuth
 {
-    /// <summary>
-    /// This class is a placeholder implementation for performing no authentication of outgoing REST API requests.
-    /// </summary>
-    public class NoauthAuthenticator : Authenticator
+    [TestClass]
+    public class NoAuthTests
     {
-        public NoauthAuthenticator(NoauthConfig config) { }
-
-        public override string AuthenticationType
+        [TestMethod]
+        public void TestConstruction()
         {
-            get { return AuthtypeNoauth; }
-        }
+            NoAuthAuthenticator authenticator = new NoAuthAuthenticator();
 
-        public override void Authenticate(IClient client)
-        {
-            // do nothing
+            Assert.IsNotNull(authenticator);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeNoAuth);
         }
     }
 }

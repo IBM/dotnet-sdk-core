@@ -19,21 +19,47 @@ using IBM.Cloud.SDK.Core.Http;
 
 namespace IBM.Cloud.SDK.Core.Authentication
 {
-    public class Authenticator
+    public class Authenticator : IAuthenticator
     {
-        public const string AuthtypeBasic = "basic";
-        public const string AuthtypeNoauth = "noauth";
-        public const string AuthtypeIam = "iam";
-        public const string AuthtypeIcp4d = "icp4d";
+        /// <summary>
+        /// These are the valid authentication types.
+        /// </summary>
+        public const string AuthTypeBasic = "basic";
+        public const string AuthTypeNoAuth = "noAuth";
+        public const string AuthTypeIam = "iam";
+        public const string AuthTypeCp4d = "cp4d";
+        public const string AuthTypeBearer = "bearerToken";
 
         /// <summary>
-        /// Returns the authentication type associated with the AuthenticatorConfig instance.
+        /// Constants which define the names of external config propreties (credential file, environment variable, etc.).
+        /// </summary>
+        public static string PropNameAuthType = "AUTH_TYPE";
+        public static string PropNameUsername = "USERNAME";
+        public static string PropNamePassword = "PASSWORD";
+        public static string PropNameBearerToken = "BEARER_TOKEN";
+        public static string PropNameUrl = "AUTH_URL";
+        public static string PropNameDisableSslVerification = "AUTH_DISABLE_SSL";
+        public static string PropNameApikey = "APIKEY";
+        public static string PropNameClientId = "CLIENT_ID";
+        public static string PropNameClientSecret = "CLIENT_SECRET";
+
+        public static string ErrorMessagePropMissing = "The {0} property is required but was not specified.";
+        public static string ErrorMessagePropInvalid = "The {0} property is invalid. Please remove any surrounding {{, }}, or \" characters.";
+        public static string ErrorMessageReqFailed = "Error while fetching access token from token service: ";
+
+        /// <summary>
+        /// Returns the authentication type associated with the Authenticator instance.
         /// </summary>
         virtual public string AuthenticationType { get; }
 
         /// <summary>
-        /// Validate the configuration and throw an exception if validation fails.
+        /// Perform the necessary authentication steps for the specified request.
         /// </summary>
         virtual public void Authenticate(IClient client) { }
+
+        /// <summary>
+        /// Validates the current set of configuration information in the Authenticator.
+        /// </summary>
+        virtual public void Validate() { }
     }
 }

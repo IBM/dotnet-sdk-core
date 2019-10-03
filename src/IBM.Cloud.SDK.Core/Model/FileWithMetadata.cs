@@ -15,16 +15,26 @@
 *
 */
 
-
-namespace IBM.Cloud.SDK.Core.Authentication.Noauth
+namespace IBM.Cloud.SDK.Core.Model
 {
-    public class NoauthConfig : IAuthenticatorConfig
+    /// <summary>
+    /// A file and its associated metadata.
+    /// </summary>
+    public class FileWithMetadata
     {
-        public string AuthenticationType
-        {
-            get { return Authenticator.AuthtypeNoauth; }
-        }
+        /// <summary>
+        /// The file data
+        /// </summary>
+        public System.IO.MemoryStream Data { get; set; }
+        
+        /// <summary>
+        /// The filename
+        /// </summary>
+        public string Filename { get; set; }
 
-        public void Validate() { }
+        /// <summary>
+        /// The file contentType
+        /// </summary>
+        public string ContentType { get; set; }
     }
 }

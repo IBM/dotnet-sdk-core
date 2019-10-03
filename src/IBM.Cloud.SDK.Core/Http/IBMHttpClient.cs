@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
@@ -27,6 +28,7 @@ namespace IBM.Cloud.SDK.Core.Http
 {
     public class IBMHttpClient : IClient
     {
+        private string errorMessageDisableSsl = "The connection failed because the SSL certificate is not valid. To use a self-signed certificate, set the `disableSslVerification` option in your authentication configuration and/or setting `DisableSslVerification(true);` on your service.";
         private bool IsDisposed;
 
         public List<IHttpFilter> Filters { get; private set; }
@@ -35,89 +37,65 @@ namespace IBM.Cloud.SDK.Core.Http
 
         public MediaTypeFormatterCollection Formatters { get; protected set; }
 
-        public bool Insecure = false;
-
-        public IBMHttpClient(bool? insecure = null)
+        private bool insecure = false;
+        public bool Insecure
         {
-            if (insecure != null) { Insecure = (bool)insecure; }
-
-            if (Insecure)
+            get { return insecure; }
+            set
             {
-                var httpClientHandler = new HttpClientHandler();
-                httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
-                this.BaseClient = new HttpClient(httpClientHandler);
+                insecure = value;
+                CreateClient();
             }
-            else
-            {
-                this.BaseClient = new HttpClient();
-            }
-
-            this.Filters = new List<IHttpFilter> { new ErrorFilter() };
-            this.Formatters = new MediaTypeFormatterCollection();
         }
 
-        public IBMHttpClient(string baseUri, bool? insecure = null)
+        private string serviceUrl = default(string);
+        public string ServiceUrl
         {
-            if (insecure != null) { Insecure = (bool)insecure; }
-
-            if (Insecure)
+            get { return serviceUrl; }
+            set
             {
-                var httpClientHandler = new HttpClientHandler();
-                httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
-                this.BaseClient = new HttpClient(httpClientHandler);
+                serviceUrl = value;
+                CreateClient();
             }
-            else
-            {
-                this.BaseClient = new HttpClient();
-            }
-            this.Filters = new List<IHttpFilter> { new ErrorFilter() };
-            if (baseUri != null)
-                this.BaseClient.BaseAddress = new Uri(baseUri);
-
-            this.Formatters = new MediaTypeFormatterCollection();
         }
 
-        public IBMHttpClient(string baseUri, string userName, string password, bool? insecure = null)
+        public IBMHttpClient()
         {
-            if (insecure != null) { Insecure = (bool)insecure; }
-
-            if (Insecure)
-            {
-                var httpClientHandler = new HttpClientHandler();
-                httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
-                this.BaseClient = new HttpClient(httpClientHandler);
-            }
-            else
-            {
-                this.BaseClient = new HttpClient();
-            }
-            this.Filters = new List<IHttpFilter> { new ErrorFilter() };
-            if (baseUri != null)
-                this.BaseClient.BaseAddress = new Uri(baseUri);
-            this.Formatters = new MediaTypeFormatterCollection();
-            this.WithAuthentication(userName, password);
+            Filters = new List<IHttpFilter> { new ErrorFilter() };
+            Formatters = new MediaTypeFormatterCollection();
+            CreateClient();
         }
 
-        public IBMHttpClient(string baseUri, string userName, string password, HttpClient client, bool? insecure = null)
+        private void CreateClient()
         {
-            if (insecure != null) { Insecure = (bool)insecure; }
-
             if (Insecure)
             {
                 var httpClientHandler = new HttpClientHandler();
                 httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
-                this.BaseClient = new HttpClient(httpClientHandler);
+                BaseClient = new HttpClient(httpClientHandler);
             }
             else
             {
-                this.BaseClient = new HttpClient();
+                var httpClientHandler = new HttpClientHandler();
+                httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => 
+                {
+                    if (errors == default(System.Net.Security.SslPolicyErrors))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Write(errorMessageDisableSsl);
+                        return false;
+                    }
+                };
+                BaseClient = new HttpClient(httpClientHandler);
             }
-            this.Filters = new List<IHttpFilter> { new ErrorFilter() };
-            if (baseUri != null)
-                this.BaseClient.BaseAddress = new Uri(baseUri);
-            this.Formatters = new MediaTypeFormatterCollection();
 
-            this.WithAuthentication(userName, password);
+            if (!string.IsNullOrEmpty(ServiceUrl))
+            {
+                BaseClient.BaseAddress = new Uri(ServiceUrl);
+            }
         }
 
         public IClient WithAuthentication(string userName, string password)
@@ -127,17 +105,17 @@ namespace IBM.Cloud.SDK.Core.Http
                 string auth = string.Format("{0}:{1}", userName, password);
                 string auth64 = Convert.ToBase64String(Encoding.ASCII.GetBytes(auth));
 
-                this.BaseClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth64);
+                BaseClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth64);
             }
 
             return this;
         }
 
-        public IClient WithAuthentication(string apiToken)
+        public IClient WithAuthentication(string bearerToken)
         {
-            if(!string.IsNullOrEmpty(apiToken))
+            if (!string.IsNullOrEmpty(bearerToken))
             {
-                this.BaseClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+                BaseClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
             }
 
             return this;
@@ -145,70 +123,75 @@ namespace IBM.Cloud.SDK.Core.Http
 
         public IRequest DeleteAsync(string resource)
         {
-            return this.SendAsync(HttpMethod.Delete, resource);
+            return SendAsync(HttpMethod.Delete, resource);
         }
 
         public IRequest GetAsync(string resource)
         {
-            return this.SendAsync(HttpMethod.Get, resource);
+            return SendAsync(HttpMethod.Get, resource);
         }
 
         public IRequest PostAsync(string resource)
         {
-            return this.SendAsync(HttpMethod.Post, resource);
+            return SendAsync(HttpMethod.Post, resource);
         }
 
         public IRequest PostAsync<TBody>(string resource, TBody body)
         {
-            return this.PostAsync(resource).WithBody(body);
+            return PostAsync(resource).WithBody(body);
         }
 
         public IRequest PutAsync(string resource)
         {
-            return this.SendAsync(HttpMethod.Put, resource);
+            return SendAsync(HttpMethod.Put, resource);
         }
 
         public IRequest PutAsync<TBody>(string resource, TBody body)
         {
-            return this.PutAsync(resource).WithBody(body);
+            return PutAsync(resource).WithBody(body);
         }
 
         public virtual IRequest SendAsync(HttpMethod method, string resource)
         {
-            this.AssertNotDisposed();
+            AssertNotDisposed();
 
-            Uri uri = new Uri(this.BaseClient.BaseAddress, resource);
-            HttpRequestMessage message = HttpFactory.GetRequestMessage(method, uri, this.Formatters);
-            return this.SendAsync(message);
+            if(string.IsNullOrEmpty(BaseClient.BaseAddress?.AbsoluteUri))
+            {
+                throw new ArgumentNullException("A service url is required");
+            }
+
+            Uri uri = new Uri(BaseClient.BaseAddress, resource);
+            HttpRequestMessage message = HttpFactory.GetRequestMessage(method, uri, Formatters);
+            return SendAsync(message);
         }
 
         public virtual IRequest SendAsync(HttpRequestMessage message)
         {
-            this.AssertNotDisposed();
-            return new Request(message, this.Formatters, request => this.BaseClient.SendAsync(request.Message), this.Filters.ToArray());
+            AssertNotDisposed();
+            return new Request(message, Formatters, request => BaseClient.SendAsync(request.Message), Filters.ToArray());
         }
 
         public virtual void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         protected void AssertNotDisposed()
         {
-            if (this.IsDisposed)
+            if (IsDisposed)
                 throw new ObjectDisposedException(nameof(IBMHttpClient));
         }
 
         protected virtual void Dispose(bool isDisposing)
         {
-            if (this.IsDisposed)
+            if (IsDisposed)
                 return;
 
             if (isDisposing)
-                this.BaseClient.Dispose();
+                BaseClient.Dispose();
 
-            this.IsDisposed = true;
+            IsDisposed = true;
         }
 
         ~IBMHttpClient()

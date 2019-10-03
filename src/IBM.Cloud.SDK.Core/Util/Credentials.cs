@@ -16,7 +16,6 @@
 */
 
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 
 namespace IBM.Cloud.SDK.Core.Util
@@ -31,26 +30,6 @@ namespace IBM.Cloud.SDK.Core.Util
         /// </summary>
         [JsonProperty("VCAP_SERVICES", NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string, List<VcapCredential>> VCAP_SERVICES { get; set; }
-
-        /// <summary>
-        /// Gets a credential by name.
-        /// </summary>
-        /// <param name="name">Name of requested credential</param>
-        /// <returns>A List of credentials who's names match the request name.</returns>
-        public List<VcapCredential> GetCredentialByname(string name)
-        {
-            List<VcapCredential> credentialsList = new List<VcapCredential>();
-            foreach (KeyValuePair<string, List<VcapCredential>> kvp in VCAP_SERVICES)
-            {
-                foreach (VcapCredential credential in kvp.Value)
-                {
-                    if (credential.Name == name)
-                        credentialsList.Add(credential);
-                }
-            }
-
-            return credentialsList;
-        }
     }
 
     /// <summary>
@@ -91,76 +70,5 @@ namespace IBM.Cloud.SDK.Core.Util
         public string ClassifierId { get; set; }
         [JsonProperty("assistant_id", NullValueHandling = NullValueHandling.Ignore)]
         public string AssistantId { get; set; }
-    }
-
-    /// <summary>
-    /// IAM token options.
-    /// </summary>
-    public class TokenOptions
-    {
-        private string iamApiKey;
-        private string serviceUrl;
-        /// <summary>
-        /// The IAM Apikey for the service instance. If provided, The SDK will manage authentication through tokens.
-        /// </summary>
-        public string IamApiKey
-        {
-            get { return iamApiKey; }
-            set
-            {
-                if (!Utility.HasBadFirstOrLastCharacter(value))
-                {
-                    iamApiKey = value;
-                }
-                else
-                {
-                    throw new ArgumentException("The credentials shouldn't start or end with curly brackets or quotes. Be sure to remove any {} and \" characters surrounding your credentials");
-                }
-            }
-        }
-        /// <summary>
-        /// The access token for the service instance. If provided, the SDK will not manage authentication through tokens. 
-        /// </summary>
-        public string IamAccessToken { get; set; }
-        /// <summary>
-        /// The service URL.
-        /// </summary>
-        public string ServiceUrl
-        {
-            get { return serviceUrl; }
-            set
-            {
-                if (!Utility.HasBadFirstOrLastCharacter(value))
-                {
-                    serviceUrl = value;
-                }
-                else
-                {
-                    throw new ArgumentException("The service url shouldn't start or end with curly brackets or quotes. Be sure to remove any {} and \" characters surrounding your service url");
-                }
-            }
-        }
-
-        /// <summary>
-        /// The IAM authentication URL. If omitted the value defaults to "https://iam.cloud.ibm.com/identity/token".
-        /// </summary>
-        public string IamUrl { get; set; }
-    }
-
-    /// <summary>
-    /// IAM Token data.
-    /// </summary>
-    public class IamTokenData
-    {
-        [JsonProperty("access_token", NullValueHandling = NullValueHandling.Ignore)]
-        public string AccessToken { get; set; }
-        [JsonProperty("refresh_token", NullValueHandling = NullValueHandling.Ignore)]
-        public string RefreshToken { get; set; }
-        [JsonProperty("token_type", NullValueHandling = NullValueHandling.Ignore)]
-        public string TokenType { get; set; }
-        [JsonProperty("expires_in", NullValueHandling = NullValueHandling.Ignore)]
-        public long? ExpiresIn { get; set; }
-        [JsonProperty("expiration", NullValueHandling = NullValueHandling.Ignore)]
-        public long? Expiration { get; set; }
     }
 }

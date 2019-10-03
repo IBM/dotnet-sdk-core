@@ -19,10 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using IBM.Cloud.SDK.Core.Authentication;
-using IBM.Cloud.SDK.Core.Authentication.BasicAuth;
-using IBM.Cloud.SDK.Core.Authentication.Iam;
-using IBM.Cloud.SDK.Core.Authentication.Icp4d;
-using IBM.Cloud.SDK.Core.Authentication.Noauth;
+using IBM.Cloud.SDK.Core.Authentication.NoAuth;
 using IBM.Cloud.SDK.Core.Http;
 using IBM.Cloud.SDK.Core.Util;
 
@@ -30,26 +27,16 @@ namespace IBM.Cloud.SDK.Core.Service
 {
     public abstract class IBMService : IIBMService
     {
-        //const string PATH_AUTHORIZATION_V1_TOKEN = "/authorization/api/v1/token";
+        public static string PropNameServiceUrl = "URL";
+        public static string PropNameServiceDisableSslVerification = "DISABLE_SSL";
+
         private const string icpPrefix = "icp-";
         private const string apikeyAsUsername = "apikey";
-        public string SERVICE_NAME;
-        public string ApiKey { get; set; }
         public IClient Client { get; set; }
-        private bool skipAuthentication = false;
-        public bool SkipAuthentication
-        {
-            get { return skipAuthentication; }
-            set
-            {
-                skipAuthentication = value;
-                authenticator = new NoauthAuthenticator(null);
-            }
-        }
-        public string DefaultEndpoint { get; }
         public string ServiceName { get; set; }
-        public string Url { get { return Endpoint; } }
+        public string ServiceUrl { get { return Endpoint; } }
         protected Dictionary<string, string> customRequestHeaders = new Dictionary<string, string>();
+        private const string ErrorMessageNoAuthenticator = "Authentication information was not properly configured.";
 
         protected string Endpoint
         {
@@ -59,7 +46,8 @@ namespace IBM.Cloud.SDK.Core.Service
                     Client.BaseClient.BaseAddress == null)
                     return string.Empty;
 
-                return Client.BaseClient.BaseAddress.AbsoluteUri;
+                //  remove trailing `/` if it exists
+                return Client.BaseClient.BaseAddress.AbsoluteUri.TrimEnd('/');
             }
             set
             {
@@ -67,276 +55,50 @@ namespace IBM.Cloud.SDK.Core.Service
                 {
                     Client.BaseClient = new HttpClient();
                 }
-                Client.BaseClient.BaseAddress = new Uri(value);
+                Client.ServiceUrl = value;
             }
         }
 
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string IamAccessToken { get; set; }
-        public string IamUrl { get; set; }
-        public string ClientId { get; set; }
-        public string ClientSecret { get; set; }
-        public string Icp4dAccessToken { get; set; }
-        public string Icp4dUrl { get; set; }
+        private IAuthenticator authenticator;
 
-        private Authenticator authenticator;
-
-        protected bool _userSetEndpoint = false;
-        
-        protected IBMService(string serviceName)
+        protected IBMService(string serviceName, IClient httpClient)
         {
+            ServiceName = serviceName;
+            Client = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            authenticator = new NoAuthAuthenticator();
+        }
+
+        protected IBMService(string serviceName, IAuthenticator authenticator)
+        {
+            ServiceName = serviceName;
+
+            this.authenticator = authenticator ?? throw new ArgumentNullException(ErrorMessageNoAuthenticator);
+
             Client = new IBMHttpClient();
-            ServiceName = serviceName;
 
-            Utility.LoadExternalCredentials();
-            string apiKey = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_IAM_APIKEY");
-            // check for old IAM API key name as well
-            if (string.IsNullOrEmpty(apiKey))
+            // Try to retrieve the service URL from either a credential file, environment, or VCAP_SERVICES.
+            Dictionary<string, string> props = CredentialUtils.GetServiceProperties(serviceName);
+            props.TryGetValue(PropNameServiceUrl, out string serviceUrl);
+            if (!string.IsNullOrEmpty(serviceUrl))
             {
-                apiKey = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_APIKEY");
+                SetServiceUrl(serviceUrl);
             }
 
-            if (!string.IsNullOrEmpty(apiKey))
+            // Check to see if "disable ssl" was set in the service properties.
+            bool disableSsl = false;
+            props.TryGetValue(PropNameServiceDisableSslVerification, out string tempDisableSsl);
+            if (!string.IsNullOrEmpty(tempDisableSsl))
             {
-                ApiKey = apiKey;
+                bool.TryParse(tempDisableSsl, out disableSsl);
             }
 
-            string username = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_USERNAME");
-            if (!string.IsNullOrEmpty(username))
-            {
-                UserName = username;
-            }
-
-            string password = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_PASSWORD");
-            if (!string.IsNullOrEmpty(password))
-            {
-                Password = password;
-            }
-
-            string ServiceUrl = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_URL");
-
-            string iamAccessToken = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_IAM_ACCESS_TOKEN");
-            if (!string.IsNullOrEmpty(iamAccessToken))
-            {
-                IamAccessToken = iamAccessToken;
-            }
-
-            string iamUrl = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_IAM_URL");
-            if (!string.IsNullOrEmpty(iamUrl))
-            {
-                IamUrl = iamUrl;
-            }
-
-            string clientId = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_IAM_CLIENT_ID");
-            if (!string.IsNullOrEmpty(clientId))
-            {
-                ClientId = clientId;
-            }
-
-            string clientSecret = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_IAM_CLIENT_SECRET");
-            if (!string.IsNullOrEmpty(clientSecret))
-            {
-                ClientSecret = clientSecret;
-            }
-
-            string icp4dAccessToken = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_ICP4D_ACCESS_TOKEN");
-            if (!string.IsNullOrEmpty(icp4dAccessToken))
-            {
-                Icp4dAccessToken = icp4dAccessToken;
-            }
-
-            string icp4dUrl = Environment.GetEnvironmentVariable(ServiceName.ToUpper() + "_ICP4D_URL");
-            if (!string.IsNullOrEmpty(icp4dUrl))
-            {
-                Icp4dUrl = icp4dUrl;
-            }
-
-            if (string.IsNullOrEmpty(IamAccessToken) &&
-                string.IsNullOrEmpty(Icp4dAccessToken) &&
-                string.IsNullOrEmpty(ApiKey) &&
-                (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password))
-                )
-            {
-                throw new NullReferenceException(string.Format("Either {0}_IAM_ACCESS_TOKEN, {0}_ICP4D_ACCESS_TOKEN, {0}_APIKEY or {0}_USERNAME and {0}_PASSWORD did not exist. Please add credentials with this key in ibm-credentials.env.", ServiceName.ToUpper()));
-            }
-
-            Icp4dConfig icp4dConfig = new Icp4dConfig(
-                url: !string.IsNullOrEmpty(Icp4dUrl) ? Icp4dUrl : null,
-                username: !string.IsNullOrEmpty(UserName) ? UserName : null,
-                password: !string.IsNullOrEmpty(Password) ? Password : null,
-                userManagedAccessToken: !string.IsNullOrEmpty(Icp4dAccessToken) ? Icp4dAccessToken : null
-                );
-
-            IamConfig iamConfig = new IamConfig(
-                apikey: !string.IsNullOrEmpty(ApiKey) ? ApiKey : null,
-                iamUrl: !string.IsNullOrEmpty(IamUrl) ? IamUrl : null,
-                userManagedAccessToken: !string.IsNullOrEmpty(IamAccessToken) ? IamAccessToken : null,
-                iamClientId: !string.IsNullOrEmpty(ClientId) ? ClientId : null,
-                iamClientSecret: !string.IsNullOrEmpty(ClientSecret) ? ClientSecret : null
-                );
-
-            BasicAuthConfig basicAuthConfig = new BasicAuthConfig(
-                username: !string.IsNullOrEmpty(UserName) ? UserName : null,
-                password: !string.IsNullOrEmpty(Password) ? Password : null
-                );
-
-            if (!string.IsNullOrEmpty(ServiceUrl))
-                Endpoint = ServiceUrl;
-
-            if (!string.IsNullOrEmpty(Icp4dAccessToken) && !string.IsNullOrEmpty(Icp4dUrl))
-            {
-                SetAuthenticator(icp4dConfig);
-            }
-
-            if (!string.IsNullOrEmpty(ApiKey))
-            {
-                SetAuthenticator(iamConfig);
-            }
-
-            if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
-            {
-                SetAuthenticator(basicAuthConfig);
-            }
-        }
-
-        protected IBMService(string serviceName, string url)
-        {
-            ServiceName = serviceName;
-            Client = new IBMHttpClient(url, UserName, Password);
-
-            if (!string.IsNullOrEmpty(Endpoint))
-                Endpoint = url;
-            //TODO: verificar como iremos obter de um arquivo json por injeção de dependencia
-            //ApiKey = CredentialUtils.GetApiKey(serviceName);
-            //Endpoint = CredentialUtils.GetApiUrl(serviceName);
-        }
-
-        protected IBMService(string serviceName, string url, IClient httpClient)
-        {
-            ServiceName = serviceName;
-            Client = httpClient;
-
-            if (!string.IsNullOrEmpty(Endpoint))
-                Endpoint = url;
-
-            //TODO: verificar como iremos obter de um arquivo json por injeção de dependencia
-            //ApiKey = CredentialUtils.GetApiKey(serviceName);
-            //Endpoint = CredentialUtils.GetApiUrl(serviceName);
-        }
-
-        protected IBMService(string serviceName, IAuthenticatorConfig authenticatorConfig)
-        {
-            if (authenticatorConfig.AuthenticationType == Authenticator.AuthtypeIcp4d)
-            {
-                Client = new IBMHttpClient((authenticatorConfig as Icp4dConfig).DisableSslVerification);
-            }
-            else
-            {
-                Client = new IBMHttpClient();
-            }
-            ServiceName = serviceName;
-            SetAuthenticator(authenticatorConfig);
-        }
-
-        /// <summary>
-        /// Sets the username and password credentials.
-        /// </summary>
-        /// <param name="userName">The username</param>
-        /// <param name="password">The password</param>
-        public void SetCredential(string userName, string password)
-        {
-            if (userName == apikeyAsUsername && !password.StartsWith(icpPrefix))
-            {
-                IamConfig iamConfig = new IamConfig(password);
-                SetAuthenticator(iamConfig);
-            }
-            else
-            {
-                BasicAuthConfig basicAuthConfig = new BasicAuthConfig(userName, password);
-                SetAuthenticator(basicAuthConfig);
-            }
-        }
-
-        /// <summary>
-        /// Sets the tokenOptions for the service. 
-        /// Also sets the endpoint if the user has not set the endpoint.
-        /// </summary>
-        /// <param name="options"></param>
-        public void SetCredential(TokenOptions options)
-        {
-            if (!string.IsNullOrEmpty(options.ServiceUrl))
-            {
-                if (!_userSetEndpoint)
-                {
-                    Endpoint = options.ServiceUrl;
-                }
-            }
-            else
-            {
-                options.ServiceUrl = DefaultEndpoint;
-            }
-
-            if (!string.IsNullOrEmpty(options.IamApiKey))
-            {
-                if (options.IamApiKey.StartsWith(icpPrefix))
-                {
-                    SetCredential(apikeyAsUsername, options.IamApiKey);
-                }
-                else
-                {
-                    IamConfig iamConfig = new IamConfig(options.IamApiKey);
-                    SetAuthenticator(iamConfig);
-                    SetAuthentication();
-                }
-            }
-            else if (!string.IsNullOrEmpty(options.IamAccessToken))
-            {
-                IamConfig iamConfig = new IamConfig(userManagedAccessToken: options.IamAccessToken);
-                SetAuthenticator(iamConfig);
-                SetAuthentication();
-            }
-            else
-            {
-                throw new ArgumentNullException("An iamApikey or iamAccessToken is required.");
-            }
-        }
-        
-        /// <summary>
-        /// Initializes a new Authenticator instance based on the input AuthenticatorConfig instance and sets it as
-        /// the current authenticator on the BaseService instance.
-        /// </summary>
-        /// <param name="authConfig">the AuthenticatorConfig instance containing the authentication configuration</param>
-        protected void SetAuthenticator(IAuthenticatorConfig authConfig)
-        {
-            try
-            {
-                authenticator = AuthenticatorFactory.GetAuthenticator(authConfig);
-                if (authenticator is NoauthAuthenticator)
-                {
-                    SkipAuthentication = true;
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception(string.Format("Error: {0}", e));
-            }
-
+            DisableSslVerification(disableSsl);
         }
 
         protected void SetAuthentication()
         {
-            if (SkipAuthentication)
+            if (authenticator != null)
             {
-                return;
-            }
-
-            if(authenticator != null)
-            {
-                if(authenticator.AuthenticationType == Authenticator.AuthtypeIcp4d)
-                {
-                    DisableSslVerification(((authenticator as Icp4dAuthenticator).Client as IBMHttpClient).Insecure);
-                }
                 authenticator.Authenticate(Client);
             }
             else
@@ -345,10 +107,9 @@ namespace IBM.Cloud.SDK.Core.Service
             }
         }
 
-        public void SetEndpoint(string url)
+        public void SetServiceUrl(string serviceUrl)
         {
-            _userSetEndpoint = true;
-            Endpoint = url;
+            Endpoint = serviceUrl;
         }
 
         public void DisableSslVerification(bool insecure)
@@ -395,6 +156,14 @@ namespace IBM.Cloud.SDK.Core.Service
         public Dictionary<string, string> GetCustomRequestHeaders()
         {
             return customRequestHeaders;
+        }
+
+        /// <summary>
+        /// Returns the authenticator for the service.
+        /// </summary>
+        public IAuthenticator GetAuthenticator()
+        {
+            return authenticator;
         }
     }
 }
