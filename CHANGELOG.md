@@ -1,3 +1,28 @@
+# [1.0.0](https://github.com/IBM/dotnet-sdk-core/compare/v0.8.2...v1.0.0) (2019-10-03)
+
+
+### Bug Fixes
+
+* **Endpoint:** Remove trailing slash from endpoint if it exists ([40c28d1](https://github.com/IBM/dotnet-sdk-core/commit/40c28d1))
+
+
+### Features
+
+* **Authentication:** Update auth methods ([e9095e2](https://github.com/IBM/dotnet-sdk-core/commit/e9095e2))
+* **AuthType:** Ignore case of authType ([5f14b25](https://github.com/IBM/dotnet-sdk-core/commit/5f14b25))
+* **Config order:** Look for config file in working directory before home directory ([c8cf60b](https://github.com/IBM/dotnet-sdk-core/commit/c8cf60b))
+* **DisableSslVerification:** Debug message when an http request results in an ssl error ([ed022aa](https://github.com/IBM/dotnet-sdk-core/commit/ed022aa))
+* **FileWithMetadata:** Add FileWithMetadata model ([e9e892e](https://github.com/IBM/dotnet-sdk-core/commit/e9e892e))
+* **SetServiceUrl:** Refactored SetEndpoint to SetServiceUrl ([feab2d9](https://github.com/IBM/dotnet-sdk-core/commit/feab2d9))
+
+
+### BREAKING CHANGES
+
+* **Config order:** SDK now looks for the config file in the working directory before looking in the
+home directory
+* **SetServiceUrl:** Use SetServiceUrl to set the service endpoint rather than SetEndpoint
+* **Authentication:** Auth methods were updated and old authentication methods were removed
+
 ## [0.8.2](https://github.com/IBM/dotnet-sdk-core/compare/v0.8.1...v0.8.2) (2019-07-22)
 
 
