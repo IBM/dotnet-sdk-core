@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['media_5ftype_5fwildcard',['MEDIA_TYPE_WILDCARD',['../df/db7/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_http_media_type.html#a0d38c556ac9131fb9554d8e567ae5198',1,'IBM::Cloud::SDK::Core::Http::HttpMediaType']]],
-  ['multipart_5fform_5fdata',['MULTIPART_FORM_DATA',['../df/db7/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_http_media_type.html#aa90e8fa2879831b26d7f96b064a8963c',1,'IBM::Cloud::SDK::Core::Http::HttpMediaType']]]
+  ['onclose',['OnClose',['../dd/d38/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_sockets_1_1_a_web_socket_client.html#ac6cfe586f4481eb4090def4b57896789',1,'IBM::Cloud::SDK::Core::Sockets::AWebSocketClient']]],
+  ['onerror',['OnError',['../dd/d38/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_sockets_1_1_a_web_socket_client.html#a83b82c1292177df8c65b637131acfe44',1,'IBM::Cloud::SDK::Core::Sockets::AWebSocketClient']]],
+  ['onmessage',['OnMessage',['../dd/d38/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_sockets_1_1_a_web_socket_client.html#ad313938b90fec95cf9f3f9cb6118f14d',1,'IBM::Cloud::SDK::Core::Sockets::AWebSocketClient']]],
+  ['onopen',['OnOpen',['../dd/d38/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_sockets_1_1_a_web_socket_client.html#a1cda0bb5025386deb871883ed9cb9257',1,'IBM::Cloud::SDK::Core::Sockets::AWebSocketClient']]]
 ];

@@ -89,7 +89,7 @@ $(document).ready(function(){initNavTree('d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#properties">Properties</a> &#124;
@@ -110,14 +110,8 @@ Inheritance diagram for IBM.Cloud.SDK.Core.Service.IBMService:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac9c91b05dceaa999c25e9886b21a55c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#ac9c91b05dceaa999c25e9886b21a55c0">SetCredential</a> (string userName, string password)</td></tr>
-<tr class="memdesc:ac9c91b05dceaa999c25e9886b21a55c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the username and password credentials.  <a href="#ac9c91b05dceaa999c25e9886b21a55c0">More...</a><br /></td></tr>
-<tr class="separator:ac9c91b05dceaa999c25e9886b21a55c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0af27badb3e07e096d6fddc784bd5e38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a0af27badb3e07e096d6fddc784bd5e38">SetCredential</a> (<a class="el" href="../../d5/d7f/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_util_1_1_token_options.html">TokenOptions</a> options)</td></tr>
-<tr class="memdesc:a0af27badb3e07e096d6fddc784bd5e38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the tokenOptions for the service. Also sets the endpoint if the user has not set the endpoint.  <a href="#a0af27badb3e07e096d6fddc784bd5e38">More...</a><br /></td></tr>
-<tr class="separator:a0af27badb3e07e096d6fddc784bd5e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0af1b6b5f98ae7e1973b68f1627501d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#ab0af1b6b5f98ae7e1973b68f1627501d">SetEndpoint</a> (string url)</td></tr>
-<tr class="separator:ab0af1b6b5f98ae7e1973b68f1627501d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6484ea160a2b7c7cc9730ff6cb841bc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a6484ea160a2b7c7cc9730ff6cb841bc4">SetServiceUrl</a> (string serviceUrl)</td></tr>
+<tr class="separator:a6484ea160a2b7c7cc9730ff6cb841bc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a036c62db2ca8d5269bbf15776d7a753b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a036c62db2ca8d5269bbf15776d7a753b">DisableSslVerification</a> (bool insecure)</td></tr>
 <tr class="separator:a036c62db2ca8d5269bbf15776d7a753b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa91179ea51af029e2e3b407bff23cea2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#aa91179ea51af029e2e3b407bff23cea2">WithHeader</a> (string name, string value)</td></tr>
@@ -127,25 +121,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af7d8515277af1b18c13d5f23c7114b24"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#af7d8515277af1b18c13d5f23c7114b24">GetCustomRequestHeaders</a> ()</td></tr>
 <tr class="memdesc:af7d8515277af1b18c13d5f23c7114b24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a Dictionary of custom request headers.  <a href="#af7d8515277af1b18c13d5f23c7114b24">More...</a><br /></td></tr>
 <tr class="separator:af7d8515277af1b18c13d5f23c7114b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13d4b2fa2392534024be19e58cec0834"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d27/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_i_authenticator.html">IAuthenticator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a13d4b2fa2392534024be19e58cec0834">GetAuthenticator</a> ()</td></tr>
+<tr class="memdesc:a13d4b2fa2392534024be19e58cec0834"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the authenticator for the service.  <a href="#a13d4b2fa2392534024be19e58cec0834">More...</a><br /></td></tr>
+<tr class="separator:a13d4b2fa2392534024be19e58cec0834"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a3d38d79f97ecc3c265d2e625f9d7a764"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a3d38d79f97ecc3c265d2e625f9d7a764">SERVICE_NAME</a></td></tr>
-<tr class="separator:a3d38d79f97ecc3c265d2e625f9d7a764"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a0c97ec34b4c6ce4bddb86ad913263e31"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a0c97ec34b4c6ce4bddb86ad913263e31">PropNameServiceUrl</a> = &quot;URL&quot;</td></tr>
+<tr class="separator:a0c97ec34b4c6ce4bddb86ad913263e31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a391bef55156ef32e38cc29b4ccca2202"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a391bef55156ef32e38cc29b4ccca2202">PropNameServiceDisableSslVerification</a> = &quot;DISABLE_SSL&quot;</td></tr>
+<tr class="separator:a391bef55156ef32e38cc29b4ccca2202"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a05214cdc56c59467fcc6923146c695b9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a05214cdc56c59467fcc6923146c695b9">IBMService</a> (string serviceName)</td></tr>
-<tr class="separator:a05214cdc56c59467fcc6923146c695b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c6bc050ded7319f412ba8038910064f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a7c6bc050ded7319f412ba8038910064f">IBMService</a> (string serviceName, string url)</td></tr>
-<tr class="separator:a7c6bc050ded7319f412ba8038910064f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad92471e38403f562ee6b7d40644e7bac"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#ad92471e38403f562ee6b7d40644e7bac">IBMService</a> (string serviceName, string url, <a class="el" href="../../dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html">IClient</a> httpClient)</td></tr>
-<tr class="separator:ad92471e38403f562ee6b7d40644e7bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5731bea4b9513eddf3b4f12854c33cc3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a5731bea4b9513eddf3b4f12854c33cc3">IBMService</a> (string serviceName, <a class="el" href="../../d1/d9f/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_i_authenticator_config.html">IAuthenticatorConfig</a> authenticatorConfig)</td></tr>
-<tr class="separator:a5731bea4b9513eddf3b4f12854c33cc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfedf03d8e2c8b14dac3c834159966a1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#abfedf03d8e2c8b14dac3c834159966a1">SetAuthenticator</a> (<a class="el" href="../../d1/d9f/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_i_authenticator_config.html">IAuthenticatorConfig</a> authConfig)</td></tr>
-<tr class="memdesc:abfedf03d8e2c8b14dac3c834159966a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new Authenticator instance based on the input AuthenticatorConfig instance and sets it as the current authenticator on the BaseService instance.  <a href="#abfedf03d8e2c8b14dac3c834159966a1">More...</a><br /></td></tr>
-<tr class="separator:abfedf03d8e2c8b14dac3c834159966a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a637992d32d268ab1b784f37a78f39f10"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a637992d32d268ab1b784f37a78f39f10">IBMService</a> (string serviceName, <a class="el" href="../../dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html">IClient</a> httpClient)</td></tr>
+<tr class="separator:a637992d32d268ab1b784f37a78f39f10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a795509411629304aca8bb8a0c2c437"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a6a795509411629304aca8bb8a0c2c437">IBMService</a> (string serviceName, <a class="el" href="../../d4/d27/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_i_authenticator.html">IAuthenticator</a> authenticator)</td></tr>
+<tr class="separator:a6a795509411629304aca8bb8a0c2c437"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0a26eb99f5021993822e773ec5f56c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#ae0a26eb99f5021993822e773ec5f56c4">SetAuthentication</a> ()</td></tr>
 <tr class="separator:ae0a26eb99f5021993822e773ec5f56c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a538f8bb5dafc72dd3b527788d16875d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a538f8bb5dafc72dd3b527788d16875d1">ClearCustomRequestHeaders</a> ()</td></tr>
@@ -155,84 +147,26 @@ Protected Member Functions</h2></td></tr>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a4dd8c72a3854a24bba091ea1e8e977a2"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a4dd8c72a3854a24bba091ea1e8e977a2">customRequestHeaders</a> = new Dictionary&lt;string, string&gt;()</td></tr>
 <tr class="separator:a4dd8c72a3854a24bba091ea1e8e977a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab095d2840532b522eb390e303672023f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#ab095d2840532b522eb390e303672023f">_userSetEndpoint</a> = false</td></tr>
-<tr class="separator:ab095d2840532b522eb390e303672023f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:a5d62fc53c712d49065bdfae36d7cb206"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a5d62fc53c712d49065bdfae36d7cb206">ApiKey</a><code> [get, set]</code></td></tr>
-<tr class="separator:a5d62fc53c712d49065bdfae36d7cb206"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3e95283ef266f8787f3837349dccf6e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html">IClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#ad3e95283ef266f8787f3837349dccf6e">Client</a><code> [get, set]</code></td></tr>
 <tr class="separator:ad3e95283ef266f8787f3837349dccf6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aacb520fd5681586fd476c8901d0da635"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#aacb520fd5681586fd476c8901d0da635">SkipAuthentication</a><code> [get, set]</code></td></tr>
-<tr class="separator:aacb520fd5681586fd476c8901d0da635"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cfbfd3dd1e4160196897b39be3ea9a0"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a8cfbfd3dd1e4160196897b39be3ea9a0">DefaultEndpoint</a><code> [get]</code></td></tr>
-<tr class="separator:a8cfbfd3dd1e4160196897b39be3ea9a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a732e1219f5071fb03bdfad0a26ba42d7"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a732e1219f5071fb03bdfad0a26ba42d7">ServiceName</a><code> [get, set]</code></td></tr>
 <tr class="separator:a732e1219f5071fb03bdfad0a26ba42d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27613461f00aae184ddde8f077cfb0b5"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a27613461f00aae184ddde8f077cfb0b5">Url</a><code> [get]</code></td></tr>
-<tr class="separator:a27613461f00aae184ddde8f077cfb0b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7ec7f38d4254d812c3cb311ca5cf137"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#aa7ec7f38d4254d812c3cb311ca5cf137">ServiceUrl</a><code> [get]</code></td></tr>
+<tr class="separator:aa7ec7f38d4254d812c3cb311ca5cf137"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94107ee288dff8040d6c96d47d4eef67"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a94107ee288dff8040d6c96d47d4eef67">Endpoint</a><code> [get, set]</code></td></tr>
 <tr class="separator:a94107ee288dff8040d6c96d47d4eef67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f880ac926370acb1f7515f3a3eda01c"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a6f880ac926370acb1f7515f3a3eda01c">UserName</a><code> [get, set]</code></td></tr>
-<tr class="separator:a6f880ac926370acb1f7515f3a3eda01c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff5f5b71dab7dfc82993bda81f362ad5"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#aff5f5b71dab7dfc82993bda81f362ad5">Password</a><code> [get, set]</code></td></tr>
-<tr class="separator:aff5f5b71dab7dfc82993bda81f362ad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a128b5bbac16721a65ba96801ad209a10"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a128b5bbac16721a65ba96801ad209a10">IamAccessToken</a><code> [get, set]</code></td></tr>
-<tr class="separator:a128b5bbac16721a65ba96801ad209a10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf27dca567df74bc3b543f1111188a2a"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#acf27dca567df74bc3b543f1111188a2a">IamUrl</a><code> [get, set]</code></td></tr>
-<tr class="separator:acf27dca567df74bc3b543f1111188a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28eb8d155c373107152d78a8cf826d8c"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a28eb8d155c373107152d78a8cf826d8c">ClientId</a><code> [get, set]</code></td></tr>
-<tr class="separator:a28eb8d155c373107152d78a8cf826d8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0afe4d2b5ea043257ab81ad76411fea"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#ae0afe4d2b5ea043257ab81ad76411fea">ClientSecret</a><code> [get, set]</code></td></tr>
-<tr class="separator:ae0afe4d2b5ea043257ab81ad76411fea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2318be095d088e41be208288d4443e47"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a2318be095d088e41be208288d4443e47">Icp4dAccessToken</a><code> [get, set]</code></td></tr>
-<tr class="separator:a2318be095d088e41be208288d4443e47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1ecf7f38a533495d75fd07a47dbf8ff"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#ad1ecf7f38a533495d75fd07a47dbf8ff">Icp4dUrl</a><code> [get, set]</code></td></tr>
-<tr class="separator:ad1ecf7f38a533495d75fd07a47dbf8ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service"><td colspan="2" onclick="javascript:toggleInherit('properties_interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service')"><img src="../../closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="../../d4/d7d/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service.html">IBM.Cloud.SDK.Core.Service.IIBMService</a></td></tr>
 <tr class="memitem:a0a9bc13f462261e12d5b362ad8621143 inherit properties_interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html">IClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d7d/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service.html#a0a9bc13f462261e12d5b362ad8621143">Client</a><code> [get, set]</code></td></tr>
 <tr class="separator:a0a9bc13f462261e12d5b362ad8621143 inherit properties_interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22770044b16a4f0d75f7c1af512913ce inherit properties_interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d7d/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service.html#a22770044b16a4f0d75f7c1af512913ce">ServiceName</a><code> [get, set]</code></td></tr>
 <tr class="separator:a22770044b16a4f0d75f7c1af512913ce inherit properties_interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d29a2639fc27c9340538d1984a0f056 inherit properties_interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d7d/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service.html#a9d29a2639fc27c9340538d1984a0f056">ApiKey</a><code> [get, set]</code></td></tr>
-<tr class="separator:a9d29a2639fc27c9340538d1984a0f056 inherit properties_interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2ef8b5cfd4b2cd429e23a8b5005d9ed inherit properties_interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d7d/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service.html#af2ef8b5cfd4b2cd429e23a8b5005d9ed">UserName</a><code> [get, set]</code></td></tr>
-<tr class="separator:af2ef8b5cfd4b2cd429e23a8b5005d9ed inherit properties_interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a257b78c45d480aab570032169615f4d5 inherit properties_interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d7d/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service.html#a257b78c45d480aab570032169615f4d5">Password</a><code> [get, set]</code></td></tr>
-<tr class="separator:a257b78c45d480aab570032169615f4d5 inherit properties_interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a712034185056b5a5afbbfb699609ce95 inherit properties_interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d7d/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service.html#a712034185056b5a5afbbfb699609ce95">DefaultEndpoint</a><code> [get]</code></td></tr>
-<tr class="separator:a712034185056b5a5afbbfb699609ce95 inherit properties_interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a05214cdc56c59467fcc6923146c695b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05214cdc56c59467fcc6923146c695b9">&#9670;&nbsp;</a></span>IBMService() <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">IBM.Cloud.SDK.Core.Service.IBMService.IBMService </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>serviceName</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7c6bc050ded7319f412ba8038910064f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c6bc050ded7319f412ba8038910064f">&#9670;&nbsp;</a></span>IBMService() <span class="overload">[2/4]</span></h2>
+<a id="a637992d32d268ab1b784f37a78f39f10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a637992d32d268ab1b784f37a78f39f10">&#9670;&nbsp;</a></span>IBMService() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -245,48 +179,6 @@ Properties</h2></td></tr>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>serviceName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>url</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad92471e38403f562ee6b7d40644e7bac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad92471e38403f562ee6b7d40644e7bac">&#9670;&nbsp;</a></span>IBMService() <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">IBM.Cloud.SDK.Core.Service.IBMService.IBMService </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>serviceName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>url</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -309,8 +201,8 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="a5731bea4b9513eddf3b4f12854c33cc3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5731bea4b9513eddf3b4f12854c33cc3">&#9670;&nbsp;</a></span>IBMService() <span class="overload">[4/4]</span></h2>
+<a id="a6a795509411629304aca8bb8a0c2c437"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a795509411629304aca8bb8a0c2c437">&#9670;&nbsp;</a></span>IBMService() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -327,8 +219,8 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d1/d9f/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_i_authenticator_config.html">IAuthenticatorConfig</a>&#160;</td>
-          <td class="paramname"><em>authenticatorConfig</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d4/d27/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_i_authenticator.html">IAuthenticator</a>&#160;</td>
+          <td class="paramname"><em>authenticator</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -397,6 +289,35 @@ Properties</h2></td></tr>
 
 </div>
 </div>
+<a id="a13d4b2fa2392534024be19e58cec0834"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13d4b2fa2392534024be19e58cec0834">&#9670;&nbsp;</a></span>GetAuthenticator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d4/d27/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_i_authenticator.html">IAuthenticator</a> IBM.Cloud.SDK.Core.Service.IBMService.GetAuthenticator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the authenticator for the service. </p>
+
+<p>Implements <a class="el" href="../../d4/d7d/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service.html#a53c89dcf42c9f192840a5e97293df4f6">IBM.Cloud.SDK.Core.Service.IIBMService</a>.</p>
+
+</div>
+</div>
 <a id="af7d8515277af1b18c13d5f23c7114b24"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af7d8515277af1b18c13d5f23c7114b24">&#9670;&nbsp;</a></span>GetCustomRequestHeaders()</h2>
 
@@ -450,8 +371,8 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="abfedf03d8e2c8b14dac3c834159966a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfedf03d8e2c8b14dac3c834159966a1">&#9670;&nbsp;</a></span>SetAuthenticator()</h2>
+<a id="a6484ea160a2b7c7cc9730ff6cb841bc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6484ea160a2b7c7cc9730ff6cb841bc4">&#9670;&nbsp;</a></span>SetServiceUrl()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -460,91 +381,10 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void IBM.Cloud.SDK.Core.Service.IBMService.SetAuthenticator </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d1/d9f/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_i_authenticator_config.html">IAuthenticatorConfig</a>&#160;</td>
-          <td class="paramname"><em>authConfig</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Initializes a new Authenticator instance based on the input AuthenticatorConfig instance and sets it as the current authenticator on the BaseService instance. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">authConfig</td><td>the AuthenticatorConfig instance containing the authentication configuration</td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ac9c91b05dceaa999c25e9886b21a55c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9c91b05dceaa999c25e9886b21a55c0">&#9670;&nbsp;</a></span>SetCredential() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void IBM.Cloud.SDK.Core.Service.IBMService.SetCredential </td>
+          <td class="memname">void IBM.Cloud.SDK.Core.Service.IBMService.SetServiceUrl </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>userName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>password</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Sets the username and password credentials. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">userName</td><td>The username</td></tr>
-    <tr><td class="paramname">password</td><td>The password</td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implements <a class="el" href="../../d4/d7d/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service.html#acbe5925a0c1206e114daff2a3f3bc694">IBM.Cloud.SDK.Core.Service.IIBMService</a>.</p>
-
-</div>
-</div>
-<a id="a0af27badb3e07e096d6fddc784bd5e38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0af27badb3e07e096d6fddc784bd5e38">&#9670;&nbsp;</a></span>SetCredential() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void IBM.Cloud.SDK.Core.Service.IBMService.SetCredential </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d5/d7f/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_util_1_1_token_options.html">TokenOptions</a>&#160;</td>
-          <td class="paramname"><em>options</em></td><td>)</td>
+          <td class="paramname"><em>serviceUrl</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -555,43 +395,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Sets the tokenOptions for the service. Also sets the endpoint if the user has not set the endpoint. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">options</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implements <a class="el" href="../../d4/d7d/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service.html#a06311a483df7d7278e97009a54d1c841">IBM.Cloud.SDK.Core.Service.IIBMService</a>.</p>
-
-</div>
-</div>
-<a id="ab0af1b6b5f98ae7e1973b68f1627501d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0af1b6b5f98ae7e1973b68f1627501d">&#9670;&nbsp;</a></span>SetEndpoint()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void IBM.Cloud.SDK.Core.Service.IBMService.SetEndpoint </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>url</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="../../d4/d7d/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service.html#ad292bbdb6c27d4abc13fc0937f1adc3b">IBM.Cloud.SDK.Core.Service.IIBMService</a>.</p>
+<p>Implements <a class="el" href="../../d4/d7d/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_i_b_m_service.html#a0320725e863dbbe8dbb49013b6b461f0">IBM.Cloud.SDK.Core.Service.IIBMService</a>.</p>
 
 </div>
 </div>
@@ -658,28 +462,6 @@ Properties</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="ab095d2840532b522eb390e303672023f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab095d2840532b522eb390e303672023f">&#9670;&nbsp;</a></span>_userSetEndpoint</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool IBM.Cloud.SDK.Core.Service.IBMService._userSetEndpoint = false</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a4dd8c72a3854a24bba091ea1e8e977a2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4dd8c72a3854a24bba091ea1e8e977a2">&#9670;&nbsp;</a></span>customRequestHeaders</h2>
 
@@ -702,23 +484,8 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="a3d38d79f97ecc3c265d2e625f9d7a764"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d38d79f97ecc3c265d2e625f9d7a764">&#9670;&nbsp;</a></span>SERVICE_NAME</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.SERVICE_NAME</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Property Documentation</h2>
-<a id="a5d62fc53c712d49065bdfae36d7cb206"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d62fc53c712d49065bdfae36d7cb206">&#9670;&nbsp;</a></span>ApiKey</h2>
+<a id="a391bef55156ef32e38cc29b4ccca2202"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a391bef55156ef32e38cc29b4ccca2202">&#9670;&nbsp;</a></span>PropNameServiceDisableSslVerification</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -727,18 +494,41 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.ApiKey</td>
+          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.PropNameServiceDisableSslVerification = &quot;DISABLE_SSL&quot;</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
+<a id="a0c97ec34b4c6ce4bddb86ad913263e31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c97ec34b4c6ce4bddb86ad913263e31">&#9670;&nbsp;</a></span>PropNameServiceUrl</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.PropNameServiceUrl = &quot;URL&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
 <a id="ad3e95283ef266f8787f3837349dccf6e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad3e95283ef266f8787f3837349dccf6e">&#9670;&nbsp;</a></span>Client</h2>
 
@@ -755,72 +545,6 @@ Properties</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a28eb8d155c373107152d78a8cf826d8c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a28eb8d155c373107152d78a8cf826d8c">&#9670;&nbsp;</a></span>ClientId</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.ClientId</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae0afe4d2b5ea043257ab81ad76411fea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0afe4d2b5ea043257ab81ad76411fea">&#9670;&nbsp;</a></span>ClientSecret</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.ClientSecret</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8cfbfd3dd1e4160196897b39be3ea9a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8cfbfd3dd1e4160196897b39be3ea9a0">&#9670;&nbsp;</a></span>DefaultEndpoint</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.DefaultEndpoint</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -849,116 +573,6 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="a128b5bbac16721a65ba96801ad209a10"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a128b5bbac16721a65ba96801ad209a10">&#9670;&nbsp;</a></span>IamAccessToken</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.IamAccessToken</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="acf27dca567df74bc3b543f1111188a2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf27dca567df74bc3b543f1111188a2a">&#9670;&nbsp;</a></span>IamUrl</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.IamUrl</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2318be095d088e41be208288d4443e47"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2318be095d088e41be208288d4443e47">&#9670;&nbsp;</a></span>Icp4dAccessToken</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.Icp4dAccessToken</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad1ecf7f38a533495d75fd07a47dbf8ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad1ecf7f38a533495d75fd07a47dbf8ff">&#9670;&nbsp;</a></span>Icp4dUrl</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.Icp4dUrl</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aff5f5b71dab7dfc82993bda81f362ad5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff5f5b71dab7dfc82993bda81f362ad5">&#9670;&nbsp;</a></span>Password</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.Password</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a732e1219f5071fb03bdfad0a26ba42d7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a732e1219f5071fb03bdfad0a26ba42d7">&#9670;&nbsp;</a></span>ServiceName</h2>
 
@@ -981,8 +595,8 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="aacb520fd5681586fd476c8901d0da635"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aacb520fd5681586fd476c8901d0da635">&#9670;&nbsp;</a></span>SkipAuthentication</h2>
+<a id="aa7ec7f38d4254d812c3cb311ca5cf137"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7ec7f38d4254d812c3cb311ca5cf137">&#9670;&nbsp;</a></span>ServiceUrl</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -991,56 +605,12 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool IBM.Cloud.SDK.Core.Service.IBMService.SkipAuthentication</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a27613461f00aae184ddde8f077cfb0b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27613461f00aae184ddde8f077cfb0b5">&#9670;&nbsp;</a></span>Url</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.Url</td>
+          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.ServiceUrl</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">get</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a6f880ac926370acb1f7515f3a3eda01c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f880ac926370acb1f7515f3a3eda01c">&#9670;&nbsp;</a></span>UserName</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string IBM.Cloud.SDK.Core.Service.IBMService.UserName</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
