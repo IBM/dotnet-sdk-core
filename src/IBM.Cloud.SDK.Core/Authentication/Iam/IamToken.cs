@@ -23,6 +23,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
     {
         public string AccessToken { get; set; }
         public long ExpirationTimeInMillis { get; set; }
+        public long ExpirationTime { get; set; }
 
         /// <summary>
         /// This ctor is used to store a user-managed access token which will never expire.
@@ -43,12 +44,13 @@ namespace IBM.Cloud.SDK.Core.Authentication.Iam
             long? expireTime = response.Expiration;
             long currentTime = DateTimeOffset.Now.ToUnixTimeSeconds();
 
-            ExpirationTimeInMillis = (long)expireTime - ((long)timeToLive * (long)(1.0 - fractionOfTtl)) * 1000;
+            ExpirationTime = (long)(currentTime + (timeToLive * fractionOfTtl));
+            ExpirationTimeInMillis = ExpirationTime * 1000;
         }
 
         public bool IsTokenValid()
         {
-            return !string.IsNullOrEmpty(AccessToken) && (ExpirationTimeInMillis < 0 || DateTimeOffset.Now.ToUnixTimeMilliseconds() <= ExpirationTimeInMillis);
+            return DateTimeOffset.Now.ToUnixTimeSeconds() < ExpirationTime;
         }
     }
 }
