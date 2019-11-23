@@ -220,8 +220,9 @@ var NAVTREEINDEX0 =
 "db/d80/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_exceptions_1_1_i_b_m_error.html#ae019013d082e0f329c49bbc9261716e9":[1,0,0,0,0,0,1,0,0,5],
 "db/d80/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_exceptions_1_1_i_b_m_error.html#aeac7eb4deb11d007c7f0a09dee54e007":[1,0,0,0,0,0,1,0,0,4],
 "db/dc3/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_token.html":[1,0,0,0,0,0,0,3,1],
+"db/dc3/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_token.html#a30b0636b686ab4cd20d5fd58c7c41323":[1,0,0,0,0,0,0,3,1,4],
 "db/dc3/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_token.html#a51fae9ee991f56bd57ef13f9a3ad9226":[1,0,0,0,0,0,0,3,1,2],
-"db/dc3/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_token.html#a570663c868d75f720b144951a2e05a77":[1,0,0,0,0,0,0,3,1,4],
+"db/dc3/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_token.html#a570663c868d75f720b144951a2e05a77":[1,0,0,0,0,0,0,3,1,5],
 "db/dc3/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_token.html#a6c0ca2980e5d464f1820c28d8bbff06b":[1,0,0,0,0,0,0,3,1,1],
 "db/dc3/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_token.html#a8c469caeb52a7a322fe34015cc52e0d4":[1,0,0,0,0,0,0,3,1,0],
 "db/dc3/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_token.html#ac569b1e5915e6d1795e8517c6a9491e8":[1,0,0,0,0,0,0,3,1,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#aa64cb04cce2629db8428588741980040":[1,0,0,0,0,0,1,6,13],
 "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#aa768d8c57abc44f1a55874d66ba12666":[1,0,0,0,0,0,1,6,7],
 "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#aad5194369ffdffb1d4a433d2e706416b":[1,0,0,0,0,0,1,6,14],
-"dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#ab223a2905c3f77e8115465030e6f66fd":[1,0,0,0,0,0,1,6,3],
-"dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#abfbfc1d66aa5800915b323a11c01e29d":[1,0,0,0,0,0,1,6,8]
+"dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#ab223a2905c3f77e8115465030e6f66fd":[1,0,0,0,0,0,1,6,3]
 };
