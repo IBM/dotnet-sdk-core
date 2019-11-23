@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/IBM/dotnet-sdk-core/compare/v1.0.0...v1.0.1) (2019-11-23)
+
+
+### Bug Fixes
+
+* **IAM Token:** Update token validation ([357fc03](https://github.com/IBM/dotnet-sdk-core/commit/357fc0368577c18cc61bdd19705dbdbb4413cb54))
+
 # [1.0.0](https://github.com/IBM/dotnet-sdk-core/compare/v0.8.2...v1.0.0) (2019-10-03)
 
 
