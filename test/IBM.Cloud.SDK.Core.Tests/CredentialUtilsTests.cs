@@ -102,6 +102,343 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
         }
 
         [TestMethod]
+        public void TestGetVcapCredentialsAsMapFromInnerEntry()
+        {
+            var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
+            //create credential entries
+            var vcapCredential = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "fakeapikey"
+                }
+            };
+            vcapCredential.Name = "assistant1";
+
+            var vcapCredential2 = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "fakeapikey2"
+                }
+            };
+            vcapCredential2.Name = "assistant2";
+
+            var vcapCredential3 = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "fakeapikey3"
+                }
+            };
+            vcapCredential3.Name = "assistant3";
+            //map to a single key
+            tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential, vcapCredential2, vcapCredential3 });
+
+            var vcapString = JsonConvert.SerializeObject(tempVcapCredential);
+            Environment.SetEnvironmentVariable("VCAP_SERVICES", vcapString);
+            Assert.IsNotNull(Environment.GetEnvironmentVariable("VCAP_SERVICES"));
+
+            var vcapCredentaialsAsMap = CredentialUtils.GetVcapCredentialsAsMap("assistant2");
+            Assert.IsNotNull(vcapCredentaialsAsMap);
+            vcapCredentaialsAsMap.TryGetValue(
+                Authenticator.PropNameApikey,
+                out string extractedKey);
+            Assert.IsTrue(extractedKey == "fakeapikey2");
+        }
+
+        [TestMethod]
+        public void TestGetVcapCredentialsAsMapInnerEntryMultKeys()
+        {
+            var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
+            //create credential entries for first service entry
+            var vcapCredential = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV1apikey"
+                }
+            };
+            vcapCredential.Name = "assistantV1";
+            var vcapCredential2 = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV1apikeyCopy"
+                }
+            };
+            vcapCredential2.Name = "assistantV1Copy";
+            //map to creds to first service
+            tempVcapCredential.Add("someService", new List<VcapCredential>() { vcapCredential, vcapCredential2 });
+
+            //create credential entries for second service entry
+            var vcapCredential3 = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV2apikey"
+                }
+            };
+            vcapCredential3.Name = "assistantV2";
+
+            var vcapCredential4 = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV2apikeyCopy"
+                }
+            };
+            vcapCredential4.Name = "assistantV2Copy";
+
+            //map creds to second service
+            tempVcapCredential.Add("someOtherService", new List<VcapCredential>() { vcapCredential3, vcapCredential4 });
+
+            var vcapString = JsonConvert.SerializeObject(tempVcapCredential);
+            Environment.SetEnvironmentVariable("VCAP_SERVICES", vcapString);
+            Assert.IsNotNull(Environment.GetEnvironmentVariable("VCAP_SERVICES"));
+
+            //should match with inner entry with name "assistantV1Copy"
+            var vcapCredentaialsAsMap = CredentialUtils.GetVcapCredentialsAsMap("assistantV1Copy");
+            Assert.IsNotNull(vcapCredentaialsAsMap);
+            vcapCredentaialsAsMap.TryGetValue(
+                Authenticator.PropNameApikey,
+                out string extractedKey);
+            Assert.IsTrue(extractedKey == "assistantV1apikeyCopy");
+        }
+
+        [TestMethod]
+        public void TestGetVcapCredentialsAsMapDuplicateName()
+        {
+            var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
+            //create credential entries for first service entry
+            var vcapCredential = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV1apikey"
+                }
+            };
+            vcapCredential.Name = "assistantV1";
+            var vcapCredential2 = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV1apikeyCopy"
+                }
+            };
+            vcapCredential2.Name = "assistantV1Copy";
+            //map to creds to first service
+            tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential, vcapCredential2 });
+
+            //create credential entries for second service entry
+            var vcapCredential3 = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV2apikey"
+                }
+            };
+            vcapCredential3.Name = "assistantV2";
+
+            var vcapCredential4 = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV2apikeyCopy"
+                }
+            };
+            vcapCredential4.Name = "assistantV2Copy";
+
+            //map creds to second service
+            tempVcapCredential.Add("assistantV1", new List<VcapCredential>() { vcapCredential3, vcapCredential4 });
+
+            var vcapString = JsonConvert.SerializeObject(tempVcapCredential);
+            Environment.SetEnvironmentVariable("VCAP_SERVICES", vcapString);
+            Assert.IsNotNull(Environment.GetEnvironmentVariable("VCAP_SERVICES"));
+
+            //should match with inner entry with name "assistantV1"
+            var vcapCredentaialsAsMap = CredentialUtils.GetVcapCredentialsAsMap("assistantV1");
+            Assert.IsNotNull(vcapCredentaialsAsMap);
+            vcapCredentaialsAsMap.TryGetValue(
+                Authenticator.PropNameApikey,
+                out string extractedKey);
+            Assert.IsTrue(extractedKey == "assistantV1apikey");
+        }
+
+        [TestMethod]
+        public void TestGetVcapCredentialsAsMapNoMatchingName()
+        {
+            var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
+            //create credential entries for first service entry
+            var vcapCredential = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV1apikey"
+                }
+            };
+            vcapCredential.Name = "assistantV1";
+            var vcapCredential2 = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV1apikeyCopy"
+                }
+            };
+            vcapCredential2.Name = "assistantV1Copy";
+            //map to creds to first service
+            tempVcapCredential.Add("no_matching_name", new List<VcapCredential>() { vcapCredential, vcapCredential2 });
+
+            //create credential entries for second service entry
+            var vcapCredential3 = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV2apikey"
+                }
+            };
+            vcapCredential3.Name = "assistantV2";
+
+            var vcapCredential4 = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV2apikeyCopy"
+                }
+            };
+            vcapCredential4.Name = "assistantV2Copy";
+
+            //map to second service
+            tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential3, vcapCredential4 });
+
+            var vcapString = JsonConvert.SerializeObject(tempVcapCredential);
+            Environment.SetEnvironmentVariable("VCAP_SERVICES", vcapString);
+            Assert.IsNotNull(Environment.GetEnvironmentVariable("VCAP_SERVICES"));
+
+            var vcapCredentaialsAsMap = CredentialUtils.GetVcapCredentialsAsMap("no_matching_name");
+            Assert.IsNotNull(vcapCredentaialsAsMap);
+            vcapCredentaialsAsMap.TryGetValue(
+                Authenticator.PropNameApikey,
+                out string extractedKey);
+            Assert.IsTrue(extractedKey == "assistantV1apikey");
+        }
+
+        [TestMethod]
+        public void TestGetVcapCredentialsAsMapMissingNameField()
+        {
+            var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
+            //create credential entries for first service entry
+            var vcapCredential = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV1apikey"
+                }
+            };
+            tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential });
+
+            var vcapString = JsonConvert.SerializeObject(tempVcapCredential);
+            Environment.SetEnvironmentVariable("VCAP_SERVICES", vcapString);
+            Assert.IsNotNull(Environment.GetEnvironmentVariable("VCAP_SERVICES"));
+
+            var vcapCredentaialsAsMap = CredentialUtils.GetVcapCredentialsAsMap("assistant");
+            Assert.IsNotNull(vcapCredentaialsAsMap);
+            vcapCredentaialsAsMap.TryGetValue(
+                Authenticator.PropNameApikey,
+                out string extractedKey);
+            Assert.IsTrue(extractedKey == "assistantV1apikey");
+        }
+
+        [TestMethod]
+        public void TestGetVcapCredentialsAsMapEntryNotFound()
+        {
+            var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
+            //create credential entries for first service entry
+            var vcapCredential = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV1apikey"
+                }
+            };
+            vcapCredential.Name = "assistantV1";
+            tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential });
+
+            var vcapString = JsonConvert.SerializeObject(tempVcapCredential);
+            Environment.SetEnvironmentVariable("VCAP_SERVICES", vcapString);
+            Assert.IsNotNull(Environment.GetEnvironmentVariable("VCAP_SERVICES"));
+
+            var vcapCredentaialsAsMap = CredentialUtils.GetVcapCredentialsAsMap("fake_entry");
+            Assert.IsNotNull(vcapCredentaialsAsMap);
+            Assert.IsTrue(vcapCredentaialsAsMap.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestGetVcapCredentialsAsMapVcapNotSet()
+        {
+            var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
+            //create credential entries for first service entry
+            var vcapCredential = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV1apikey"
+                }
+            };
+            vcapCredential.Name = "assistantV1";
+            tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential });
+
+            var vcapCredentaialsAsMap = CredentialUtils.GetVcapCredentialsAsMap("fake_entry");
+            Assert.IsNotNull(vcapCredentaialsAsMap);
+            Assert.IsTrue(vcapCredentaialsAsMap.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestGetVcapCredentialsAsMapEmptySvcName()
+        {
+            var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
+            //create credential entries for first service entry
+            var vcapCredential = new VcapCredential()
+            {
+                Credentials = new Credential()
+                {
+                    ApiKey = "assistantV1apikey"
+                }
+            };
+            vcapCredential.Name = "assistantV1";
+            tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential });
+
+            var vcapString = JsonConvert.SerializeObject(tempVcapCredential);
+            Environment.SetEnvironmentVariable("VCAP_SERVICES", vcapString);
+            Assert.IsNotNull(Environment.GetEnvironmentVariable("VCAP_SERVICES"));
+
+            var vcapCredentaialsAsMap = CredentialUtils.GetVcapCredentialsAsMap("");
+            Assert.IsNotNull(vcapCredentaialsAsMap);
+            Assert.IsTrue(vcapCredentaialsAsMap.Count == 0);
+        }
+
+        [TestMethod]
+        public void TestGetVcapCredentialsAsMapNoCreds()
+        {
+            var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
+            //create credential entries for first service entry
+            var vcapCredential = new VcapCredential()
+            {
+
+            };
+            vcapCredential.Name = "assistantV1";
+            tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential });
+
+            var vcapString = JsonConvert.SerializeObject(tempVcapCredential);
+            Environment.SetEnvironmentVariable("VCAP_SERVICES", vcapString);
+            Assert.IsNotNull(Environment.GetEnvironmentVariable("VCAP_SERVICES"));
+
+            var vcapCredentaialsAsMap = CredentialUtils.GetVcapCredentialsAsMap("no-creds");
+            Assert.IsNotNull(vcapCredentaialsAsMap);
+            Assert.IsTrue(vcapCredentaialsAsMap.Count == 0);
+        }
+
+        [TestMethod]
         public void TestGetServiceProperties()
         {
             var apikey = "bogus-apikey";
@@ -155,7 +492,7 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
             string[] lines = { "TEST_SERVICE_LOCATION=user-set-location" };
 
             var directoryPath = Environment.GetFolderPath(
-                Environment.SpecialFolder.CommonApplicationData
+                Environment.SpecialFolder.LocalApplicationData
                 );
 
             var docPath = Path.Combine(directoryPath, "test-credentials.env");
