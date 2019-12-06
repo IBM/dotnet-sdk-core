@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/IBM/dotnet-sdk-core/compare/v1.0.1...v1.1.0) (2019-12-06)
+
+
+### Features
+
+* **IBMService:** enhance vcap parsing ([5c26d73](https://github.com/IBM/dotnet-sdk-core/commit/5c26d73fde549a3f1fe18cdd938679b0120d39bc))
+
 ## [1.0.1](https://github.com/IBM/dotnet-sdk-core/compare/v1.0.0...v1.0.1) (2019-11-23)
 
 
