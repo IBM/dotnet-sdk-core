@@ -340,7 +340,7 @@ namespace IBM.Cloud.SDK.Core.Util
                 }
 
                 string[] stringSeparators = new string[] { "=" };
-                List<string> lineTokens = new List<string>(line.Split(stringSeparators, StringSplitOptions.None));
+                List<string> lineTokens = new List<string>(line.Split(stringSeparators, 2, StringSplitOptions.None));
                 if (lineTokens.Count != 2)
                 {
                     continue;
