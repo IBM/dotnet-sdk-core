@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,11 +15,11 @@
 *
 */
 
+using System;
+using System.Collections.Generic;
 using IBM.Cloud.SDK.Core.Authentication;
 using IBM.Cloud.SDK.Core.Authentication.Cp4d;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 
 namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
 {
@@ -80,8 +80,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
                 url: url,
                 username: username,
                 password: password,
-                headers: headers
-                );
+                headers: headers);
 
             authenticator.Headers.TryGetValue(headerName, out string retrievedHeaderValue);
             Assert.IsNotNull(authenticator);
@@ -139,7 +138,8 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             Assert.IsTrue(authenticator.DisableSslVerification == false);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void TestNullUrl()
         {
             var url = default(string);
@@ -148,7 +148,8 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator(url, username, password);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void TestNullUsername()
         {
             var url = "http://www.service-endpoint.com";
@@ -157,7 +158,8 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator(url, username, password);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void TestNullPassword()
         {
             var url = "http://www.service-endpoint.com";
@@ -166,109 +168,127 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator(url, username, password);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlBracketBeginning()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("{url", "username", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUsernameBracketBeginning()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "{username", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadPasswordBracketBeginning()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", "{pasword");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlBracketEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url}", "username", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUsernameBracketEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username}", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadPasswordBracketEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", "pasword}");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlBeginningBracketEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("{serviceUrl}", "username", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUsernameBeginningBracketEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "{username}", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadPasswordBeginningBracketEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", "{pasword}");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlQuoteBeginning()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("\"url", "username", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUsernameQuoteBeginning()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "\"username", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadPasswordQuoteBeginning()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", "\"pasword");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlQuoteEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url\"", "username", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUsernameQuoteEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username\"", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadPasswordQuoteEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", "pasword\"");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlBeginningQuoteEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("\"url\"", "username", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUsernameBeginningQuoteEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "\"username\"", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadPasswordBeginningQuoteEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", "\"pasword\"");

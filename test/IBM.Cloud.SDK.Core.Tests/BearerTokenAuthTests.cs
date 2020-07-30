@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,12 +15,12 @@
 *
 */
 
+using System;
+using System.Collections.Generic;
 using IBM.Cloud.SDK.Core.Authentication;
 using IBM.Cloud.SDK.Core.Authentication.Bearer;
 using IBM.Cloud.SDK.Core.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 
 namespace IBM.Cloud.SDK.Core.Tests.Authentication.BearerTokenAuth
 {
@@ -81,43 +81,50 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.BearerTokenAuth
             Assert.IsTrue(client.BaseClient.DefaultRequestHeaders.Authorization.ToString() == "Bearer " + bearerToken);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void TestNullBearerToken()
         {
             BearerTokenAuthenticator authenticator = new BearerTokenAuthenticator(bearerToken: null);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadBearerTokenBracketBeginning()
         {
             BearerTokenAuthenticator authenticator = new BearerTokenAuthenticator("{username");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadBearerTokenBracketEnd()
         {
             BearerTokenAuthenticator authenticator = new BearerTokenAuthenticator("username}");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadBearerTokenBeginningBracketEnd()
         {
             BearerTokenAuthenticator authenticator = new BearerTokenAuthenticator("{username}");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadBearerTokenQuoteBeginning()
         {
             BearerTokenAuthenticator authenticator = new BearerTokenAuthenticator("\"username");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadBearerTokenQuoteEnd()
         {
             BearerTokenAuthenticator authenticator = new BearerTokenAuthenticator("username\"");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadBearerTokenBeginningQuoteEnd()
         {
             BearerTokenAuthenticator authenticator = new BearerTokenAuthenticator("\"username\"");

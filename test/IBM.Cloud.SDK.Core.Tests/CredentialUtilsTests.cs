@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,14 +15,14 @@
 *
 */
 
-using IBM.Cloud.SDK.Core.Authentication;
-using IBM.Cloud.SDK.Core.Util;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using IBM.Cloud.SDK.Core.Authentication;
+using IBM.Cloud.SDK.Core.Util;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 
 namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
 {
@@ -63,15 +63,18 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
         {
             // store and clear user set env variable
             string ibmCredFile = Environment.GetEnvironmentVariable("IBM_CREDENTIALS_FILE");
-            Environment.SetEnvironmentVariable("IBM_CREDENTIALS_FILE", "");
+            Environment.SetEnvironmentVariable("IBM_CREDENTIALS_FILE", string.Empty);
 
-            //  create .env file in current directory
-            string[] linesWorking = { "SERVICE_1_AUTH_TYPE=iam",
-                                      "SERVICE_1_APIKEY=V4HXmoUtMjohnsnow=KotN",
-                                      "SERVICE_1_CLIENT_ID=somefake========id",
-                                      "SERVICE_1_CLIENT_SECRET===my-client-secret==",
-                                      "SERVICE_1_AUTH_URL=https://iamhost/iam/api=",
-                                      "SERVICE_1_AUTH_DISABLE_SSL=" };
+            // create .env file in current directory
+            string[] linesWorking =
+            {
+                "SERVICE_1_AUTH_TYPE=iam",
+                "SERVICE_1_APIKEY=V4HXmoUtMjohnsnow=KotN",
+                "SERVICE_1_CLIENT_ID=somefake========id",
+                "SERVICE_1_CLIENT_SECRET===my-client-secret==",
+                "SERVICE_1_AUTH_URL=https://iamhost/iam/api=",
+                "SERVICE_1_AUTH_DISABLE_SSL=",
+            };
             var directoryPath = Directory.GetCurrentDirectory();
             var credsFile = Path.Combine(directoryPath, "ibm-credentials.env");
 
@@ -83,7 +86,7 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
                 }
             }
 
-            //  get props
+            // get props
             Dictionary<string, string> propsWorking = CredentialUtils.GetFileCredentialsAsMap("service_1");
             Assert.IsNotNull(propsWorking);
             Assert.AreEqual(propsWorking["AUTH_TYPE"], "iam");
@@ -92,12 +95,14 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
             Assert.AreEqual(propsWorking["CLIENT_SECRET"], "==my-client-secret==");
             Assert.AreEqual(propsWorking["AUTH_URL"], "https://iamhost/iam/api=");
             Assert.IsFalse(propsWorking.ContainsKey("DISABLE_SSL"));
-            //  delete created env files
+
+            // delete created env files
             if (File.Exists(credsFile))
             {
                 File.Delete(credsFile);
             }
-            //  reset env variable
+
+            // reset env variable
             Environment.SetEnvironmentVariable("IBM_CREDENTIALS_FILE", ibmCredFile);
         }
 
@@ -142,6 +147,7 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
             Environment.SetEnvironmentVariable(
                 "SERVICE_1_" + Authenticator.PropNameUrl,
                 authUrl);
+
             // get props
             Dictionary<string, string> props = CredentialUtils.GetEnvCredentialsAsMap("service_1");
             Assert.IsNotNull(props);
@@ -151,8 +157,8 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
             Assert.AreEqual(props["CLIENT_SECRET"], clientIdSecret);
             Assert.AreEqual(props["AUTH_URL"], authUrl);
 
-            //  delete created env files
-             Environment.SetEnvironmentVariable(
+            // delete created env files
+            Environment.SetEnvironmentVariable(
                 "SERVICE_1_" + Authenticator.PropNameApikey,
                 null);
             Environment.SetEnvironmentVariable(
@@ -179,16 +185,16 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = apikey
-                }
+                    ApiKey = apikey,
+                },
             };
 
             var vcapCredential2 = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = service1_apikey
-                }
+                    ApiKey = service1_apikey,
+                },
             };
             vcapCredential2.Name = "equals_sign_test";
 
@@ -212,21 +218,20 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
                 Authenticator.PropNameApikey,
                 out string extractedKey2);
             Assert.IsTrue(extractedKey2 == service1_apikey);
-
-
         }
 
         [TestMethod]
         public void TestGetVcapCredentialsAsMapFromInnerEntry()
         {
             var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
-            //create credential entries
+
+            // create credential entries
             var vcapCredential = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "fakeapikey"
-                }
+                    ApiKey = "fakeapikey",
+                },
             };
             vcapCredential.Name = "assistant1";
 
@@ -234,8 +239,8 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "fakeapikey2"
-                }
+                    ApiKey = "fakeapikey2",
+                },
             };
             vcapCredential2.Name = "assistant2";
 
@@ -243,11 +248,12 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "fakeapikey3"
-                }
+                    ApiKey = "fakeapikey3",
+                },
             };
             vcapCredential3.Name = "assistant3";
-            //map to a single key
+
+            // map to a single key
             tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential, vcapCredential2, vcapCredential3 });
 
             var vcapString = JsonConvert.SerializeObject(tempVcapCredential);
@@ -266,33 +272,35 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
         public void TestGetVcapCredentialsAsMapInnerEntryMultKeys()
         {
             var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
-            //create credential entries for first service entry
+
+            // create credential entries for first service entry
             var vcapCredential = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV1apikey"
-                }
+                    ApiKey = "assistantV1apikey",
+                },
             };
             vcapCredential.Name = "assistantV1";
             var vcapCredential2 = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV1apikeyCopy"
-                }
+                    ApiKey = "assistantV1apikeyCopy",
+                },
             };
             vcapCredential2.Name = "assistantV1Copy";
-            //map to creds to first service
+
+            // map to creds to first service
             tempVcapCredential.Add("someService", new List<VcapCredential>() { vcapCredential, vcapCredential2 });
 
-            //create credential entries for second service entry
+            // create credential entries for second service entry
             var vcapCredential3 = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV2apikey"
-                }
+                    ApiKey = "assistantV2apikey",
+                },
             };
             vcapCredential3.Name = "assistantV2";
 
@@ -300,19 +308,19 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV2apikeyCopy"
-                }
+                    ApiKey = "assistantV2apikeyCopy",
+                },
             };
             vcapCredential4.Name = "assistantV2Copy";
 
-            //map creds to second service
+            // map creds to second service
             tempVcapCredential.Add("someOtherService", new List<VcapCredential>() { vcapCredential3, vcapCredential4 });
 
             var vcapString = JsonConvert.SerializeObject(tempVcapCredential);
             Environment.SetEnvironmentVariable("VCAP_SERVICES", vcapString);
             Assert.IsNotNull(Environment.GetEnvironmentVariable("VCAP_SERVICES"));
 
-            //should match with inner entry with name "assistantV1Copy"
+            // should match with inner entry with name "assistantV1Copy"
             var vcapCredentaialsAsMap = CredentialUtils.GetVcapCredentialsAsMap("assistantV1Copy");
             Assert.IsNotNull(vcapCredentaialsAsMap);
             vcapCredentaialsAsMap.TryGetValue(
@@ -325,33 +333,35 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
         public void TestGetVcapCredentialsAsMapDuplicateName()
         {
             var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
-            //create credential entries for first service entry
+
+            // create credential entries for first service entry
             var vcapCredential = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV1apikey"
-                }
+                    ApiKey = "assistantV1apikey",
+                },
             };
             vcapCredential.Name = "assistantV1";
             var vcapCredential2 = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV1apikeyCopy"
-                }
+                    ApiKey = "assistantV1apikeyCopy",
+                },
             };
             vcapCredential2.Name = "assistantV1Copy";
-            //map to creds to first service
+
+            // map to creds to first service
             tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential, vcapCredential2 });
 
-            //create credential entries for second service entry
+            // create credential entries for second service entry
             var vcapCredential3 = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV2apikey"
-                }
+                    ApiKey = "assistantV2apikey",
+                },
             };
             vcapCredential3.Name = "assistantV2";
 
@@ -359,19 +369,19 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV2apikeyCopy"
-                }
+                    ApiKey = "assistantV2apikeyCopy",
+                },
             };
             vcapCredential4.Name = "assistantV2Copy";
 
-            //map creds to second service
+            // map creds to second service
             tempVcapCredential.Add("assistantV1", new List<VcapCredential>() { vcapCredential3, vcapCredential4 });
 
             var vcapString = JsonConvert.SerializeObject(tempVcapCredential);
             Environment.SetEnvironmentVariable("VCAP_SERVICES", vcapString);
             Assert.IsNotNull(Environment.GetEnvironmentVariable("VCAP_SERVICES"));
 
-            //should match with inner entry with name "assistantV1"
+            // should match with inner entry with name "assistantV1"
             var vcapCredentaialsAsMap = CredentialUtils.GetVcapCredentialsAsMap("assistantV1");
             Assert.IsNotNull(vcapCredentaialsAsMap);
             vcapCredentaialsAsMap.TryGetValue(
@@ -384,33 +394,35 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
         public void TestGetVcapCredentialsAsMapNoMatchingName()
         {
             var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
-            //create credential entries for first service entry
+
+            // create credential entries for first service entry
             var vcapCredential = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV1apikey"
-                }
+                    ApiKey = "assistantV1apikey",
+                },
             };
             vcapCredential.Name = "assistantV1";
             var vcapCredential2 = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV1apikeyCopy"
-                }
+                    ApiKey = "assistantV1apikeyCopy",
+                },
             };
             vcapCredential2.Name = "assistantV1Copy";
-            //map to creds to first service
+
+            // map to creds to first service
             tempVcapCredential.Add("no_matching_name", new List<VcapCredential>() { vcapCredential, vcapCredential2 });
 
-            //create credential entries for second service entry
+            // create credential entries for second service entry
             var vcapCredential3 = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV2apikey"
-                }
+                    ApiKey = "assistantV2apikey",
+                },
             };
             vcapCredential3.Name = "assistantV2";
 
@@ -418,12 +430,12 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV2apikeyCopy"
-                }
+                    ApiKey = "assistantV2apikeyCopy",
+                },
             };
             vcapCredential4.Name = "assistantV2Copy";
 
-            //map to second service
+            // map to second service
             tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential3, vcapCredential4 });
 
             var vcapString = JsonConvert.SerializeObject(tempVcapCredential);
@@ -442,13 +454,14 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
         public void TestGetVcapCredentialsAsMapMissingNameField()
         {
             var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
-            //create credential entries for first service entry
+
+            // create credential entries for first service entry
             var vcapCredential = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV1apikey"
-                }
+                    ApiKey = "assistantV1apikey",
+                },
             };
             tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential });
 
@@ -468,13 +481,14 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
         public void TestGetVcapCredentialsAsMapEntryNotFound()
         {
             var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
-            //create credential entries for first service entry
+
+            // create credential entries for first service entry
             var vcapCredential = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV1apikey"
-                }
+                    ApiKey = "assistantV1apikey",
+                },
             };
             vcapCredential.Name = "assistantV1";
             tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential });
@@ -492,13 +506,14 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
         public void TestGetVcapCredentialsAsMapVcapNotSet()
         {
             var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
-            //create credential entries for first service entry
+
+            // create credential entries for first service entry
             var vcapCredential = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV1apikey"
-                }
+                    ApiKey = "assistantV1apikey",
+                },
             };
             vcapCredential.Name = "assistantV1";
             tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential });
@@ -512,13 +527,14 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
         public void TestGetVcapCredentialsAsMapEmptySvcName()
         {
             var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
-            //create credential entries for first service entry
+
+            // create credential entries for first service entry
             var vcapCredential = new VcapCredential()
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = "assistantV1apikey"
-                }
+                    ApiKey = "assistantV1apikey",
+                },
             };
             vcapCredential.Name = "assistantV1";
             tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential });
@@ -527,7 +543,7 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
             Environment.SetEnvironmentVariable("VCAP_SERVICES", vcapString);
             Assert.IsNotNull(Environment.GetEnvironmentVariable("VCAP_SERVICES"));
 
-            var vcapCredentaialsAsMap = CredentialUtils.GetVcapCredentialsAsMap("");
+            var vcapCredentaialsAsMap = CredentialUtils.GetVcapCredentialsAsMap(string.Empty);
             Assert.IsNotNull(vcapCredentaialsAsMap);
             Assert.IsTrue(vcapCredentaialsAsMap.Count == 0);
         }
@@ -536,10 +552,10 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
         public void TestGetVcapCredentialsAsMapNoCreds()
         {
             var tempVcapCredential = new Dictionary<string, List<VcapCredential>>();
-            //create credential entries for first service entry
+
+            // create credential entries for first service entry
             var vcapCredential = new VcapCredential()
             {
-
             };
             vcapCredential.Name = "assistantV1";
             tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential });
@@ -562,8 +578,8 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
             {
                 Credentials = new Credential()
                 {
-                    ApiKey = apikey
-                }
+                    ApiKey = apikey,
+                },
             };
             tempVcapCredential.Add("assistant", new List<VcapCredential>() { vcapCredential });
 
@@ -581,9 +597,9 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
         {
             // store and clear user set env variable
             string ibmCredFile = Environment.GetEnvironmentVariable("IBM_CREDENTIALS_FILE");
-            Environment.SetEnvironmentVariable("IBM_CREDENTIALS_FILE", "");
+            Environment.SetEnvironmentVariable("IBM_CREDENTIALS_FILE", string.Empty);
 
-            //  create .env file in current directory
+            // create .env file in current directory
             string[] linesWorking = { "TEST_SERVICE_LOCATION=working-directory" };
             var directoryPathWorking = Directory.GetCurrentDirectory();
             var docPathWorking = Path.Combine(directoryPathWorking, "ibm-credentials.env");
@@ -596,19 +612,18 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
                 }
             }
 
-            //  get props
+            // get props
             Dictionary<string, string> propsWorking = CredentialUtils.GetFileCredentialsAsMap("test_service");
 
             Assert.IsTrue(propsWorking.ContainsKey("LOCATION"));
             propsWorking.TryGetValue("LOCATION", out string envWorkingLocation);
             Assert.IsTrue(envWorkingLocation == "working-directory");
 
-            //  create .env file in user set directory
+            // create .env file in user set directory
             string[] lines = { "TEST_SERVICE_LOCATION=user-set-location" };
 
             var directoryPath = Environment.GetFolderPath(
-                Environment.SpecialFolder.LocalApplicationData
-                );
+                Environment.SpecialFolder.LocalApplicationData);
 
             var docPath = Path.Combine(directoryPath, "test-credentials.env");
 
@@ -620,17 +635,17 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
                 }
             }
 
-            //  set user set env file path variable
+            // set user set env file path variable
             Environment.SetEnvironmentVariable("IBM_CREDENTIALS_FILE", docPath);
 
-            //  get props
+            // get props
             Dictionary<string, string> props = CredentialUtils.GetFileCredentialsAsMap("test_service");
 
             Assert.IsTrue(props.ContainsKey("LOCATION"));
             props.TryGetValue("LOCATION", out string envLocation);
             Assert.IsTrue(envLocation == "user-set-location");
 
-            //  delete created env files
+            // delete created env files
             if (File.Exists(docPath))
             {
                 File.Delete(docPath);
@@ -641,7 +656,7 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
                 File.Delete(docPathWorking);
             }
 
-            //  reset env variable
+            // reset env variable
             Environment.SetEnvironmentVariable("IBM_CREDENTIALS_FILE", ibmCredFile);
         }
     }

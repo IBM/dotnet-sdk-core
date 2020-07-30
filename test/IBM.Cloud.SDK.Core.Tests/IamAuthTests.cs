@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,11 +15,11 @@
 *
 */
 
+using System;
+using System.Collections.Generic;
 using IBM.Cloud.SDK.Core.Authentication;
 using IBM.Cloud.SDK.Core.Authentication.Iam;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 
 namespace IBM.Cloud.SDK.Core.Tests.Authentication.IamAuth
 {
@@ -45,8 +45,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.IamAuth
 
             IamAuthenticator authenticator = new IamAuthenticator(
                 apikey: apikey,
-                url: url
-                );
+                url: url);
 
             Assert.IsNotNull(authenticator);
             Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeIam);
@@ -64,8 +63,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.IamAuth
             IamAuthenticator authenticator = new IamAuthenticator(
                 apikey: apikey,
                 clientId: clientId,
-                clientSecret: clientSecret
-                );
+                clientSecret: clientSecret);
 
             Assert.IsNotNull(authenticator);
             Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeIam);
@@ -82,8 +80,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.IamAuth
 
             IamAuthenticator authenticator = new IamAuthenticator(
                 apikey: apikey,
-                disableSslVerification: disableSslVerification
-                );
+                disableSslVerification: disableSslVerification);
 
             Assert.IsNotNull(authenticator);
             Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeIam);
@@ -102,8 +99,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.IamAuth
 
             IamAuthenticator authenticator = new IamAuthenticator(
                 apikey: apikey,
-                headers: headers
-                );
+                headers: headers);
 
             authenticator.Headers.TryGetValue(headerName, out string retrievedHeaderValue);
             Assert.IsNotNull(authenticator);
@@ -157,81 +153,93 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.IamAuth
             Assert.IsTrue(authenticator.ClientId == null);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void TestConstructorNoApikey()
         {
             IamAuthenticator authenticator = new IamAuthenticator(
-                apikey: null
-                );
+                apikey: null);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadApikeyBracketBeginning()
         {
             IamAuthenticator authenticator = new IamAuthenticator("{apikey", "http://www.service-endpoint.com");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlBracketBeginning()
         {
             IamAuthenticator authenticator = new IamAuthenticator("apikey", "{http://www.service-endpoint.com");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadApikeyBracketEnd()
         {
             IamAuthenticator authenticator = new IamAuthenticator("apikey}", "http://www.service-endpoint.com");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlBracketEnd()
         {
             IamAuthenticator authenticator = new IamAuthenticator("apikey", "http://www.service-endpoint.com}");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadApikeyBeginningBracketEnd()
         {
             IamAuthenticator authenticator = new IamAuthenticator("{apikey}", "http://www.service-endpoint.com");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlBeginningBracketEnd()
         {
             IamAuthenticator authenticator = new IamAuthenticator("apikey", "{http://www.service-endpoint.com}");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadApikeyQuoteBeginning()
         {
             IamAuthenticator authenticator = new IamAuthenticator("\"apikey", "http://www.service-endpoint.com");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlQuoteBeginning()
         {
             IamAuthenticator authenticator = new IamAuthenticator("apikey", "\"http://www.service-endpoint.com");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadApikeyQuoteEnd()
         {
             IamAuthenticator authenticator = new IamAuthenticator("apikey\"", "http://www.service-endpoint.com");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlQuoteEnd()
         {
             IamAuthenticator authenticator = new IamAuthenticator("apikey", "http://www.service-endpoint.com\"");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadApikeyBeginningQuoteEnd()
         {
             IamAuthenticator authenticator = new IamAuthenticator("\"apikey\"", "http://www.service-endpoint.com");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlBeginningQuoteEnd()
         {
             IamAuthenticator authenticator = new IamAuthenticator("apikey", "\"http://www.service-endpoint.com\"");

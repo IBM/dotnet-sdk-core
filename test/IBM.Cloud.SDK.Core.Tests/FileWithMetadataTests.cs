@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,10 +15,10 @@
 *
 */
 
-using IBM.Cloud.SDK.Core.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Text;
+using IBM.Cloud.SDK.Core.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IBM.Cloud.SDK.Core.Tests
 {
@@ -57,7 +57,7 @@ namespace IBM.Cloud.SDK.Core.Tests
             Assert.IsTrue(fileWithMetadata.Filename == fileName);
             Assert.IsTrue(fileWithMetadata.ContentType == fileContentType);
 
-            if(File.Exists(fileName))
+            if (File.Exists(fileName))
             {
                 File.Delete(fileName);
             }

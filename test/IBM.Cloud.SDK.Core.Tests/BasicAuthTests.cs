@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,13 +15,13 @@
 *
 */
 
+using System;
+using System.Collections.Generic;
+using System.Text;
 using IBM.Cloud.SDK.Core.Authentication;
 using IBM.Cloud.SDK.Core.Authentication.BasicAuth;
 using IBM.Cloud.SDK.Core.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace IBM.Cloud.SDK.Core.Tests.Authentication.BasicAuth
 {
@@ -72,85 +72,99 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.BasicAuth
             Assert.IsTrue(client.BaseClient.DefaultRequestHeaders.Authorization.ToString() == "Basic " + auth64);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void TestNullUsername()
         {
             BasicAuthenticator authenticator = new BasicAuthenticator(null, "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void TestNullPassword()
         {
             BasicAuthenticator authenticator = new BasicAuthenticator("username", null);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUsernameBracketBeginning()
         {
             BasicAuthenticator authenticator = new BasicAuthenticator("{username", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadPasswordBracketBeginning()
         {
             BasicAuthenticator authenticator = new BasicAuthenticator("username", "{pasword");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUsernameBracketEnd()
         {
             BasicAuthenticator authenticator = new BasicAuthenticator("username}", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadPasswordBracketEnd()
         {
             BasicAuthenticator authenticator = new BasicAuthenticator("username", "pasword}");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUsernameBeginningBracketEnd()
         {
             BasicAuthenticator authenticator = new BasicAuthenticator("{username}", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadPasswordBeginningBracketEnd()
         {
             BasicAuthenticator authenticator = new BasicAuthenticator("username", "{pasword}");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUsernameQuoteBeginning()
         {
             BasicAuthenticator authenticator = new BasicAuthenticator("\"username", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadPasswordQuoteBeginning()
         {
             BasicAuthenticator authenticator = new BasicAuthenticator("username", "\"pasword");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUsernameQuoteEnd()
         {
             BasicAuthenticator authenticator = new BasicAuthenticator("username\"", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadPasswordQuoteEnd()
         {
             BasicAuthenticator authenticator = new BasicAuthenticator("username", "pasword\"");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadUsernameBeginningQuoteEnd()
         {
             BasicAuthenticator authenticator = new BasicAuthenticator("\"username\"", "password");
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void TestBadPasswordBeginningQuoteEnd()
         {
             BasicAuthenticator authenticator = new BasicAuthenticator("username", "\"pasword\"");
