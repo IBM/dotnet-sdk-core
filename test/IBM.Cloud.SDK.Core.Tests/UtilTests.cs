@@ -185,7 +185,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Util
         [TestMethod]
         public void TestConvertToUtf8()
         {
-            var testString = "testString?";
+            var testString = "testString¼";
             var utf8String = Utility.ConvertToUtf8(testString);
             Assert.IsTrue(!string.IsNullOrEmpty(utf8String));
         }
