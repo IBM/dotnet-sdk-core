@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,14 +22,14 @@ namespace IBM.Cloud.SDK.Core.Authentication
     public interface IAuthenticator
     {
         /// <summary>
-        /// Validates the current set of configuration information in the Authenticator.
-        /// </summary>
-        void Validate();
-
-        /// <summary>
         /// Returns the authentication type associated with the AuthenticatorConfig instance.
         /// </summary>
         string AuthenticationType { get; }
+
+        /// <summary>
+        /// Validates the current set of configuration information in the Authenticator.
+        /// </summary>
+        void Validate();
 
         /// <summary>
         /// Perform the necessary authentication steps for the specified request.

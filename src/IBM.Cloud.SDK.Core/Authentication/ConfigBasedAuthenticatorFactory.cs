@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,14 +15,14 @@
 *
 */
 
+using System;
+using System.Collections.Generic;
 using IBM.Cloud.SDK.Core.Authentication.BasicAuth;
 using IBM.Cloud.SDK.Core.Authentication.Bearer;
 using IBM.Cloud.SDK.Core.Authentication.Cp4d;
 using IBM.Cloud.SDK.Core.Authentication.Iam;
 using IBM.Cloud.SDK.Core.Authentication.NoAuth;
 using IBM.Cloud.SDK.Core.Util;
-using System;
-using System.Collections.Generic;
 
 namespace IBM.Cloud.SDK.Core.Authentication
 {
@@ -67,8 +67,8 @@ namespace IBM.Cloud.SDK.Core.Authentication
         /// <summary>
         /// Instantiates an Authenticator that reflects the properties contains in the specified Map.
         /// </summary>
-        /// <param name="props">A Map containing configuration properties</param>
-        /// <returns>An Authenticator instance</returns>
+        /// <param name="props">A Map containing configuration properties.</param>
+        /// <returns>An Authenticator instance.</returns>
         private static Authenticator CreateAuthenticator(Dictionary<string, string> props)
         {
             Authenticator authenticator = null;

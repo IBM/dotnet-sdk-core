@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,14 +23,6 @@ namespace IBM.Cloud.SDK.Core.Http.Exceptions
 {
     public class ServiceResponseException : Exception
     {
-        public IBMError Error { get; set; }
-
-        public HttpStatusCode Status { get; protected set; }
-
-        public IResponse Response { get; protected set; }
-
-        public HttpResponseMessage ResponseMessage { get; protected set; }
-
         public ServiceResponseException(IResponse response, HttpResponseMessage responseMessage, string message, Exception innerException = null)
             : base(message, innerException)
         {
@@ -38,5 +30,13 @@ namespace IBM.Cloud.SDK.Core.Http.Exceptions
             this.ResponseMessage = responseMessage;
             this.Status = responseMessage.StatusCode;
         }
+
+        public IBMError Error { get; set; }
+
+        public HttpStatusCode Status { get; protected set; }
+
+        public IResponse Response { get; protected set; }
+
+        public HttpResponseMessage ResponseMessage { get; protected set; }
     }
 }

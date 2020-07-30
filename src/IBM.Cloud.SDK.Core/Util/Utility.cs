@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,13 +15,13 @@
 *
 */
 
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace IBM.Cloud.SDK.Core.Util
 {
@@ -46,7 +46,7 @@ namespace IBM.Cloud.SDK.Core.Util
                 var credentials = new NetworkCredential(username, password);
                 handler = new HttpClientHandler()
                 {
-                    Credentials = credentials
+                    Credentials = credentials,
                 };
             }
             else
@@ -106,16 +106,16 @@ namespace IBM.Cloud.SDK.Core.Util
                 return null;
             }
 
-            foreach(string line in rawLines)
+            foreach (string line in rawLines)
             {
-                if(!string.IsNullOrEmpty(line) && !line.StartsWith("#") && line.Contains("="))
+                if (!string.IsNullOrEmpty(line) && !line.StartsWith("#") && line.Contains("="))
                 {
                     lines.Add(line);
                 }
             }
 
             Dictionary<string, string> envDict = new Dictionary<string, string>();
-            foreach(string line in lines)
+            foreach (string line in lines)
             {
                 string[] kvp = line.Split(new char[] { '=' }, 2);
                 if (kvp[0].StartsWith(serviceName.ToUpper()))
@@ -132,13 +132,13 @@ namespace IBM.Cloud.SDK.Core.Util
         {
             JObject o = JObject.Parse(input);
 
-            if(o["errors"] != null)
+            if (o["errors"] != null)
             {
                 JToken errorsArray = o["errors"];
                 return errorsArray[0]["message"].ToString();
             }
 
-            if(o["error"] != null)
+            if (o["error"] != null)
             {
                 return o["error"].ToString();
             }
@@ -173,6 +173,7 @@ namespace IBM.Cloud.SDK.Core.Util
         }
 
         #region ConvertToUtf8
+
         /// <summary>
         /// Convert a string to a UTF-8 encoded string
         /// </summary>

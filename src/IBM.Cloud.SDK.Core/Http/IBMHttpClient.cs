@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,35 +29,9 @@ namespace IBM.Cloud.SDK.Core.Http
     public class IBMHttpClient : IClient
     {
         private string errorMessageDisableSsl = "The connection failed because the SSL certificate is not valid. To use a self-signed certificate, set the `disableSslVerification` option in your authentication configuration and/or setting `DisableSslVerification(true);` on your service.";
-        private bool IsDisposed;
-
-        public List<IHttpFilter> Filters { get; private set; }
-
-        public HttpClient BaseClient { get; set; }
-
-        public MediaTypeFormatterCollection Formatters { get; protected set; }
-
+        private bool isDisposed;
         private bool insecure = false;
-        public bool Insecure
-        {
-            get { return insecure; }
-            set
-            {
-                insecure = value;
-                CreateClient();
-            }
-        }
-
         private string serviceUrl = default(string);
-        public string ServiceUrl
-        {
-            get { return serviceUrl; }
-            set
-            {
-                serviceUrl = value;
-                CreateClient();
-            }
-        }
 
         public IBMHttpClient()
         {
@@ -66,35 +40,42 @@ namespace IBM.Cloud.SDK.Core.Http
             CreateClient();
         }
 
-        private void CreateClient()
+        ~IBMHttpClient()
         {
-            if (Insecure)
+            Dispose(false);
+        }
+
+        public List<IHttpFilter> Filters { get; private set; }
+
+        public HttpClient BaseClient { get; set; }
+
+        public MediaTypeFormatterCollection Formatters { get; protected set; }
+
+        public bool Insecure
+        {
+            get
             {
-                var httpClientHandler = new HttpClientHandler();
-                httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
-                BaseClient = new HttpClient(httpClientHandler);
-            }
-            else
-            {
-                var httpClientHandler = new HttpClientHandler();
-                httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => 
-                {
-                    if (errors == default(System.Net.Security.SslPolicyErrors))
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        Debug.Write(errorMessageDisableSsl);
-                        return false;
-                    }
-                };
-                BaseClient = new HttpClient(httpClientHandler);
+                return insecure;
             }
 
-            if (!string.IsNullOrEmpty(ServiceUrl))
+            set
             {
-                BaseClient.BaseAddress = new Uri(ServiceUrl);
+                insecure = value;
+                CreateClient();
+            }
+        }
+
+        public string ServiceUrl
+        {
+            get
+            {
+                return serviceUrl;
+            }
+
+            set
+            {
+                serviceUrl = value;
+                CreateClient();
             }
         }
 
@@ -155,7 +136,7 @@ namespace IBM.Cloud.SDK.Core.Http
         {
             AssertNotDisposed();
 
-            if(string.IsNullOrEmpty(BaseClient.BaseAddress?.AbsoluteUri))
+            if (string.IsNullOrEmpty(BaseClient.BaseAddress?.AbsoluteUri))
             {
                 throw new ArgumentNullException("A service url is required");
             }
@@ -177,31 +158,64 @@ namespace IBM.Cloud.SDK.Core.Http
             GC.SuppressFinalize(this);
         }
 
+        public void DisableSslVerification(bool insecure)
+        {
+            Insecure = insecure;
+        }
+
         protected void AssertNotDisposed()
         {
-            if (IsDisposed)
+            if (isDisposed)
+            {
                 throw new ObjectDisposedException(nameof(IBMHttpClient));
+            }
         }
 
         protected virtual void Dispose(bool isDisposing)
         {
-            if (IsDisposed)
+            if (isDisposed)
+            {
                 return;
+            }
 
             if (isDisposing)
+            {
                 BaseClient.Dispose();
+            }
 
-            IsDisposed = true;
+            isDisposed = true;
         }
 
-        ~IBMHttpClient()
+        private void CreateClient()
         {
-            Dispose(false);
-        }
+            if (Insecure)
+            {
+                var httpClientHandler = new HttpClientHandler();
+                httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+                BaseClient = new HttpClient(httpClientHandler);
+            }
+            else
+            {
+                var httpClientHandler = new HttpClientHandler();
+                httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
+                {
+                    if (errors == default(System.Net.Security.SslPolicyErrors))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Write(errorMessageDisableSsl);
+                        return false;
+                    }
+                };
+                BaseClient = new HttpClient(httpClientHandler);
+            }
 
-        public void DisableSslVerification(bool insecure)
-        {
-            Insecure = insecure;
+            if (!string.IsNullOrEmpty(ServiceUrl))
+            {
+                BaseClient.BaseAddress = new Uri(ServiceUrl);
+            }
         }
     }
 }

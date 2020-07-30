@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,6 @@
 *
 */
 
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,44 +24,52 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace IBM.Cloud.SDK.Core.Sockets
 {
     public abstract class AWebSocketClient
     {
-        ArraySegment<byte> stopMessage = new ArraySegment<byte>(Encoding.UTF8.GetBytes(
-           "{\"action\": \"stop\"}"
-       ));
-
-        private const int ReceiveChunkSize = 1024;
-        private const int SendChunkSize = 1024;
-
-        protected ClientWebSocket BaseClient { get; set; }
-        protected UriBuilder UriBuilder { get; set; }
-        protected Dictionary<string, string> QueryString { get; set; }
-
         public Action OnOpen = () => { };
         public Action<string> OnMessage = (message) => { };
         public Action<Exception> OnError = (ex) => { };
         public Action OnClose = () => { };
 
+        private const int ReceiveChunkSize = 1024;
+        private const int SendChunkSize = 1024;
+
+        private ArraySegment<byte> stopMessage = new ArraySegment<byte>(Encoding.UTF8.GetBytes(
+           "{\"action\": \"stop\"}"));
+
+        protected ClientWebSocket BaseClient { get; set; }
+
+        protected UriBuilder UriBuilder { get; set; }
+
+        protected Dictionary<string, string> QueryString { get; set; }
+
         public AWebSocketClient AddArgument(string argumentName, string argumentValue)
         {
             if (QueryString.ContainsKey(argumentName))
+            {
                 QueryString[argumentName] = argumentValue;
+            }
             else
+            {
                 QueryString.Add(argumentName, argumentValue);
-            
+            }
+
             UriBuilder.Query =
                 string.Join("&", QueryString.Keys.Where(key => !string.IsNullOrWhiteSpace(QueryString[key])).Select(key => string.Format("{0}={1}", WebUtility.UrlEncode(key), WebUtility.UrlEncode(QueryString[key]))));
 
             return this;
         }
+
         public AWebSocketClient WithAuthentication(string userName, string password)
         {
             BaseClient.Options.SetRequestHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(userName + ":" + password)));
             return this;
         }
+
         public AWebSocketClient WithHeader(string headerName, string headerValue)
         {
             this.BaseClient.Options.SetRequestHeader(headerName, headerValue);
@@ -80,6 +87,7 @@ namespace IBM.Cloud.SDK.Core.Sockets
             {
                 await BaseClient.SendAsync(new ArraySegment<byte>(b), WebSocketMessageType.Binary, true, CancellationToken.None);
             }
+
             await BaseClient.SendAsync(stopMessage, WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
@@ -90,14 +98,15 @@ namespace IBM.Cloud.SDK.Core.Sockets
 
             for (var i = 0; i < messagesCount; i++)
             {
-                var offset = (SendChunkSize * i);
+                var offset = SendChunkSize * i;
                 var count = SendChunkSize;
-                var lastMessage = ((i + 1) == messagesCount);
+                var lastMessage = (i + 1) == messagesCount;
 
                 if ((count * (i + 1)) > messageBuffer.Length)
                 {
                     count = messageBuffer.Length - offset;
                 }
+
                 await BaseClient.SendAsync(new ArraySegment<byte>(messageBuffer, offset, count), WebSocketMessageType.Text, lastMessage, CancellationToken.None);
             }
         }

@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,10 +15,10 @@
 *
 */
 
+using System;
 using JWT;
 using JWT.Serializers;
 using Newtonsoft.Json.Linq;
-using System;
 
 namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
 {
@@ -27,13 +27,10 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
     /// </summary>
     public class CloudPakForDataToken
     {
-        public string AccessToken { get; set; }
-        public long ExpirationTimeInMillis { get; set; }
-
         /// <summary>
         /// This ctor is used to store a user-managed access token which will never expire.
         /// </summary>
-        /// <param name="accessToken">the user-managed access token</param>
+        /// <param name="accessToken">the user-managed access token.</param>
         public CloudPakForDataToken(string accessToken)
         {
             AccessToken = accessToken;
@@ -90,6 +87,10 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
                 throw new Exception("Properties 'iat' and 'exp' MUST be present within the encoded access token");
             }
         }
+
+        public string AccessToken { get; set; }
+
+        public long ExpirationTimeInMillis { get; set; }
 
         public bool IsTokenValid()
         {

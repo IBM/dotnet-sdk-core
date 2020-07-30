@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,7 +34,7 @@ namespace IBM.Cloud.SDK.Core.Http.Filters
                 HttpHeaders responseHeaders = responseMessage.Headers;
 
                 IEnumerable<string> globalTransactionId;
-                string globalTransactionIdString = "";
+                string globalTransactionIdString = string.Empty;
                 if (responseHeaders.TryGetValues("x-global-transaction-id", out globalTransactionId))
                 {
                     globalTransactionIdString = string.Join(", ", globalTransactionId);
@@ -45,7 +45,7 @@ namespace IBM.Cloud.SDK.Core.Http.Filters
 
                 var error = responseMessage.Content.ReadAsStringAsync().Result;
 
-                if (responseMessage.Content.Headers?.ContentType?.MediaType == HttpMediaType.APPLICATION_JSON)
+                if (responseMessage.Content.Headers?.ContentType?.MediaType == HttpMediaType.ApplicationJson)
                 {
                     exception.Error = JsonConvert.DeserializeObject<IBMError>(error);
                 }
@@ -54,13 +54,12 @@ namespace IBM.Cloud.SDK.Core.Http.Filters
                     exception.Error = new IBMError()
                     {
                         CodeDescription = responseMessage.StatusCode.ToString(),
-                        Message = error
+                        Message = error,
                     };
                 }
 
                 throw exception;
             }
-                
         }
     }
 }

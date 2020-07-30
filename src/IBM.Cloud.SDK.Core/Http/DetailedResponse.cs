@@ -21,21 +21,6 @@ namespace IBM.Cloud.SDK.Core.Http
 {
     public class DetailedResponse<T>
     {
-        /// <summary>
-        /// The status code returned from the server.
-        /// </summary>
-        public long StatusCode { get; set; }
-        /// <summary>
-        /// Dictionary of headers returned by the request.
-        /// </summary>
-        public Dictionary<string, object> Headers { get; set; }
-        /// <summary>
-        /// The deserialized result.
-        /// </summary>
-        public T Result { get; set; }
-
-        public string Response { get; set; }
-
         public DetailedResponse()
         {
             if (Headers == null)
@@ -43,5 +28,22 @@ namespace IBM.Cloud.SDK.Core.Http
                 Headers = new Dictionary<string, object>();
             }
         }
+
+        /// <summary>
+        /// The status code returned from the server.
+        /// </summary>
+        public long StatusCode { get; set; }
+
+        /// <summary>
+        /// Dictionary of headers returned by the request.
+        /// </summary>
+        public Dictionary<string, object> Headers { get; set; }
+
+        /// <summary>
+        /// The deserialized result.
+        /// </summary>
+        public T Result { get; set; }
+
+        public string Response { get; set; }
     }
 }

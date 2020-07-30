@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,10 +15,10 @@
 *
 */
 
-using IBM.Cloud.SDK.Core.Http;
-using IBM.Cloud.SDK.Core.Util;
 using System;
 using System.Collections.Generic;
+using IBM.Cloud.SDK.Core.Http;
+using IBM.Cloud.SDK.Core.Util;
 
 namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
 {
@@ -29,21 +29,12 @@ namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
     public class BasicAuthenticator : Authenticator
     {
         /// <summary>
-        /// The username configured on this authenticator
-        /// </summary>
-        public string Username { get; private set; }
-        /// <summary>
-        /// The password configured on this authenticator
-        /// </summary>
-        public string Password { get; private set; }
-
-        /// <summary>
         /// Construct a BasicAuthenticator instance with the specified username and password.
         /// These values are used to construct an Authorization header value that will be included
         /// in outgoing REST API requests.
         /// </summary>
-        /// <param name="username">The basic auth username</param>
-        /// <param name="password">The basic auth password</param>
+        /// <param name="username">The basic auth username.</param>
+        /// <param name="password">The basic auth password.</param>
         public BasicAuthenticator(string username, string password)
         {
             Init(username, password);
@@ -52,7 +43,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
         /// <summary>
         /// Construct a BasicAuthenticator using properties retrieved from the specified Map.
         /// </summary>
-        /// <param name="config">A map containing the username and password values</param>
+        /// <param name="config">A map containing the username and password values.</param>
         public BasicAuthenticator(Dictionary<string, string> config)
         {
             config.TryGetValue(PropNameUsername, out string username);
@@ -60,13 +51,15 @@ namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
             Init(username, password);
         }
 
-        private void Init(string username, string password)
-        {
-            Username = username;
-            Password = password;
+        /// <summary>
+        /// The username configured on this authenticator.
+        /// </summary>
+        public string Username { get; private set; }
 
-            Validate();
-        }
+        /// <summary>
+        /// The password configured on this authenticator.
+        /// </summary>
+        public string Password { get; private set; }
 
         public override string AuthenticationType
         {
@@ -104,6 +97,14 @@ namespace IBM.Cloud.SDK.Core.Authentication.BasicAuth
             {
                 throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "Password"));
             }
+        }
+
+        private void Init(string username, string password)
+        {
+            Username = username;
+            Password = password;
+
+            Validate();
         }
     }
 }

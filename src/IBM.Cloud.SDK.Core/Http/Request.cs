@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,23 +35,22 @@ namespace IBM.Cloud.SDK.Core.Http
 {
     public sealed class Request : IRequest
     {
-        private readonly IHttpFilter[] Filters;
-
-        private readonly Lazy<Task<HttpResponseMessage>> Dispatch;
-
-        public HttpRequestMessage Message { get; }
-
-        public MediaTypeFormatterCollection Formatters { get; }
+        private readonly IHttpFilter[] filters;
+        private readonly Lazy<Task<HttpResponseMessage>> dispatch;
 
         public Request(HttpRequestMessage message, MediaTypeFormatterCollection formatters, Func<IRequest, Task<HttpResponseMessage>> dispatcher, IHttpFilter[] filters)
         {
             this.Message = message;
             this.Formatters = formatters;
-            this.Dispatch = new Lazy<Task<HttpResponseMessage>>(() => dispatcher(this));
-            this.Filters = filters;
+            this.dispatch = new Lazy<Task<HttpResponseMessage>>(() => dispatcher(this));
+            this.filters = filters;
             this.Message.Headers.Accept.Clear();
         }
-        
+
+        public HttpRequestMessage Message { get; }
+
+        public MediaTypeFormatterCollection Formatters { get; }
+
         public IRequest WithBody<T>(T body, MediaTypeHeaderValue contentType = null)
         {
             MediaTypeFormatter formatter = HttpFactory.GetFormatter(this.Formatters, contentType);
@@ -109,7 +108,7 @@ namespace IBM.Cloud.SDK.Core.Http
             this.Formatters.JsonFormatter.SupportedMediaTypes.Add(contentType);
             return this;
         }
-        
+
         public TaskAwaiter<IResponse> GetAwaiter()
         {
             Func<Task<IResponse>> waiter = async () =>
@@ -122,7 +121,7 @@ namespace IBM.Cloud.SDK.Core.Http
 
         public async Task<HttpResponseMessage> AsMessage()
         {
-            return await this.GetResponse(this.Dispatch.Value).ConfigureAwait(false);
+            return await this.GetResponse(this.dispatch.Value).ConfigureAwait(false);
         }
 
         public async Task<DetailedResponse<T>> As<T>()
@@ -132,20 +131,22 @@ namespace IBM.Cloud.SDK.Core.Http
 
             var result = message.Content.ReadAsStringAsync().Result;
 
-            //  Set response headers
+            // Set response headers
             foreach (var header in message.Headers)
+            {
                 detailedResponse.Headers.Add(header.Key, string.Join(",", header.Value));
+            }
 
-            //  Set staus code
+            // Set staus code
             detailedResponse.StatusCode = (long)message.StatusCode;
 
-            //  Set response
+            // Set response
             if (!string.IsNullOrEmpty(result))
             {
                 detailedResponse.Response = JValue.Parse(result).ToString(Formatting.Indented);
             }
 
-            //  Set result
+            // Set result
             detailedResponse.Result = await message.Content.ReadAsAsync<T>(this.Formatters).ConfigureAwait(false);
 
             return detailedResponse;
@@ -173,11 +174,17 @@ namespace IBM.Cloud.SDK.Core.Http
 
         private async Task<HttpResponseMessage> GetResponse(Task<HttpResponseMessage> request)
         {
-            foreach (IHttpFilter filter in this.Filters)
+            foreach (IHttpFilter filter in this.filters)
+            {
                 filter.OnRequest(this, this.Message);
+            }
+
             HttpResponseMessage response = await request.ConfigureAwait(false);
-            foreach (IHttpFilter filter in this.Filters)
+            foreach (IHttpFilter filter in this.filters)
+            {
                 filter.OnResponse(this, response);
+            }
+
             return response;
         }
 
@@ -185,11 +192,15 @@ namespace IBM.Cloud.SDK.Core.Http
         {
             // null
             if (arguments == null)
+            {
                 return new Dictionary<string, object>();
+            }
 
             // generic dictionary
             if (arguments is IDictionary<string, object>)
+            {
                 return (IDictionary<string, object>)arguments;
+            }
 
             // dictionary
             if (arguments is IDictionary)
@@ -197,7 +208,10 @@ namespace IBM.Cloud.SDK.Core.Http
                 IDictionary<string, object> dict = new Dictionary<string, object>();
                 IDictionary argDict = (IDictionary)arguments;
                 foreach (var key in argDict.Keys)
+                {
                     dict.Add(key.ToString(), argDict[key]);
+                }
+
                 return dict;
             }
 

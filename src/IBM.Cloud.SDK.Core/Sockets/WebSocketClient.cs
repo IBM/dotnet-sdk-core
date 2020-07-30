@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,7 +27,6 @@ namespace IBM.Cloud.SDK.Core.Sockets
 {
     public class WebSocketClient : AWebSocketClient
     {
-        private WebSocketClient() { }
         public WebSocketClient(string urlService)
         {
             BaseClient =
@@ -40,12 +39,14 @@ namespace IBM.Cloud.SDK.Core.Sockets
                 new Dictionary<string, string>();
         }
 
+        private WebSocketClient() { }
+
         public override void Send(FileStream file, string openingMessage)
         {
             // connect the websocket
             Action connectAction = () => BaseClient.ConnectAsync(UriBuilder.Uri, CancellationToken.None).Wait();
 
-            // send opening message and wait for initial delimeter 
+            // send opening message and wait for initial delimeter
             Action<ArraySegment<byte>> openAction = (message) => Task.WaitAll(BaseClient.SendAsync(message, WebSocketMessageType.Text, true, CancellationToken.None), HandleResults());
 
             // send all audio and then a closing message; simltaneously print all results until delimeter is recieved
@@ -60,29 +61,45 @@ namespace IBM.Cloud.SDK.Core.Sockets
                             .ContinueWith((antecedent) =>
                             {
                                 if (antecedent.Status == TaskStatus.Faulted)
+                                {
                                     if (antecedent.Exception != null)
+                                    {
                                         OnError(antecedent.Exception.InnerException);
+                                    }
+                                }
                             })
                             .ContinueWith((antecedent) => openAction(openMessage), TaskContinuationOptions.OnlyOnRanToCompletion)
                             .ContinueWith((antecedent) =>
                             {
                                 if (antecedent.Status == TaskStatus.Faulted)
+                                {
                                     if (antecedent.Exception != null)
+                                    {
                                         OnError(antecedent.Exception.InnerException);
+                                    }
+                                }
                             })
                             .ContinueWith((antecedent) => sendAction(), TaskContinuationOptions.OnlyOnRanToCompletion)
                             .ContinueWith((antecedent) =>
                             {
                                 if (antecedent.Status == TaskStatus.Faulted)
+                                {
                                     if (antecedent.Exception != null)
+                                    {
                                         OnError(antecedent.Exception.InnerException);
+                                    }
+                                }
                             })
                             .ContinueWith((antecedent) => closeAction(), TaskContinuationOptions.OnlyOnRanToCompletion)
                             .ContinueWith((antecedent) =>
                             {
                                 if (antecedent.Status == TaskStatus.Faulted)
+                                {
                                     if (antecedent.Exception != null)
+                                    {
                                         OnError(antecedent.Exception.InnerException);
+                                    }
+                                }
                             })
                             .Wait();
         }
@@ -92,7 +109,7 @@ namespace IBM.Cloud.SDK.Core.Sockets
             // connect the websocket
             Action connectAction = () => BaseClient.ConnectAsync(UriBuilder.Uri, CancellationToken.None).Wait();
 
-            // send opening message and wait for initial delimeter 
+            // send opening message and wait for initial delimeter
             Action<ArraySegment<byte>> openAction = (message) => Task.WaitAll(BaseClient.SendAsync(message, WebSocketMessageType.Text, true, CancellationToken.None), HandleResults());
 
             // send all audio and then a closing message; simltaneously print all results until delimeter is recieved
@@ -107,29 +124,45 @@ namespace IBM.Cloud.SDK.Core.Sockets
                             .ContinueWith((antecedent) =>
                             {
                                 if (antecedent.Status == TaskStatus.Faulted)
+                                {
                                     if (antecedent.Exception != null)
+                                    {
                                         OnError(antecedent.Exception.InnerException);
+                                    }
+                                }
                             })
                             .ContinueWith((antecedent) => openAction(openMessage), TaskContinuationOptions.OnlyOnRanToCompletion)
                             .ContinueWith((antecedent) =>
                             {
                                 if (antecedent.Status == TaskStatus.Faulted)
+                                {
                                     if (antecedent.Exception != null)
+                                    {
                                         OnError(antecedent.Exception.InnerException);
+                                    }
+                                }
                             })
                             .ContinueWith((antecedent) => sendAction(), TaskContinuationOptions.OnlyOnRanToCompletion)
                             .ContinueWith((antecedent) =>
                             {
                                 if (antecedent.Status == TaskStatus.Faulted)
+                                {
                                     if (antecedent.Exception != null)
+                                    {
                                         OnError(antecedent.Exception.InnerException);
+                                    }
+                                }
                             })
                             .ContinueWith((antecedent) => closeAction(), TaskContinuationOptions.OnlyOnRanToCompletion)
                             .ContinueWith((antecedent) =>
                             {
                                 if (antecedent.Status == TaskStatus.Faulted)
+                                {
                                     if (antecedent.Exception != null)
+                                    {
                                         OnError(antecedent.Exception.InnerException);
+                                    }
+                                }
                             })
                             .Wait();
         }

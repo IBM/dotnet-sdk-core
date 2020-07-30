@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,16 +21,19 @@ namespace IBM.Cloud.SDK.Core.Http.Extensions
 {
     public static class StreamExtension
     {
-        public static byte[] ReadAllBytes(this Stream _stream)
+        public static byte[] ReadAllBytes(this Stream stream)
         {
-            byte[] buffer = new byte[_stream.Length];
+            byte[] buffer = new byte[stream.Length];
             using (MemoryStream ms = new MemoryStream())
             {
                 while (true)
                 {
-                    int read = _stream.Read(buffer, 0, buffer.Length);
+                    int read = stream.Read(buffer, 0, buffer.Length);
                     if (read <= 0)
+                    {
                         return ms.ToArray();
+                    }
+
                     ms.Write(buffer, 0, read);
                 }
             }

@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,38 +21,39 @@ namespace IBM.Cloud.SDK.Core.Http
 {
     public static class HttpMediaType
     {
-        public const string APPLICATION_ATOM_XML = "application/atom+xml";
-        public const string APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
-        public const string APPLICATION_JSON = "application/json";
-        public const string APPLICATION_MS_WORD = "application/msword";
-        public const string APPLICATION_MS_WORD_DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-        public const string APPLICATION_OCTET_STREAM = "application/octet-stream";
-        public const string APPLICATION_PDF = "application/pdf";
-        public const string APPLICATION_SVG_XML = "application/svg+xml";
-        public const string APPLICATION_XHTML_XML = "application/xhtml+xml";
-        public const string APPLICATION_ZIP = "application/zip";
-        public const string APPLICATION_XML = "application/xml";
-        public const string AUDIO_OGG = "audio/ogg; codecs=opus";
-        public const string AUDIO_OGG_VORBIS = "audio/ogg; codecs=vorbis";
-        public const string AUDIO_WAV = "audio/wav";
-        public const string AUDIO_PCM = "audio/l16";
-        public const string AUDIO_BASIC = "audio/basic";
-        public const string AUDIO_FLAC = "audio/flac";
-        public const string AUDIO_RAW = "audio/l16";
-        public static string createAudioRaw(int rate)
-        {
-            return AUDIO_RAW + "; rate=" + rate;
-        }
-        public const string BINARY_OCTET_STREAM = "binary/octet-stream";
-        public const string JSON = APPLICATION_JSON + "; charset=utf-8";
-        public const string MEDIA_TYPE_WILDCARD = "*";
-        public const string MULTIPART_FORM_DATA = "multipart/form-data";
-        public const string TEXT_CSV = "text/csv";
-        public const string TEXT_HTML = "text/html";
-        public const string TEXT_PLAIN = "text/plain";
-        public const string TEXT = TEXT_PLAIN + "; charset=utf-8";
-        public const string TEXT_XML = "text/xml";
-        public const string WILDCARD = "*/*";
+        public const string ApplicationAtomXml = "application/atom+xml";
+        public const string ApplicationFormUrlEncoded = "application/x-www-form-urlencoded";
+        public const string ApplicationJson = "application/json";
+        public const string ApplicationMsWord = "application/msword";
+        public const string ApplicationMsWordDocx = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        public const string ApplicationOctetStream = "application/octet-stream";
+        public const string ApplicationPdf = "application/pdf";
+        public const string ApplicationSvgXml = "application/svg+xml";
+        public const string ApplicationXhtmlXml = "application/xhtml+xml";
+        public const string ApplicationZip = "application/zip";
+        public const string ApplicationXml = "application/xml";
+        public const string AudioOgg = "audio/ogg; codecs=opus";
+        public const string AudioOggVorbis = "audio/ogg; codecs=vorbis";
+        public const string AudioWav = "audio/wav";
+        public const string AudioPcm = "audio/l16";
+        public const string AudioBasic = "audio/basic";
+        public const string AudioFlac = "audio/flac";
+        public const string AudioRaw = "audio/l16";
 
+        public const string BinaryOctetStream = "binary/octet-stream";
+        public const string Json = ApplicationJson + "; charset=utf-8";
+        public const string MediaTypeWildcard = "*";
+        public const string MultipartFormData = "multipart/form-data";
+        public const string TextCsv = "text/csv";
+        public const string TextHtml = "text/html";
+        public const string TextPlain = "text/plain";
+        public const string Text = TextPlain + "; charset=utf-8";
+        public const string TextXml = "text/xml";
+        public const string Wildcard = "*/*";
+
+        public static string CreateAudioRaw(int rate)
+        {
+            return AudioRaw + "; rate=" + rate;
+        }
     }
 }

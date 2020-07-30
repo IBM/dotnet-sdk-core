@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,10 +15,10 @@
 *
 */
 
-using IBM.Cloud.SDK.Core.Http;
-using IBM.Cloud.SDK.Core.Util;
 using System;
 using System.Collections.Generic;
+using IBM.Cloud.SDK.Core.Http;
+using IBM.Cloud.SDK.Core.Util;
 
 namespace IBM.Cloud.SDK.Core.Authentication.Bearer
 {
@@ -29,16 +29,11 @@ namespace IBM.Cloud.SDK.Core.Authentication.Bearer
     public class BearerTokenAuthenticator : Authenticator
     {
         /// <summary>
-        /// The access token configured for this authenticator
-        /// </summary>
-        public string BearerToken { get; set; }
-
-        /// <summary>
         /// Construct a BearerTokenAuthenticator instance with the specified access token.
         /// The token value will be used to construct an Authorization header that will be included
         /// in outgoing REST API requests.
         /// </summary>
-        /// <param name="bearerToken">The access token value</param>
+        /// <param name="bearerToken">The access token value.</param>
         public BearerTokenAuthenticator(string bearerToken)
         {
             Init(bearerToken);
@@ -47,19 +42,17 @@ namespace IBM.Cloud.SDK.Core.Authentication.Bearer
         /// <summary>
         /// Construct a BearerTokenAuthenticator using properties retrieved from the specified Map.
         /// </summary>
-        /// <param name="config">Config a map containing the access token value</param>
+        /// <param name="config">Config a map containing the access token value.</param>
         public BearerTokenAuthenticator(Dictionary<string, string> config)
         {
             config.TryGetValue(PropNameBearerToken, out string bearerToken);
             Init(bearerToken);
         }
 
-        private void Init(string bearerToken)
-        {
-            BearerToken = bearerToken;
-
-            Validate();
-        }
+        /// <summary>
+        /// The access token configured for this authenticator.
+        /// </summary>
+        public string BearerToken { get; set; }
 
         public override string AuthenticationType
         {
@@ -87,6 +80,13 @@ namespace IBM.Cloud.SDK.Core.Authentication.Bearer
             {
                 throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "BearerToken"));
             }
+        }
+
+        private void Init(string bearerToken)
+        {
+            BearerToken = bearerToken;
+
+            Validate();
         }
     }
 }

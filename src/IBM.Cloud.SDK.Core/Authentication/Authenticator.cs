@@ -50,16 +50,16 @@ namespace IBM.Cloud.SDK.Core.Authentication
         /// <summary>
         /// Returns the authentication type associated with the Authenticator instance.
         /// </summary>
-        virtual public string AuthenticationType { get; }
+        public virtual string AuthenticationType { get; }
 
         /// <summary>
         /// Perform the necessary authentication steps for the specified request.
         /// </summary>
-        virtual public void Authenticate(IClient client) { }
+        public virtual void Authenticate(IClient client) { }
 
         /// <summary>
         /// Validates the current set of configuration information in the Authenticator.
         /// </summary>
-        virtual public void Validate() { }
+        public virtual void Validate() { }
     }
 }

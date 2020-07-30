@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*      http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,36 +29,8 @@ namespace IBM.Cloud.SDK.Core.Service
     {
         public static string PropNameServiceUrl = "URL";
         public static string PropNameServiceDisableSslVerification = "DISABLE_SSL";
-
-        private const string icpPrefix = "icp-";
-        private const string apikeyAsUsername = "apikey";
-        public IClient Client { get; set; }
-        public string ServiceName { get; set; }
-        public string ServiceUrl { get { return Endpoint; } }
         protected Dictionary<string, string> customRequestHeaders = new Dictionary<string, string>();
         private const string ErrorMessageNoAuthenticator = "Authentication information was not properly configured.";
-
-        protected string Endpoint
-        {
-            get
-            {
-                if (Client.BaseClient == null ||
-                    Client.BaseClient.BaseAddress == null)
-                    return string.Empty;
-
-                //  remove trailing `/` if it exists
-                return Client.BaseClient.BaseAddress.AbsoluteUri.TrimEnd('/');
-            }
-            set
-            {
-                if (Client.BaseClient == null)
-                {
-                    Client.BaseClient = new HttpClient();
-                }
-                Client.ServiceUrl = value;
-            }
-        }
-
         private IAuthenticator authenticator;
 
         protected IBMService(string serviceName, IClient httpClient)
@@ -95,15 +67,34 @@ namespace IBM.Cloud.SDK.Core.Service
             DisableSslVerification(disableSsl);
         }
 
-        protected void SetAuthentication()
+        public IClient Client { get; set; }
+
+        public string ServiceName { get; set; }
+
+        public string ServiceUrl { get { return Endpoint; } }
+
+        protected string Endpoint
         {
-            if (authenticator != null)
+            get
             {
-                authenticator.Authenticate(Client);
+                if (Client.BaseClient == null ||
+                    Client.BaseClient.BaseAddress == null)
+                {
+                    return string.Empty;
+                }
+
+                // remove trailing `/` if it exists
+                return Client.BaseClient.BaseAddress.AbsoluteUri.TrimEnd('/');
             }
-            else
+
+            set
             {
-                throw new ArgumentException("Authentication information was not properly configured.");
+                if (Client.BaseClient == null)
+                {
+                    Client.BaseClient = new HttpClient();
+                }
+
+                Client.ServiceUrl = value;
             }
         }
 
@@ -144,15 +135,9 @@ namespace IBM.Cloud.SDK.Core.Service
             }
         }
 
-        protected void ClearCustomRequestHeaders()
-        {
-            customRequestHeaders = new Dictionary<string, string>();
-        }
-
         /// <summary>
         /// Returns a Dictionary of custom request headers.
         /// </summary>
-        /// <returns></returns>
         public Dictionary<string, string> GetCustomRequestHeaders()
         {
             return customRequestHeaders;
@@ -164,6 +149,23 @@ namespace IBM.Cloud.SDK.Core.Service
         public IAuthenticator GetAuthenticator()
         {
             return authenticator;
+        }
+
+        protected void ClearCustomRequestHeaders()
+        {
+            customRequestHeaders = new Dictionary<string, string>();
+        }
+
+        protected void SetAuthentication()
+        {
+            if (authenticator != null)
+            {
+                authenticator.Authenticate(Client);
+            }
+            else
+            {
+                throw new ArgumentException("Authentication information was not properly configured.");
+            }
         }
     }
 }
