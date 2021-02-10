@@ -1,6 +1,6 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/e7cxw58s5pfr3dmv?svg=true)](https://ci.appveyor.com/project/mediumTaj/dotnet-sdk-core)
 [![NuGet](https://img.shields.io/badge/nuget-v1.1.0-green.svg?style=flat)](https://www.nuget.org/packages/IBM.Cloud.SDK.Core/)
-[![Coverage Status](https://coveralls.io/repos/github/IBM/dotnet-sdk-core/badge.svg?branch=master)](https://coveralls.io/github/IBM/dotnet-sdk-core?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/IBM/dotnet-sdk-core/badge.svg?branch=main)](https://coveralls.io/github/IBM/dotnet-sdk-core?branch=main)
 [![Documentation](https://img.shields.io/badge/documentation-API-blue.svg)](https://ibm.github.io/dotnet-sdk-core/)
 
 ### IBM Cloud SDK

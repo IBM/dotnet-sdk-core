@@ -89,7 +89,7 @@ after_build:
 
     {
       
-      If($branchName -eq $env:APPVEYOR_REPO_TAG_NAME -or $branchName -eq "master")
+      If($branchName -eq $env:APPVEYOR_REPO_TAG_NAME -or $branchName -eq "main")
 
       {
           .\packages\Doxygen.1.8.14\tools\doxygen.exe Doxyfile
@@ -227,10 +227,10 @@ test_script:
 
     }
 
-    If($branchName -eq "master" -and $env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
+    If($branchName -eq "main" -and $env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
 
     {
-        Write-Output "branchName is master and not a pull request - running semantic release"
+        Write-Output "branchName is main and not a pull request - running semantic release"
 
         npx semantic-release@15.11.0
 
@@ -252,6 +252,6 @@ deploy:
   api_key:
     secure: q7ya4MDWM5JDI2JYw1DxSKTgX+jwbvdlRKPjVg1Cijxb33r1K5qSAabnsUHcWTLf
   on:
-    branch: master
+    branch: main
     APPVEYOR_REPO_TAG: true
     

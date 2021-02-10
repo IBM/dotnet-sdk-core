@@ -1,5 +1,5 @@
 {
-  "branch": "master",
+  "branch": "main",
   "verifyConditions": ["@semantic-release/changelog", "@semantic-release/git", "@semantic-release/exec"],
   "prepare": [
     "@semantic-release/changelog",
