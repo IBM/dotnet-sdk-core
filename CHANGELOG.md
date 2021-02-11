@@ -1,3 +1,13 @@
+## [1.1.1](https://github.com/IBM/dotnet-sdk-core/compare/v1.1.0...v1.1.1) (2021-02-11)
+
+
+### Bug Fixes
+
+* **build:** main migration ([796bb00](https://github.com/IBM/dotnet-sdk-core/commit/796bb00178a1685e7c25302d2ffc1e19060d2512))
+* **build:** main migration automation ([6528d3e](https://github.com/IBM/dotnet-sdk-core/commit/6528d3ec9eb95783b5a076ce63bd7ae42b4dcbdd))
+* **build:** main migration automation ([3e4ceea](https://github.com/IBM/dotnet-sdk-core/commit/3e4ceea2efa77c4c743393de470f84bcb3a9aae6))
+* allow '=' character in environment config values ([761da72](https://github.com/IBM/dotnet-sdk-core/commit/761da72124c66f03a3ecd97cec257363e957c0c8))
+
 # [1.1.0](https://github.com/IBM/dotnet-sdk-core/compare/v1.0.1...v1.1.0) (2019-12-06)
 
 
