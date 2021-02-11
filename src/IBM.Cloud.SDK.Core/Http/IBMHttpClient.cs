@@ -36,7 +36,7 @@ namespace IBM.Cloud.SDK.Core.Http
 
         public HttpClient BaseClient { get; set; }
 
-        public WebProxy WebProxy { get { return WebProxy; } set { WebProxy = value; CreateClient(); } }
+        public WebProxy WebProxy { get; private set; } = null;
 
         public MediaTypeFormatterCollection Formatters { get; protected set; }
 
@@ -62,10 +62,11 @@ namespace IBM.Cloud.SDK.Core.Http
             }
         }
 
-        public IBMHttpClient()
+        public IBMHttpClient(WebProxy webProxy = null)
         {
             Filters = new List<IHttpFilter> { new ErrorFilter() };
             Formatters = new MediaTypeFormatterCollection();
+            WebProxy = webProxy;
             CreateClient();
         }
 

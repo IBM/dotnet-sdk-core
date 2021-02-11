@@ -28,7 +28,7 @@ namespace IBM.Cloud.SDK.Core.Http
     {
         HttpClient BaseClient { get; set; }
 
-        WebProxy WebProxy { get; set; }
+        WebProxy WebProxy { get; }
 
         MediaTypeFormatterCollection Formatters { get; }
 
