@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Net;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
@@ -34,6 +35,8 @@ namespace IBM.Cloud.SDK.Core.Http
         public List<IHttpFilter> Filters { get; private set; }
 
         public HttpClient BaseClient { get; set; }
+
+        public WebProxy WebProxy { get { return WebProxy; } set { WebProxy = value; CreateClient(); } }
 
         public MediaTypeFormatterCollection Formatters { get; protected set; }
 
@@ -70,13 +73,13 @@ namespace IBM.Cloud.SDK.Core.Http
         {
             if (Insecure)
             {
-                var httpClientHandler = new HttpClientHandler();
+                var httpClientHandler = new HttpClientHandler() { Proxy = WebProxy };
                 httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
                 BaseClient = new HttpClient(httpClientHandler);
             }
             else
             {
-                var httpClientHandler = new HttpClientHandler();
+                var httpClientHandler = new HttpClientHandler() { Proxy = WebProxy };
                 httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => 
                 {
                     if (errors == default(System.Net.Security.SslPolicyErrors))
