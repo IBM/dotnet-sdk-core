@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net;
 using IBM.Cloud.SDK.Core.Authentication;
 using IBM.Cloud.SDK.Core.Authentication.NoAuth;
 using IBM.Cloud.SDK.Core.Http;
@@ -68,13 +69,13 @@ namespace IBM.Cloud.SDK.Core.Service
             authenticator = new NoAuthAuthenticator();
         }
 
-        protected IBMService(string serviceName, IAuthenticator authenticator)
+        protected IBMService(string serviceName, IAuthenticator authenticator, WebProxy webProxy = null)
         {
             ServiceName = serviceName;
 
             this.authenticator = authenticator ?? throw new ArgumentNullException(ErrorMessageNoAuthenticator);
 
-            Client = new IBMHttpClient();
+            Client = new IBMHttpClient(webProxy);
 
             // Try to retrieve the service URL from either a credential file, environment, or VCAP_SERVICES.
             Dictionary<string, string> props = CredentialUtils.GetServiceProperties(serviceName);
