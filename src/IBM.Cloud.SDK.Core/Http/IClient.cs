@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net;
 using System.Net.Http.Formatting;
 using IBM.Cloud.SDK.Core.Http.Filters;
 
@@ -26,6 +27,8 @@ namespace IBM.Cloud.SDK.Core.Http
     public interface IClient : IDisposable
     {
         HttpClient BaseClient { get; set; }
+
+        WebProxy WebProxy { get; }
 
         MediaTypeFormatterCollection Formatters { get; }
 
