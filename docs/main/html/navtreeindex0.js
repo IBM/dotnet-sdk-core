@@ -15,7 +15,6 @@ var NAVTREEINDEX0 =
 "d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a538f8bb5dafc72dd3b527788d16875d1":[1,0,0,0,0,0,3,0,2],
 "d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a637992d32d268ab1b784f37a78f39f10":[1,0,0,0,0,0,3,0,0],
 "d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a6484ea160a2b7c7cc9730ff6cb841bc4":[1,0,0,0,0,0,3,0,7],
-"d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a6a795509411629304aca8bb8a0c2c437":[1,0,0,0,0,0,3,0,1],
 "d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a732e1219f5071fb03bdfad0a26ba42d7":[1,0,0,0,0,0,3,0,15],
 "d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a94107ee288dff8040d6c96d47d4eef67":[1,0,0,0,0,0,3,0,14],
 "d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#aa7ec7f38d4254d812c3cb311ca5cf137":[1,0,0,0,0,0,3,0,16],
@@ -23,6 +22,7 @@ var NAVTREEINDEX0 =
 "d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#ad3e95283ef266f8787f3837349dccf6e":[1,0,0,0,0,0,3,0,13],
 "d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#ae0a26eb99f5021993822e773ec5f56c4":[1,0,0,0,0,0,3,0,6],
 "d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#ae0dfe21b2f192f542f164a6c281daccb":[1,0,0,0,0,0,3,0,9],
+"d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#ae3a2899fdbe64be701042b5023199150":[1,0,0,0,0,0,3,0,1],
 "d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#af7d8515277af1b18c13d5f23c7114b24":[1,0,0,0,0,0,3,0,5],
 "d0/de9/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_basic_auth.html":[0,0,0,0,0,0,0,0],
 "d0/de9/namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_basic_auth.html":[1,0,0,0,0,0,0,0],
@@ -240,6 +240,7 @@ var NAVTREEINDEX0 =
 "dc/d4d/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_util_1_1_vcap_credential.html#af3592b6a3ea5079569110643ea7ca111":[1,0,0,0,0,0,5,4,0],
 "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html":[1,0,0,0,0,0,1,6],
 "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#a12e9a4c18570a7ded15deeea88b2dbfb":[1,0,0,0,0,0,1,6,2],
+"dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#a2f7ebd0e58f3cabb10666656f9c1fea1":[1,0,0,0,0,0,1,6,15],
 "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#a5b75ff0bfec4794821fe783a380ed267":[1,0,0,0,0,0,1,6,12],
 "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#a5f855ed6a685c4aa29be1954e139d384":[1,0,0,0,0,0,1,6,10],
 "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#a6f3dbcaa4e65922e1ca4392e8799986e":[1,0,0,0,0,0,1,6,5],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#aa448c7b010b535d54077228f0f7bb376":[1,0,0,0,0,0,1,6,6],
 "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#aa64cb04cce2629db8428588741980040":[1,0,0,0,0,0,1,6,13],
 "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#aa768d8c57abc44f1a55874d66ba12666":[1,0,0,0,0,0,1,6,7],
-"dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#aad5194369ffdffb1d4a433d2e706416b":[1,0,0,0,0,0,1,6,14],
-"dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#ab223a2905c3f77e8115465030e6f66fd":[1,0,0,0,0,0,1,6,3]
+"dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#aad5194369ffdffb1d4a433d2e706416b":[1,0,0,0,0,0,1,6,14]
 };

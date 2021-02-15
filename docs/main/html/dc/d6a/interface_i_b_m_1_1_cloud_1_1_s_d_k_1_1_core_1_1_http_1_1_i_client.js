@@ -14,5 +14,6 @@ var interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client =
     [ "BaseClient", "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#affc0cbc383505b98ad2e14686449c0f2", null ],
     [ "Filters", "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#a5b75ff0bfec4794821fe783a380ed267", null ],
     [ "Formatters", "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#aa64cb04cce2629db8428588741980040", null ],
-    [ "ServiceUrl", "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#aad5194369ffdffb1d4a433d2e706416b", null ]
+    [ "ServiceUrl", "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#aad5194369ffdffb1d4a433d2e706416b", null ],
+    [ "WebProxy", "dc/d6a/interface_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_client.html#a2f7ebd0e58f3cabb10666656f9c1fea1", null ]
 ];

@@ -1,6 +1,6 @@
 var class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client =
 [
-    [ "IBMHttpClient", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a4c41a18e20c7990513a5e376780219e1", null ],
+    [ "IBMHttpClient", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a3d2b20e786e207f815ab2e4444b139cd", null ],
     [ "AssertNotDisposed", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a0183de9537413e62cfa14b6582e34757", null ],
     [ "DeleteAsync", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a75e654b76df87b825a1252ef9ddbdc47", null ],
     [ "DisableSslVerification", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a2e91973fadc40c9b826c760fcd22a053", null ],
@@ -19,5 +19,6 @@ var class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client =
     [ "Filters", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#adc7c9df804a0654a7def63ed73bbf793", null ],
     [ "Formatters", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#af5dd1e66b0e81bddf1160a4746e381d4", null ],
     [ "Insecure", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#aa14b61703cb4b40d71cfae992c42237a", null ],
-    [ "ServiceUrl", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a334e86523fb9df935a9dc4b82f181127", null ]
+    [ "ServiceUrl", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a334e86523fb9df935a9dc4b82f181127", null ],
+    [ "WebProxy", "df/d10/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_i_b_m_http_client.html#a2fff99d59a1bc0e6f72de3a878905b55", null ]
 ];
