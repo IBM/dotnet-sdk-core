@@ -1,0 +1,6 @@
+var namespace_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_cp4d =
+[
+    [ "CloudPakForDataAuthenticator", "d2/d55/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_cp4d_1_1_cloud_pak_for_data_authenticator.html", "d2/d55/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_cp4d_1_1_cloud_pak_for_data_authenticator" ],
+    [ "CloudPakForDataToken", "de/d11/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_cp4d_1_1_cloud_pak_for_data_token.html", "de/d11/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_cp4d_1_1_cloud_pak_for_data_token" ],
+    [ "CloudPakForDataTokenResponse", "db/d78/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_cp4d_1_1_cloud_pak_for_data_token_response.html", "db/d78/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_cp4d_1_1_cloud_pak_for_data_token_response" ]
+];
