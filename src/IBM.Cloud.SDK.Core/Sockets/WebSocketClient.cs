@@ -28,7 +28,7 @@ namespace IBM.Cloud.SDK.Core.Sockets
     public class WebSocketClient : AWebSocketClient
     {
         private WebSocketClient() { }
-        public WebSocketClient(string urlService)
+        public WebSocketClient(string urlService, SynthesizeCallback callback)
         {
             BaseClient =
                 new ClientWebSocket();
@@ -38,10 +38,19 @@ namespace IBM.Cloud.SDK.Core.Sockets
 
             QueryString =
                 new Dictionary<string, string>();
+
+            OnOpen = callback.OnOpen;
+            OnClose = callback.OnClose;
+            OnError = callback.OnError;
+            OnContentType = callback.OnContentType;
+            OnMessage = callback.OnMessage;
+            OnMarks = callback.OnMarks;
+            onTimings = callback.onTimings;
         }
 
         public override void Send(FileStream file, string openingMessage)
         {
+            // NOTE: use memorystream
             // connect the websocket
             Action connectAction = () => BaseClient.ConnectAsync(UriBuilder.Uri, CancellationToken.None).Wait();
 
@@ -87,19 +96,38 @@ namespace IBM.Cloud.SDK.Core.Sockets
                             .Wait();
         }
 
-        public override void Send(string request, string openingMessage)
+        public override void Send(string request, string accept, string[] timings, string openingMessage = "start")
         {
+            openingMessage =
+                $"\"action\": \"{openingMessage}\"," +
+                $"\"text\": \"{request}\"," +
+                $"\"accept\": \"{accept}\"," +
+                $"\"timings\": [\"{string.Join(",", timings)}\"]";
+
+            openingMessage = $"{{{openingMessage}}}";
+            System.Diagnostics.Debug.WriteLine(openingMessage);
+
             // connect the websocket
             Action connectAction = () => BaseClient.ConnectAsync(UriBuilder.Uri, CancellationToken.None).Wait();
 
             // send opening message and wait for initial delimeter 
-            Action<ArraySegment<byte>> openAction = (message) => Task.WaitAll(BaseClient.SendAsync(message, WebSocketMessageType.Text, true, CancellationToken.None), HandleResults());
-
+            Action<ArraySegment<byte>> openAction = (message) =>
+            {
+                OnOpen();
+                Task.WaitAll(BaseClient.SendAsync(message, WebSocketMessageType.Text, true, CancellationToken.None), HandleResults());
+            };
             // send all audio and then a closing message; simltaneously print all results until delimeter is recieved
-            Action sendAction = () => Task.WaitAll(SendText(request), HandleResults());
+            Action sendAction = () => Task.WaitAll(SendText(request));
 
             // close down the websocket
-            Action closeAction = () => BaseClient.CloseAsync(WebSocketCloseStatus.NormalClosure, "Close", CancellationToken.None).Wait();
+            Action closeAction = () =>
+            {
+                if (BaseClient.State == WebSocketState.Open)
+                {
+                    BaseClient.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None).Wait();
+                }
+                OnClose();
+            };
 
             ArraySegment<byte> openMessage = new ArraySegment<byte>(Encoding.UTF8.GetBytes(openingMessage));
 

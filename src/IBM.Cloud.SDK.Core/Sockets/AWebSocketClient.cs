@@ -15,7 +15,7 @@
 *
 */
 
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,6 +30,11 @@ namespace IBM.Cloud.SDK.Core.Sockets
 {
     public abstract class AWebSocketClient
     {
+        public const string BINARY_STREAMS = "binary_streams";
+        public const string CONTENT_TYPE = "content_type";
+        public const string MARKS = "marks";
+        public const string WORDS = "words";
+
         ArraySegment<byte> stopMessage = new ArraySegment<byte>(Encoding.UTF8.GetBytes(
            "{\"action\": \"stop\"}"
        ));
@@ -42,7 +47,10 @@ namespace IBM.Cloud.SDK.Core.Sockets
         protected Dictionary<string, string> QueryString { get; set; }
 
         public Action OnOpen = () => { };
-        public Action<string> OnMessage = (message) => { };
+        public Action<byte[]> OnMessage = (message) => { };
+        public Action<string> OnContentType = (contentType) => { };
+        public Action<MarkTiming[]> OnMarks = (marks) => { };
+        public Action<WordTiming[]> onTimings = (timings) => { };
         public Action<Exception> OnError = (ex) => { };
         public Action OnClose = () => { };
 
@@ -52,7 +60,7 @@ namespace IBM.Cloud.SDK.Core.Sockets
                 QueryString[argumentName] = argumentValue;
             else
                 QueryString.Add(argumentName, argumentValue);
-            
+
             UriBuilder.Query =
                 string.Join("&", QueryString.Keys.Where(key => !string.IsNullOrWhiteSpace(QueryString[key])).Select(key => string.Format("{0}={1}", WebUtility.UrlEncode(key), WebUtility.UrlEncode(QueryString[key]))));
 
@@ -71,7 +79,7 @@ namespace IBM.Cloud.SDK.Core.Sockets
 
         public abstract void Send(FileStream file, string openingMessage);
 
-        public abstract void Send(string request, string openingMessage);
+        public abstract void Send(string request, string accept, string[] timings, string openingMessage);
 
         protected async Task SendAudio(FileStream file)
         {
@@ -104,9 +112,12 @@ namespace IBM.Cloud.SDK.Core.Sockets
 
         protected async Task HandleResults()
         {
-            var buffer = new byte[1024];
+            var buffer = new byte[1024 * 16 * 4];
+            var audioStream = new List<byte>();
+
             while (true)
             {
+
                 var segment = new ArraySegment<byte>(buffer);
 
                 var result = await BaseClient.ReceiveAsync(segment, CancellationToken.None);
@@ -115,13 +126,15 @@ namespace IBM.Cloud.SDK.Core.Sockets
                 {
                     return;
                 }
-
                 int count = result.Count;
                 while (!result.EndOfMessage)
                 {
                     if (count >= buffer.Length)
                     {
-                        await BaseClient.CloseAsync(WebSocketCloseStatus.InvalidPayloadData, "That's too long", CancellationToken.None);
+                        if (BaseClient.State == WebSocketState.Open)
+                        {
+                            await BaseClient.CloseAsync(WebSocketCloseStatus.InvalidPayloadData, "That's too long", CancellationToken.None);
+                        }
                         return;
                     }
 
@@ -132,23 +145,43 @@ namespace IBM.Cloud.SDK.Core.Sockets
 
                 var message = Encoding.UTF8.GetString(buffer, 0, count);
 
-                // you'll probably want to parse the JSON into a useful object here,
-                // see ServiceState and IsDelimeter for a light-weight example of that.
-                if (IsDelimeter(message))
+                if (message.Contains(BINARY_STREAMS))
                 {
-                    return;
+                    var json = JObject.Parse(message);
+                    string contentType = json[BINARY_STREAMS][0][CONTENT_TYPE].ToString();
+                    OnContentType(contentType);
+                }
+                else if (message.Contains(MARKS))
+                {
+                    var json = JObject.Parse(message);
+                    JToken marks = json[MARKS];
+                    MarkTiming[] markList = new MarkTiming[marks.Count()];
+                    for (int i = 0; i < markList.Length; i++)
+                    {
+                        MarkTiming markTiming = new MarkTiming(marks[i][0].ToString(), Double.Parse(marks[i][1].ToString()));
+                        markList[i] = markTiming;
+                    }
+                    OnMarks(markList);
+                }
+                else if (message.Contains(WORDS))
+                {
+                    var json = JObject.Parse(message);
+                    JToken words = json[WORDS];
+                    WordTiming[] wordList = new WordTiming[words.Count()];
+                    for (int i = 0; i < wordList.Length; i++)
+                    {
+                        WordTiming wordTiming = new WordTiming(words[i][0].ToString(), Double.Parse(words[i][1].ToString()), Double.Parse(words[i][2].ToString()));
+                        wordList[i] = wordTiming;
+                    }
+                    onTimings(wordList);
                 }
                 else
                 {
-                    OnMessage(message);
+                    byte[] messageBuffer = new byte[count];
+                    Array.Copy(buffer, messageBuffer, count);
+                    OnMessage(messageBuffer);
                 }
             }
-        }
-
-        protected bool IsDelimeter(string json)
-        {
-            ServiceState obj = JsonConvert.DeserializeObject<ServiceState>(json);
-            return obj.State == "listening";
         }
     }
 }
