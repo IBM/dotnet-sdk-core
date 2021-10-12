@@ -49,6 +49,11 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
         // This field holds an access token and its expiration time.
         private CloudPakForDataToken tokenData;
 
+        // this empty constructor will be used by builder 
+        private CloudPakForDataAuthenticator()
+        {
+        }
+
         /// <summary>
         /// Constructs a CloudPakForDataAuthenticator with all properties.
         /// </summary>
@@ -71,7 +76,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
         /// <param name="apikey">The apikey to be used when retrieving the access token</param>
         /// <param name="disableSslVerification">A flag indicating whether SSL hostname verification should be disabled</param>
         /// <param name="headers">A set of user-supplied headers to be included in token server interactions</param>
-        public CloudPakForDataAuthenticator(string url, string username, string? password, string? apikey, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
+        public CloudPakForDataAuthenticator(string url, string username, string password, string apikey, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
         {
             Init(url, username, password, apikey, disableSslVerification, headers);
         }
@@ -127,6 +132,11 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
             return this;
         }
 
+        public static CloudPakForDataAuthenticator InitBuilder()
+        {
+            return new CloudPakForDataAuthenticator();
+        }
+
         public CloudPakForDataAuthenticator Build()
         {
             Init();
@@ -134,13 +144,21 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
             return this;
         }
 
-        private void Init(string url, string username, string? password, string? apikey, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
+        private void Init(string url, string username, string password = null, string apikey = null, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
         {
             Url = url;
             Username = username;
-            Password = password;
-            Apikey = apikey;
 
+            if (password != null)
+            {
+                Password = password;
+            }
+
+            if (apikey != null)
+            {
+                Apikey = apikey;
+            }
+            
             if (disableSslVerification != null)
             {
                 DisableSslVerification = disableSslVerification;
@@ -275,9 +293,14 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
                 throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "Username"));
             }
 
-            if (CredentialUtils.HasBadStartOrEndChar(Password))
+            if (!string.IsNullOrEmpty(Password) && CredentialUtils.HasBadStartOrEndChar(Password))
             {
                 throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "Password"));
+            }
+
+            if (!string.IsNullOrEmpty(Apikey) && CredentialUtils.HasBadStartOrEndChar(Apikey))
+            {
+                throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "Apikey"));
             }
         }
     }
