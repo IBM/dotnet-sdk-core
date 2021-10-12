@@ -19,6 +19,7 @@ using IBM.Cloud.SDK.Core.Http;
 using IBM.Cloud.SDK.Core.Util;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 
 namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
 {
@@ -30,12 +31,18 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
         public IClient Client { get; set; }
 
         // This is the suffix we'll need to add to the user-supplied URL to retrieve an access token.
-        private static string UrlSuffix = "/v1/preauth/validateAuth";
+        private static string UrlSuffix = "/v1/authorize";
+
+        // These are keys for body request for cpd authorization token
+        private const string UsernameKey = "username";
+        private const string PasswordKey = "password";
+        private const string ApikeyKey = "api_key";
 
         // Configuration properties for this authenticator.
         public string Url { get; private set; }
         public string Username { get; private set; }
         public string Password { get; private set; }
+        public string Apikey { get; private set; }
         public bool? DisableSslVerification { get; set; }
         public Dictionary<string, string> Headers { get; set; }
 
@@ -45,14 +52,28 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
         /// <summary>
         /// Constructs a CloudPakForDataAuthenticator with all properties.
         /// </summary>
-        /// <param name="url">The base URL associated with the token server. The path "/v1/preauth/validateAuth" will be appended to this value automatically.</param>
+        /// <param name="url">The base URL associated with the token server. The path "/v1/authorize" will be appended to this value automatically.</param>
         /// <param name="username">The username to be used when retrieving the access token</param>
         /// <param name="password">The password to be used when retrieving the access token</param>
         /// <param name="disableSslVerification">A flag indicating whether SSL hostname verification should be disabled</param>
         /// <param name="headers">A set of user-supplied headers to be included in token server interactions</param>
         public CloudPakForDataAuthenticator(string url, string username, string password, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
         {
-            Init(url, username, password, disableSslVerification, headers);
+            Init(url, username, password, null, disableSslVerification, headers);
+        }
+
+        /// <summary>
+        /// Constructs a CloudPakForDataAuthenticator with all properties.
+        /// </summary>
+        /// <param name="url">The base URL associated with the token server. The path "/v1/authorize" will be appended to this value automatically.</param>
+        /// <param name="username">The username to be used when retrieving the access token</param>
+        /// <param name="password">The password to be used when retrieving the access token</param>
+        /// <param name="apikey">The apikey to be used when retrieving the access token</param>
+        /// <param name="disableSslVerification">A flag indicating whether SSL hostname verification should be disabled</param>
+        /// <param name="headers">A set of user-supplied headers to be included in token server interactions</param>
+        public CloudPakForDataAuthenticator(string url, string username, string? password, string? apikey, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
+        {
+            Init(url, username, password, apikey, disableSslVerification, headers);
         }
 
         /// <summary>
@@ -64,16 +85,61 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
             config.TryGetValue(PropNameUrl, out string url);
             config.TryGetValue(PropNameUsername, out string username);
             config.TryGetValue(PropNamePassword, out string password);
+            config.TryGetValue(PropNameApikey, out string apikey);
             config.TryGetValue(PropNameDisableSslVerification, out string disableSslVerficiationString);
             bool.TryParse(disableSslVerficiationString, out bool disableSslVerification);
-            Init(url, username, password, disableSslVerification);
+            Init(url, username, password, apikey, disableSslVerification);
         }
 
-        private void Init(string url, string username, string password, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
+        public CloudPakForDataAuthenticator SetUrl(string url)
+        {
+            this.Url = url;
+            return this;
+        }
+
+        public CloudPakForDataAuthenticator SetUsername(string username)
+        {
+            this.Username = username;
+            return this;
+        }
+
+        public CloudPakForDataAuthenticator setPassword(string password)
+        {
+            this.Password = this.Password;
+            return this;
+        }
+
+        public CloudPakForDataAuthenticator setApikey(string apikey)
+        {
+            this.Apikey = this.Apikey;
+            return this;
+        }
+
+        public CloudPakForDataAuthenticator SetDisableSslVerification(bool disableSslVerification)
+        {
+            this.DisableSslVerification = disableSslVerification;
+            return this;
+        }
+
+        public CloudPakForDataAuthenticator SetHeaders(Dictionary<string, string> headers)
+        {
+            this.Headers = headers;
+            return this;
+        }
+
+        public CloudPakForDataAuthenticator Build()
+        {
+            Init();
+
+            return this;
+        }
+
+        private void Init(string url, string username, string? password, string? apikey, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
         {
             Url = url;
             Username = username;
             Password = password;
+            Apikey = apikey;
 
             if (disableSslVerification != null)
             {
@@ -85,6 +151,11 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
                 Headers = headers;
             }
 
+            Init();
+        }
+
+        public void Init()
+        {
             Validate();
 
             Client = new IBMHttpClient()
@@ -133,8 +204,9 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
 
             try
             {
-                IClient client = Client.WithAuthentication(Username, Password);
-                var request = Client.GetAsync(Url + UrlSuffix);
+                var request = Client.PostAsync(Url + UrlSuffix);
+                request.WithHeader("Content-type", "application/x-www-form-urlencoded");
+
                 if (DisableSslVerification != null)
                 {
                     Client.DisableSslVerification((bool)DisableSslVerification);
@@ -144,6 +216,23 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
                 {
                     request.WithHeaders(Headers);
                 }
+
+                List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>();
+                KeyValuePair<string, string> username = new KeyValuePair<string, string>(UsernameKey, Username);
+                content.Add(username);
+
+                if (string.IsNullOrEmpty(Password))
+                {
+                    KeyValuePair<string, string> apikey = new KeyValuePair<string, string>(ApikeyKey, Apikey);
+                    content.Add(apikey);
+                } else
+                {
+                    KeyValuePair<string, string> password = new KeyValuePair<string, string>(PasswordKey, Password);
+                    content.Add(password);
+                }
+
+                var formData = new FormUrlEncodedContent(content);
+                request.WithBodyContent(formData);
 
                 result = request.As<CloudPakForDataTokenResponse>().Result;
                 if (result == null)
@@ -171,9 +260,9 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
                 throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Username"));
             }
 
-            if (string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Apikey))
             {
-                throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Password"));
+                throw new ArgumentNullException("The Password or Apikey property is required but was not specified.");
             }
 
             if (CredentialUtils.HasBadStartOrEndChar(Url))
