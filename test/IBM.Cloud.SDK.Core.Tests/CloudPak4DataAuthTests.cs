@@ -45,7 +45,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
         }
 
         [TestMethod]
-        public void TestConstructionApikeyRequried()
+        public void TestConstructionWithApikeyAndNullPassword()
         {
             var url = "http://www.service-endpoint.com";
             var username = "username";

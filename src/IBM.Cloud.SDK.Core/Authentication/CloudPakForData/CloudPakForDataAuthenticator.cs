@@ -34,9 +34,9 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
         private static string UrlSuffix = "/v1/authorize";
 
         // These are keys for body request for cpd authorization token
-        private const string UsernameKey = "username";
-        private const string PasswordKey = "password";
-        private const string ApikeyKey = "api_key";
+        private const string KeyUsername = "username";
+        private const string KeyPassword = "password";
+        private const string KeyApikey = "api_key";
 
         // Configuration properties for this authenticator.
         public string Url { get; private set; }
@@ -236,16 +236,16 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
                 }
 
                 List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>();
-                KeyValuePair<string, string> username = new KeyValuePair<string, string>(UsernameKey, Username);
+                KeyValuePair<string, string> username = new KeyValuePair<string, string>(KeyUsername, Username);
                 content.Add(username);
 
                 if (string.IsNullOrEmpty(Password))
                 {
-                    KeyValuePair<string, string> apikey = new KeyValuePair<string, string>(ApikeyKey, Apikey);
+                    KeyValuePair<string, string> apikey = new KeyValuePair<string, string>(KeyApikey, Apikey);
                     content.Add(apikey);
                 } else
                 {
-                    KeyValuePair<string, string> password = new KeyValuePair<string, string>(PasswordKey, Password);
+                    KeyValuePair<string, string> password = new KeyValuePair<string, string>(KeyPassword, Password);
                     content.Add(password);
                 }
 
@@ -280,7 +280,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
 
             if (string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Apikey))
             {
-                throw new ArgumentNullException("The Password or Apikey property is required but was not specified.");
+                throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Password or Apikey"));
             }
 
             if (CredentialUtils.HasBadStartOrEndChar(Url))
