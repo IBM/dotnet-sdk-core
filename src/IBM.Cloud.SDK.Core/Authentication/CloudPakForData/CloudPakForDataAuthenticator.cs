@@ -68,20 +68,6 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
         }
 
         /// <summary>
-        /// Constructs a CloudPakForDataAuthenticator with all properties.
-        /// </summary>
-        /// <param name="url">The base URL associated with the token server. The path "/v1/authorize" will be appended to this value automatically.</param>
-        /// <param name="username">The username to be used when retrieving the access token</param>
-        /// <param name="password">The password to be used when retrieving the access token</param>
-        /// <param name="apikey">The apikey to be used when retrieving the access token</param>
-        /// <param name="disableSslVerification">A flag indicating whether SSL hostname verification should be disabled</param>
-        /// <param name="headers">A set of user-supplied headers to be included in token server interactions</param>
-        public CloudPakForDataAuthenticator(string url, string username, string password, string apikey, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
-        {
-            Init(url, username, password, apikey, disableSslVerification, headers);
-        }
-
-        /// <summary>
         /// Construct a CloudPakForDataAuthenticator instance using properties retrieved from the specified Map.
         /// </summary>
         /// <param name="config">A map containing the configuration properties</param>
@@ -98,37 +84,37 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
 
         public CloudPakForDataAuthenticator SetUrl(string url)
         {
-            this.Url = url;
+            Url = url;
             return this;
         }
 
         public CloudPakForDataAuthenticator SetUsername(string username)
         {
-            this.Username = username;
+            Username = username;
             return this;
         }
 
-        public CloudPakForDataAuthenticator setPassword(string password)
+        public CloudPakForDataAuthenticator SetPassword(string password)
         {
-            this.Password = this.Password;
+            Password = password;
             return this;
         }
 
-        public CloudPakForDataAuthenticator setApikey(string apikey)
+        public CloudPakForDataAuthenticator SetApikey(string apikey)
         {
-            this.Apikey = this.Apikey;
+            Apikey = apikey;
             return this;
         }
 
         public CloudPakForDataAuthenticator SetDisableSslVerification(bool disableSslVerification)
         {
-            this.DisableSslVerification = disableSslVerification;
+            DisableSslVerification = disableSslVerification;
             return this;
         }
 
         public CloudPakForDataAuthenticator SetHeaders(Dictionary<string, string> headers)
         {
-            this.Headers = headers;
+            Headers = headers;
             return this;
         }
 
