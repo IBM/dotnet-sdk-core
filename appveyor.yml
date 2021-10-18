@@ -19,7 +19,7 @@ environment:
         secure: +B2bs86RVtJtlbkB+cTf9bkqnNlFJi/PbBBPzR5jlUlLLZoOc+ZgqgQLwee4tCT+ #pragma: whitelist secret
 install:
 # Get the latest stable version of Node.js or io.js
-- ps: Install-Product node $env:nodejs_version
+- ps: Install-Product node 12.13.0
 
 - cmd: >-
     pip install git+git://github.com/smsearcy/bumpversion.git@issue-135
