@@ -54,8 +54,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator(
                 url: url,
                 username: username,
-                password: null,
-                apikey: apikey);
+                password: null);
 
             Assert.IsNotNull(authenticator);
             Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeCp4d);
@@ -112,36 +111,6 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             Assert.IsTrue(authenticator.Headers.ContainsKey(headerName));
             Assert.IsTrue(authenticator.Headers.ContainsValue(headervalue));
             Assert.IsTrue(retrievedHeaderValue == headervalue);
-        }
-
-        [TestMethod]
-        public void TestConstructorHeadersWithApikey()
-        {
-            var url = "http://www.service-endpoint.com";
-            var username = "username";
-            var apikey = "apikey";
-            var headerName = "headerName";
-            var headervalue = "headerValue";
-            var headers = new Dictionary<string, string>();
-            headers.Add(headerName, headervalue);
-
-            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator(
-                url: url,
-                username: username,
-                password: null,
-                apikey: apikey,
-                headers: headers
-                );
-
-            authenticator.Headers.TryGetValue(headerName, out string retrievedHeaderValue);
-            Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeCp4d);
-            Assert.IsTrue(authenticator.Username == username);
-            Assert.IsTrue(authenticator.Apikey == apikey);
-            Assert.IsTrue(authenticator.Headers.ContainsKey(headerName));
-            Assert.IsTrue(authenticator.Headers.ContainsValue(headervalue));
-            Assert.IsTrue(retrievedHeaderValue == headervalue);
-            Assert.IsNull(authenticator.Password);
         }
 
         [TestMethod]
@@ -227,7 +196,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             CloudPakForDataAuthenticator authenticator = CloudPakForDataAuthenticator.InitBuilder()
                 .SetUrl(url)
                 .SetUsername(username)
-                .setPassword(password)
+                .SetPassword(password)
                 .Build();
 
             Assert.IsNotNull(authenticator);
@@ -248,7 +217,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             CloudPakForDataAuthenticator authenticator = CloudPakForDataAuthenticator.InitBuilder()
                 .SetUrl(url)
                 .SetUsername(username)
-                .setApikey(apikey)
+                .SetApikey(apikey)
                 .Build();
 
             Assert.IsNotNull(authenticator);
@@ -287,16 +256,6 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
         }
 
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestNullPasswordAndApikeyWithApikeyConstructor()
-        {
-            var url = "http://www.service-endpoint.com";
-            var username = "username";
-            var password = default(string);
-            var apikey = default(string);
-            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator(url, username, password, apikey);
-        }
-
         [TestMethod, ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlBracketBeginning()
         {
@@ -314,13 +273,6 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", "{pasword");
         }
-
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
-        public void TestBadApikeyBracketBeginning()
-        {
-            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", null, "{apikey");
-        }
-
 
         [TestMethod, ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlBracketEnd()
@@ -341,12 +293,6 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentException))]
-        public void TestBadApikeyBracketEnd()
-        {
-            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", null, "apikey}");
-        }
-
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlBeginningBracketEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("{serviceUrl}", "username", "password");
@@ -362,12 +308,6 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
         public void TestBadPasswordBeginningBracketEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", "{pasword}");
-        }
-
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
-        public void TestBadApikeyBeginningBracketEnd()
-        {
-            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", null, "{apikey}");
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentException))]
@@ -404,12 +344,6 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
         public void TestBadPasswordQuoteEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", "pasword\"");
-        }
-
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
-        public void TestBadApikeyQuoteEnd()
-        {
-            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", null, "apikey\"");
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentException))]
