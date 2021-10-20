@@ -17,9 +17,11 @@ environment:
         secure: gevsMhy8RTWMdf7MjOnIo5QaN6JpL9DPK6I+Go5ByZir5LDwyFsv9hO6nBjGTg8n #pragma: whitelist secret
     GITHUB_TOKEN:
         secure: +B2bs86RVtJtlbkB+cTf9bkqnNlFJi/PbBBPzR5jlUlLLZoOc+ZgqgQLwee4tCT+ #pragma: whitelist secret
+    nodejs_version: 12.13.0
+    
 install:
 # Get the latest stable version of Node.js or io.js
-- ps: Install-Product node 12.13.0
+- ps: Install-Product node $env:nodejs_version
 
 - cmd: >-
     pip install git+git://github.com/smsearcy/bumpversion.git@issue-135
