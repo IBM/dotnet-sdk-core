@@ -264,7 +264,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
                 throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Username"));
             }
 
-            if (string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Apikey))
+            if (string.IsNullOrEmpty(Password) && string.IsNullOrEmpty(Apikey))
             {
                 throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Password or Apikey"));
             }
