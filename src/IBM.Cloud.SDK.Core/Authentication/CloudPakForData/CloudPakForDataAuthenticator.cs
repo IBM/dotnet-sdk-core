@@ -76,9 +76,10 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
             config.TryGetValue(PropNameUrl, out string url);
             config.TryGetValue(PropNameUsername, out string username);
             config.TryGetValue(PropNamePassword, out string password);
+            config.TryGetValue(PropNameApikey, out string apikey);
             config.TryGetValue(PropNameDisableSslVerification, out string disableSslVerficiationString);
             bool.TryParse(disableSslVerficiationString, out bool disableSslVerification);
-            Init(url, username, password, disableSslVerification);
+            Init(url, username, password, apikey, disableSslVerification);
         }
 
         public CloudPakForDataAuthenticator SetUrl(string url)
@@ -139,6 +140,34 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
                 Password = password;
             }
             
+            if (disableSslVerification != null)
+            {
+                DisableSslVerification = disableSslVerification;
+            }
+
+            if (headers != null)
+            {
+                Headers = headers;
+            }
+
+            Init();
+        }
+
+        private void Init(string url, string username, string password, string apikey, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
+        {
+            Url = url;
+            Username = username;
+
+            if (password != null)
+            {
+                Password = password;
+            }
+
+            if (apikey != null)
+            {
+                Apikey = apikey;
+            }
+
             if (disableSslVerification != null)
             {
                 DisableSslVerification = disableSslVerification;
