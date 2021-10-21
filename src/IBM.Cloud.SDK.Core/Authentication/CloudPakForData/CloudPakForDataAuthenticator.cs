@@ -64,7 +64,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
         /// <param name="headers">A set of user-supplied headers to be included in token server interactions</param>
         public CloudPakForDataAuthenticator(string url, string username, string password, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
         {
-            Init(url, username, password, null, disableSslVerification, headers);
+            Init(url, username, password, disableSslVerification, headers);
         }
 
         /// <summary>
@@ -76,10 +76,9 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
             config.TryGetValue(PropNameUrl, out string url);
             config.TryGetValue(PropNameUsername, out string username);
             config.TryGetValue(PropNamePassword, out string password);
-            config.TryGetValue(PropNameApikey, out string apikey);
             config.TryGetValue(PropNameDisableSslVerification, out string disableSslVerficiationString);
             bool.TryParse(disableSslVerficiationString, out bool disableSslVerification);
-            Init(url, username, password, apikey, disableSslVerification);
+            Init(url, username, password, disableSslVerification);
         }
 
         public CloudPakForDataAuthenticator SetUrl(string url)
@@ -130,7 +129,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
             return this;
         }
 
-        private void Init(string url, string username, string password = null, string apikey = null, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
+        private void Init(string url, string username, string password, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
         {
             Url = url;
             Username = username;
@@ -138,11 +137,6 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
             if (password != null)
             {
                 Password = password;
-            }
-
-            if (apikey != null)
-            {
-                Apikey = apikey;
             }
             
             if (disableSslVerification != null)
@@ -229,7 +223,8 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
                 {
                     KeyValuePair<string, string> apikey = new KeyValuePair<string, string>(KeyApikey, Apikey);
                     content.Add(apikey);
-                } else
+                }
+                else
                 {
                     KeyValuePair<string, string> password = new KeyValuePair<string, string>(KeyPassword, Password);
                     content.Add(password);

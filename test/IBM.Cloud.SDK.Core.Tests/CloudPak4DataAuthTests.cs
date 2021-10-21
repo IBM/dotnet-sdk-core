@@ -119,32 +119,6 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
         }
 
         [TestMethod]
-        public void TestConstructionDictionaryWithApikey()
-        {
-            var url = "http://www.service-endpoint.com";
-            var username = "username";
-            var apikey = "apikey";
-            var disableSslVerification = true;
-
-            Dictionary<string, string> config = new Dictionary<string, string>();
-            config.Add(Authenticator.PropNameUrl, url);
-            config.Add(Authenticator.PropNameUsername, username);
-            config.Add(Authenticator.PropNameApikey, apikey);
-            config.Add(Authenticator.PropNameDisableSslVerification, disableSslVerification.ToString());
-
-            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator(config);
-
-            Assert.IsNotNull(authenticator);
-            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeCp4d);
-            Assert.IsTrue(authenticator.Url == url);
-            Assert.IsTrue(authenticator.Username == username);
-            Assert.IsTrue(authenticator.Apikey == apikey);
-            Assert.IsTrue(authenticator.DisableSslVerification == disableSslVerification);
-            Assert.IsNull(authenticator.Password);
-        }
-
-
-        [TestMethod]
         public void TestConstructionDictionaryMissingProperty()
         {
             var url = "http://www.service-endpoint.com";
