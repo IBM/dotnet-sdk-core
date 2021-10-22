@@ -18,6 +18,5 @@ var searchData=
   ['status',['Status',['../d8/d8b/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_exceptions_1_1_service_response_exception.html#aa2113b13eb1ccadf8ae180f3b1137755',1,'IBM::Cloud::SDK::Core::Http::Exceptions::ServiceResponseException']]],
   ['statuscode',['StatusCode',['../de/d5f/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_detailed_response.html#aa7413f1ecf494023cc6495f19046609a',1,'IBM::Cloud::SDK::Core::Http::DetailedResponse']]],
   ['streamextension',['StreamExtension',['../d3/d40/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_extensions_1_1_stream_extension.html',1,'IBM::Cloud::SDK::Core::Http::Extensions']]],
-  ['streamextension_2ecs',['StreamExtension.cs',['../df/d85/_stream_extension_8cs.html',1,'']]],
-  ['sub',['Sub',['../db/d78/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_cp4d_1_1_cloud_pak_for_data_token_response.html#a942007ead786bfb0f7995e6bc46274e9',1,'IBM::Cloud::SDK::Core::Authentication::Cp4d::CloudPakForDataTokenResponse']]]
+  ['streamextension_2ecs',['StreamExtension.cs',['../df/d85/_stream_extension_8cs.html',1,'']]]
 ];
