@@ -173,10 +173,10 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             var username = "username";
             var password = "password";
 
-            CloudPakForDataAuthenticator authenticator = CloudPakForDataAuthenticator.InitBuilder()
-                .SetUrl(url)
-                .SetUsername(username)
-                .SetPassword(password)
+            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator()
+                .WithUrl(url)
+                .WithUserName(username)
+                .WithPassword(password)
                 .Build();
 
             Assert.IsNotNull(authenticator);
@@ -193,10 +193,10 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             var username = "username";
             var apikey = "apikey";
 
-            CloudPakForDataAuthenticator authenticator = CloudPakForDataAuthenticator.InitBuilder()
-                .SetUrl(url)
-                .SetUsername(username)
-                .SetApikey(apikey)
+            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator()
+                .WithUrl(url)
+                .WithUserName(username)
+                .WithApikey(apikey)
                 .Build();
 
             Assert.IsNotNull(authenticator);

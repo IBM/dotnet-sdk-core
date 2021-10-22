@@ -17,9 +17,12 @@
 
 using IBM.Cloud.SDK.Core.Http;
 using IBM.Cloud.SDK.Core.Util;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 
 namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
 {
@@ -50,7 +53,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
         private CloudPakForDataToken tokenData;
 
         // this empty constructor will be used by builder 
-        private CloudPakForDataAuthenticator()
+        public CloudPakForDataAuthenticator()
         {
         }
 
@@ -82,45 +85,40 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
             Init(url, username, password, apikey, disableSslVerification);
         }
 
-        public CloudPakForDataAuthenticator SetUrl(string url)
+        public CloudPakForDataAuthenticator WithUrl(string url)
         {
             Url = url;
             return this;
         }
 
-        public CloudPakForDataAuthenticator SetUsername(string username)
+        public CloudPakForDataAuthenticator WithUserName(string username)
         {
             Username = username;
             return this;
         }
 
-        public CloudPakForDataAuthenticator SetPassword(string password)
+        public CloudPakForDataAuthenticator WithPassword(string password)
         {
             Password = password;
             return this;
         }
 
-        public CloudPakForDataAuthenticator SetApikey(string apikey)
+        public CloudPakForDataAuthenticator WithApikey(string apikey)
         {
             Apikey = apikey;
             return this;
         }
 
-        public CloudPakForDataAuthenticator SetDisableSslVerification(bool disableSslVerification)
+        public CloudPakForDataAuthenticator WithDisableSslVerification(bool disableSslVerification)
         {
             DisableSslVerification = disableSslVerification;
             return this;
         }
 
-        public CloudPakForDataAuthenticator SetHeaders(Dictionary<string, string> headers)
+        public CloudPakForDataAuthenticator WithHeaders(Dictionary<string, string> headers)
         {
             Headers = headers;
             return this;
-        }
-
-        public static CloudPakForDataAuthenticator InitBuilder()
-        {
-            return new CloudPakForDataAuthenticator();
         }
 
         public CloudPakForDataAuthenticator Build()
@@ -232,7 +230,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
             try
             {
                 var request = Client.PostAsync(Url + UrlSuffix);
-                request.WithHeader("Content-type", "application/x-www-form-urlencoded");
+                request.WithHeader("Content-type", "Content-Type: application/json");
 
                 if (DisableSslVerification != null)
                 {
@@ -244,23 +242,20 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
                     request.WithHeaders(Headers);
                 }
 
-                List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>();
-                KeyValuePair<string, string> username = new KeyValuePair<string, string>(KeyUsername, Username);
-                content.Add(username);
+                JObject bodyObject = new JObject();
+                bodyObject[KeyUsername] = Username;
 
                 if (string.IsNullOrEmpty(Password))
                 {
-                    KeyValuePair<string, string> apikey = new KeyValuePair<string, string>(KeyApikey, Apikey);
-                    content.Add(apikey);
+                    bodyObject[KeyApikey] = Apikey;
                 }
                 else
                 {
-                    KeyValuePair<string, string> password = new KeyValuePair<string, string>(KeyPassword, Password);
-                    content.Add(password);
+                    bodyObject[KeyPassword] = Password;
                 }
 
-                var formData = new FormUrlEncodedContent(content);
-                request.WithBodyContent(formData);
+                var httpContent = new StringContent(JsonConvert.SerializeObject(bodyObject), Encoding.UTF8, HttpMediaType.APPLICATION_JSON);
+                request.WithBodyContent(httpContent);
 
                 result = request.As<CloudPakForDataTokenResponse>().Result;
                 if (result == null)
