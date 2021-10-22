@@ -132,11 +132,6 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
         {
             Url = url;
             Username = username;
-
-            if (password != null)
-            {
-                Password = password;
-            }
             
             if (disableSslVerification != null)
             {
