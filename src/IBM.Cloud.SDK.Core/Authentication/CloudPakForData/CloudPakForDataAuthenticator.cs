@@ -17,8 +17,12 @@
 
 using IBM.Cloud.SDK.Core.Http;
 using IBM.Cloud.SDK.Core.Util;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 
 namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
 {
@@ -30,22 +34,33 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
         public IClient Client { get; set; }
 
         // This is the suffix we'll need to add to the user-supplied URL to retrieve an access token.
-        private static string UrlSuffix = "/v1/preauth/validateAuth";
+        private static string UrlSuffix = "/v1/authorize";
+
+        // These are keys for body request for cpd authorization token
+        private const string KeyUsername = "username";
+        private const string KeyPassword = "password";
+        private const string KeyApikey = "api_key";
 
         // Configuration properties for this authenticator.
         public string Url { get; private set; }
         public string Username { get; private set; }
         public string Password { get; private set; }
+        public string Apikey { get; private set; }
         public bool? DisableSslVerification { get; set; }
         public Dictionary<string, string> Headers { get; set; }
 
         // This field holds an access token and its expiration time.
         private CloudPakForDataToken tokenData;
 
+        // this empty constructor will be used by builder 
+        public CloudPakForDataAuthenticator()
+        {
+        }
+
         /// <summary>
         /// Constructs a CloudPakForDataAuthenticator with all properties.
         /// </summary>
-        /// <param name="url">The base URL associated with the token server. The path "/v1/preauth/validateAuth" will be appended to this value automatically.</param>
+        /// <param name="url">The base URL associated with the token server. The path "/v1/authorize" will be appended to this value automatically.</param>
         /// <param name="username">The username to be used when retrieving the access token</param>
         /// <param name="password">The password to be used when retrieving the access token</param>
         /// <param name="disableSslVerification">A flag indicating whether SSL hostname verification should be disabled</param>
@@ -64,9 +79,53 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
             config.TryGetValue(PropNameUrl, out string url);
             config.TryGetValue(PropNameUsername, out string username);
             config.TryGetValue(PropNamePassword, out string password);
+            config.TryGetValue(PropNameApikey, out string apikey);
             config.TryGetValue(PropNameDisableSslVerification, out string disableSslVerficiationString);
             bool.TryParse(disableSslVerficiationString, out bool disableSslVerification);
-            Init(url, username, password, disableSslVerification);
+            Init(url, username, password, apikey, disableSslVerification);
+        }
+
+        public CloudPakForDataAuthenticator WithUrl(string url)
+        {
+            Url = url;
+            return this;
+        }
+
+        public CloudPakForDataAuthenticator WithUserName(string username)
+        {
+            Username = username;
+            return this;
+        }
+
+        public CloudPakForDataAuthenticator WithPassword(string password)
+        {
+            Password = password;
+            return this;
+        }
+
+        public CloudPakForDataAuthenticator WithApikey(string apikey)
+        {
+            Apikey = apikey;
+            return this;
+        }
+
+        public CloudPakForDataAuthenticator WithDisableSslVerification(bool disableSslVerification)
+        {
+            DisableSslVerification = disableSslVerification;
+            return this;
+        }
+
+        public CloudPakForDataAuthenticator WithHeaders(Dictionary<string, string> headers)
+        {
+            Headers = headers;
+            return this;
+        }
+
+        public CloudPakForDataAuthenticator Build()
+        {
+            Init();
+
+            return this;
         }
 
         private void Init(string url, string username, string password, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
@@ -74,6 +133,34 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
             Url = url;
             Username = username;
             Password = password;
+            
+            if (disableSslVerification != null)
+            {
+                DisableSslVerification = disableSslVerification;
+            }
+
+            if (headers != null)
+            {
+                Headers = headers;
+            }
+
+            Init();
+        }
+
+        private void Init(string url, string username, string password = null, string apikey = null, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
+        {
+            Url = url;
+            Username = username;
+
+            if (password != null)
+            {
+                Password = password;
+            }
+
+            if (apikey != null)
+            {
+                Apikey = apikey;
+            }
 
             if (disableSslVerification != null)
             {
@@ -85,6 +172,11 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
                 Headers = headers;
             }
 
+            Init();
+        }
+
+        public void Init()
+        {
             Validate();
 
             Client = new IBMHttpClient()
@@ -133,8 +225,9 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
 
             try
             {
-                IClient client = Client.WithAuthentication(Username, Password);
-                var request = Client.GetAsync(Url + UrlSuffix);
+                var request = Client.PostAsync(Url + UrlSuffix);
+                request.WithHeader("Content-type", "Content-Type: application/json");
+
                 if (DisableSslVerification != null)
                 {
                     Client.DisableSslVerification((bool)DisableSslVerification);
@@ -144,6 +237,21 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
                 {
                     request.WithHeaders(Headers);
                 }
+
+                JObject bodyObject = new JObject();
+                bodyObject[KeyUsername] = Username;
+
+                if (string.IsNullOrEmpty(Password))
+                {
+                    bodyObject[KeyApikey] = Apikey;
+                }
+                else
+                {
+                    bodyObject[KeyPassword] = Password;
+                }
+
+                var httpContent = new StringContent(JsonConvert.SerializeObject(bodyObject), Encoding.UTF8, HttpMediaType.APPLICATION_JSON);
+                request.WithBodyContent(httpContent);
 
                 result = request.As<CloudPakForDataTokenResponse>().Result;
                 if (result == null)
@@ -171,9 +279,9 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
                 throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Username"));
             }
 
-            if (string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(Password) && string.IsNullOrEmpty(Apikey))
             {
-                throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Password"));
+                throw new ArgumentNullException(string.Format(ErrorMessagePropMissing, "Password or Apikey"));
             }
 
             if (CredentialUtils.HasBadStartOrEndChar(Url))
@@ -186,9 +294,14 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
                 throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "Username"));
             }
 
-            if (CredentialUtils.HasBadStartOrEndChar(Password))
+            if (!string.IsNullOrEmpty(Password) && CredentialUtils.HasBadStartOrEndChar(Password))
             {
                 throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "Password"));
+            }
+
+            if (!string.IsNullOrEmpty(Apikey) && CredentialUtils.HasBadStartOrEndChar(Apikey))
+            {
+                throw new ArgumentException(string.Format(ErrorMessagePropInvalid, "Apikey"));
             }
         }
     }

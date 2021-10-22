@@ -66,7 +66,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
         }
 
         [TestMethod]
-        public void TestConstructorHeaders()
+        public void TestConstructorHeadersWithPassword()
         {
             var url = "http://www.service-endpoint.com";
             var username = "username";
@@ -94,7 +94,7 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
         }
 
         [TestMethod]
-        public void TestConstructionDictionary()
+        public void TestConstructionDictionaryWithPassword()
         {
             var url = "http://www.service-endpoint.com";
             var username = "username";
@@ -115,7 +115,34 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             Assert.IsTrue(authenticator.Username == username);
             Assert.IsTrue(authenticator.Password == password);
             Assert.IsTrue(authenticator.DisableSslVerification == disableSslVerification);
+            Assert.IsNull(authenticator.Apikey);
         }
+
+        [TestMethod]
+        public void TestConstructionDictionaryWithApikey()
+        {
+            var url = "http://www.service-endpoint.com";
+            var username = "username";
+            var apikey = "apikey";
+            var disableSslVerification = true;
+
+            Dictionary<string, string> config = new Dictionary<string, string>();
+            config.Add(Authenticator.PropNameUrl, url);
+            config.Add(Authenticator.PropNameUsername, username);
+            config.Add(Authenticator.PropNameApikey, apikey);
+            config.Add(Authenticator.PropNameDisableSslVerification, disableSslVerification.ToString());
+
+            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator(config);
+
+            Assert.IsNotNull(authenticator);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeCp4d);
+            Assert.IsTrue(authenticator.Url == url);
+            Assert.IsTrue(authenticator.Username == username);
+            Assert.IsTrue(authenticator.Apikey == apikey);
+            Assert.IsTrue(authenticator.DisableSslVerification == disableSslVerification);
+            Assert.IsNull(authenticator.Password);
+        }
+
 
         [TestMethod]
         public void TestConstructionDictionaryMissingProperty()
@@ -139,6 +166,46 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
             Assert.IsTrue(authenticator.DisableSslVerification == false);
         }
 
+        [TestMethod]
+        public void TestBuilderRequired()
+        {
+            var url = "http://www.service-endpoint.com";
+            var username = "username";
+            var password = "password";
+
+            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator()
+                .WithUrl(url)
+                .WithUserName(username)
+                .WithPassword(password)
+                .Build();
+
+            Assert.IsNotNull(authenticator);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeCp4d);
+            Assert.IsTrue(authenticator.Url == url);
+            Assert.IsTrue(authenticator.Username == username);
+            Assert.IsTrue(authenticator.Password == password);
+        }
+
+        [TestMethod]
+        public void TestBuilderWithApikeyRequired()
+        {
+            var url = "http://www.service-endpoint.com";
+            var username = "username";
+            var apikey = "apikey";
+
+            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator()
+                .WithUrl(url)
+                .WithUserName(username)
+                .WithApikey(apikey)
+                .Build();
+
+            Assert.IsNotNull(authenticator);
+            Assert.IsTrue(authenticator.AuthenticationType == Authenticator.AuthTypeCp4d);
+            Assert.IsTrue(authenticator.Url == url);
+            Assert.IsTrue(authenticator.Username == username);
+            Assert.IsTrue(authenticator.Apikey == apikey);
+        }
+
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TestNullUrl()
         {
@@ -158,13 +225,14 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-        public void TestNullPassword()
+        public void TestNullPasswordAndApikey()
         {
             var url = "http://www.service-endpoint.com";
             var username = "username";
             var password = default(string);
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator(url, username, password);
         }
+
 
         [TestMethod, ExpectedException(typeof(ArgumentException))]
         public void TestBadUrlBracketBeginning()
@@ -272,6 +340,12 @@ namespace IBM.Cloud.SDK.Core.Tests.Authentication.CloudPak4DataAuth
         public void TestBadPasswordBeginningQuoteEnd()
         {
             CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", "\"pasword\"");
+        }
+
+        [TestMethod, ExpectedException(typeof(ArgumentException))]
+        public void TestBadApikeyBeginningQuoteEnd()
+        {
+            CloudPakForDataAuthenticator authenticator = new CloudPakForDataAuthenticator("url", "username", "\"apikey\"");
         }
     }
 }
