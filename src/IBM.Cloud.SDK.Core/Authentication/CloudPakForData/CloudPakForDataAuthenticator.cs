@@ -147,7 +147,7 @@ namespace IBM.Cloud.SDK.Core.Authentication.Cp4d
             Init();
         }
 
-        private void Init(string url, string username, string password, string apikey, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
+        private void Init(string url, string username, string password = null, string apikey = null, bool? disableSslVerification = null, Dictionary<string, string> headers = null)
         {
             Url = url;
             Username = username;
