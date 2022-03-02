@@ -349,6 +349,17 @@ namespace IBM.Cloud.SDK.Core.Util
                 string key = lineTokens[0];
                 string value = lineTokens[1];
 
+                // serviceName and the credentials key must use the same casing.
+                // These two if statements ensure that the serviceName passed matches the credential's key casing
+                if(key.Contains("-") && serviceName.Contains("_"))
+                {
+                    serviceName = serviceName.Replace('_', '-');
+                }
+                else if (key.StartsWith(serviceName.Replace('-','_')) && serviceName.Contains("-"))
+                {
+                    serviceName = serviceName.Replace('-', '_');
+                }
+
                 if (key.StartsWith(serviceName + "_"))
                 {
                     string credentialName = key.Substring(serviceName.Length + 1);
