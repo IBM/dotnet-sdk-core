@@ -224,7 +224,7 @@ test_script:
     {
         Write-Output "branchName is main and not a pull request - running semantic release"
 
-        npx semantic-release@15.14.0
+        npx semantic-release
 
     }
 
