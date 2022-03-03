@@ -5,7 +5,6 @@ namespace IBM.Cloud.SDK.Core.Model
 {
     public class HttpConfigOptions
     {
-        public static string ErrorMessagePropMissing = "The {0} property is required but was not specified.";
         public WebProxy Proxy { get; private set; }
         public bool DisableSslVerification { get; private set; }
 
