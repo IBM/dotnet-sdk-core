@@ -1,118 +1,69 @@
 version: 0.1.{build}
 branches:
   except:
-  - gh-pages
+    - gh-pages
 configuration: Release
 image: Visual Studio 2017
 # platform: Any CPU
 clone_folder: C:\projects\dotnet-sdk-core
 environment:
-    COVERALLS_REPO_TOKEN:
-        secure: Mza1yLutkHuKtUqydSR8flGWC2I0SfnQPUnEY5DDJNeAQNQ6jfhRUBcaxx0UDXT/  #pragma: whitelist secret
-    WPS_GITHUB_TOKEN:
-        secure: J0LjUlYl+lGJMLBcOgVF1m1I07nyr+8yFOMaNBA23RGLMJKvYnRlhmGWXp07ejgu #pragma: whitelist secret
-    CRED_SECRET:
-        secure: eEcA/09B7XzeTSb3GlaeqcWfQ/TemXxAq9/0AFM5+z8= #pragma: whitelist secret
-    CREDENTIALS_GITHUB_TOKEN:
-        secure: gevsMhy8RTWMdf7MjOnIo5QaN6JpL9DPK6I+Go5ByZir5LDwyFsv9hO6nBjGTg8n #pragma: whitelist secret
-    GITHUB_TOKEN:
-        secure: +B2bs86RVtJtlbkB+cTf9bkqnNlFJi/PbBBPzR5jlUlLLZoOc+ZgqgQLwee4tCT+ #pragma: whitelist secret
-    nodejs_version: 12.13.0
-    
+  COVERALLS_REPO_TOKEN:
+    secure: Mza1yLutkHuKtUqydSR8flGWC2I0SfnQPUnEY5DDJNeAQNQ6jfhRUBcaxx0UDXT/ #pragma: whitelist secret
+  WPS_GITHUB_TOKEN:
+    secure: J0LjUlYl+lGJMLBcOgVF1m1I07nyr+8yFOMaNBA23RGLMJKvYnRlhmGWXp07ejgu #pragma: whitelist secret
+  CRED_SECRET:
+    secure: eEcA/09B7XzeTSb3GlaeqcWfQ/TemXxAq9/0AFM5+z8= #pragma: whitelist secret
+  CREDENTIALS_GITHUB_TOKEN:
+    secure: gevsMhy8RTWMdf7MjOnIo5QaN6JpL9DPK6I+Go5ByZir5LDwyFsv9hO6nBjGTg8n #pragma: whitelist secret
+  GITHUB_TOKEN:
+    secure: +B2bs86RVtJtlbkB+cTf9bkqnNlFJi/PbBBPzR5jlUlLLZoOc+ZgqgQLwee4tCT+ #pragma: whitelist secret
+  nodejs_version: 14.17.0
+
 install:
-# Get the latest stable version of Node.js or io.js
-- ps: Install-Product node $env:nodejs_version
+  # Get the latest stable version of Node.js or io.js
+  - ps: Install-Product node $env:nodejs_version
 
-- cmd: >-
-    pip install git+git://github.com/smsearcy/bumpversion.git@issue-135
+  - cmd: >-
+      pip install git+git://github.com/smsearcy/bumpversion.git@issue-135
 
-    npm install @semantic-release/exec
+      npm install @semantic-release/exec
 
-    npm install @semantic-release/git
+      npm install @semantic-release/git
 
-    npm install @semantic-release/changelog
+      npm install @semantic-release/changelog
 
-    rm -rf packages
+      rm -rf packages
 
-    mkdir packages
+      mkdir packages
 
-    nuget restore
+      nuget restore
 
-    nuget install -Verbosity quiet -OutputDirectory packages -Version 4.6.519 OpenCover
+      nuget install -Verbosity quiet -OutputDirectory packages -Version 4.6.519 OpenCover
 
-    nuget install -Verbosity quiet -OutputDirectory packages -Version 2.4.5.0 ReportGenerator
+      nuget install -Verbosity quiet -OutputDirectory packages -Version 2.4.5.0 ReportGenerator
 
-    nuget install -Verbosity quiet -OutputDirectory packages -Version 0.7.0 coveralls.net
+      nuget install -Verbosity quiet -OutputDirectory packages -Version 0.7.0 coveralls.net
 
-    nuget install -Verbosity quiet -OutputDirectory packages -Version 1.8.14 Doxygen
+      nuget install -Verbosity quiet -OutputDirectory packages -Version 1.8.14 Doxygen
 
 before_build:
-- ps: >-
-    dotnet restore
+  - ps: >-
+      dotnet restore
 
 build:
   project: dotnet-sdk-core.sln
   verbosity: normal
 after_build:
-- ps: >-
-    git config --global user.email "wps@us.ibm.com"
+  - ps: >-
+      git config --global user.email "wps@us.ibm.com"
 
-    git config --global user.name "IBM Github Bot"
+      git config --global user.name "IBM Github Bot"
 
-    if(!$env:APPVEYOR_REPO_TAG_NAME)
-
-    {
-
-        $branchName = $env:APPVEYOR_REPO_BRANCH
-
-    }
-
-    else
-
-    {
-
-        $branchName = $env:APPVEYOR_REPO_TAG_NAME
-
-    }
-
-    Write-Output "branchName  is " + $branchName
-
-    if($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
-
-    {
-      
-      If($branchName -eq $env:APPVEYOR_REPO_TAG_NAME -or $branchName -eq "main")
+      if(!$env:APPVEYOR_REPO_TAG_NAME)
 
       {
-          .\packages\Doxygen.1.8.14\tools\doxygen.exe Doxyfile
 
-          git clone --quiet --branch=gh-pages https://$env:WPS_GITHUB_TOKEN@github.com/ibm/dotnet-sdk-core.git gh-pages
-
-          If(Test-Path -Path gh-pages\docs\$branchName)
-
-          {
-
-            rm gh-pages\docs\$branchName -r -force
-
-          }
-          
-          mkdir -p gh-pages\docs\$branchName
-
-          mv .\docs\html gh-pages\docs\$branchName
-
-          . .\.utility\generate_html.ps1
-          
-          New-TableOfContents ".\gh-pages\docs" | Out-File ".\gh-pages\index.html" -encoding utf8
-          
-          cd gh-pages
-          
-          git add -f .
-          
-          git commit -m "Updated documentation for $branchName"
-          
-          git push -f origin gh-pages
-          
-          cd ../
+          $branchName = $env:APPVEYOR_REPO_BRANCH
 
       }
 
@@ -120,130 +71,178 @@ after_build:
 
       {
 
-          Write-Output "branchName is $branchName. Not generating documentation."
-      
+          $branchName = $env:APPVEYOR_REPO_TAG_NAME
+
       }
 
-    }
+      Write-Output "branchName  is " + $branchName
 
-test_script:
-- ps: >-
-    if(Test-Path -Path coverage)
+      if($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
 
-    {
-
-        rm coverage -r -force
-
-    }
-
-    New-Item -path . -name coverage -itemtype directory
-    
-    ForEach ($folder in (Get-ChildItem -Path C:\\projects\\dotnet-sdk-core\\test -Directory)) 
-    
-    { 
-
-        if($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
+      {
+        
+        If($branchName -eq $env:APPVEYOR_REPO_TAG_NAME -or $branchName -eq "main")
 
         {
+            .\packages\Doxygen.1.8.14\tools\doxygen.exe Doxyfile
 
-            Write-Output \"No pull request number. Executing tests\"
+            git clone --quiet --branch=gh-pages https://$env:WPS_GITHUB_TOKEN@github.com/ibm/dotnet-sdk-core.git gh-pages
 
-            # dotnet test $folder.FullName
-
-            if($LastExitCode -ne 0) 
-
-            {
-
-                $host.SetShouldExit($LastExitCode )
-
-            }
-
-            echo \"Test passed: $?\"
-
-            echo \"LastExitCode: $LastExitCode\"
-
-            $openCover = 'C:\\projects\\dotnet-sdk-core\\packages\\OpenCover.4.6.519\\tools\\OpenCover.Console.exe'    
-            
-            $targetArgs = '-targetargs: test ' + $folder.FullName + ' -c Release -f netcoreapp2.0'
-            
-            $filter = '-filter:+[IBM.Cloud.SDK*]*-[*Tests*]*-[*Example*]*'
-
-            & $openCover '-target:C:\\Program Files\\dotnet\\dotnet.exe' $targetArgs '-register:user' $filter '-oldStyle' '-mergeoutput' '-hideskipped:File' '-searchdirs:$testdir\\bin\\release\\netcoreapp2.0' '-output:coverage\\coverage.xml'
-
-            C:\\projects\\dotnet-sdk-core\\packages\\ReportGenerator.2.4.5.0\\tools\\ReportGenerator.exe -reports:coverage\\coverage.xml -targetdir:coverage -verbosity:Error
-
-            if($env:COVERALLS_REPO_TOKEN)
+            If(Test-Path -Path gh-pages\docs\$branchName)
 
             {
 
-                C:\\projects\\dotnet-sdk-core\\packages\\coveralls.net.0.7.0\\tools\\csmacnz.Coveralls.exe --opencover -i coverage\\coverage.xml --useRelativePaths
+              rm gh-pages\docs\$branchName -r -force
 
             }
             
-            else
+            mkdir -p gh-pages\docs\$branchName
 
-            {
-                
-                Write-Output \"There is no Coveralls Repo Token - not pushing coverage.\"
+            mv .\docs\html gh-pages\docs\$branchName
 
-            }
+            . .\.utility\generate_html.ps1
+            
+            New-TableOfContents ".\gh-pages\docs" | Out-File ".\gh-pages\index.html" -encoding utf8
+            
+            cd gh-pages
+            
+            git add -f .
+            
+            git commit -m "Updated documentation for $branchName"
+            
+            git push -f origin gh-pages
+            
+            cd ../
 
         }
 
         else
-        
+
         {
-            Write-Output \"Pull request number is $env:APPVEYOR_PULL_REQUEST_NUMBER. Skipping integration tests.\"
 
-            if($folder.FullName.EndsWith("UnitTests"))
-
-            {
-
-                dotnet test $folder.FullName
-
-                if($LastExitCode -ne 0) 
-
-                {
-
-                    $host.SetShouldExit($LastExitCode )
-
-                }
-
-                echo \"Test passed: $?\"
-
-                echo \"LastExitCode: $LastExitCode\"
-
-            }
-            
+            Write-Output "branchName is $branchName. Not generating documentation."
+        
         }
 
-    }
+      }
 
-    If($branchName -eq "main" -and $env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
+test_script:
+  - ps: >-
+      if(Test-Path -Path coverage)
 
-    {
-        Write-Output "branchName is main and not a pull request - running semantic release"
+      {
 
-        npx semantic-release
+          rm coverage -r -force
 
-    }
+      }
 
-    ElseIf($branchName -eq $env:APPVEYOR_REPO_TAG_NAME)
+      New-Item -path . -name coverage -itemtype directory
 
-    {
-        Write-Output "branchName  is " + $branchName + " - building NuGet packages" 
+      ForEach ($folder in (Get-ChildItem -Path C:\\projects\\dotnet-sdk-core\\test -Directory)) 
 
-        dotnet pack .\src\IBM.Cloud.SDK.Core\IBM.Cloud.SDK.Core.csproj --configuration Release
-    }
+      { 
+
+          if($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
+
+          {
+
+              Write-Output \"No pull request number. Executing tests\"
+
+              # dotnet test $folder.FullName
+
+              if($LastExitCode -ne 0) 
+
+              {
+
+                  $host.SetShouldExit($LastExitCode )
+
+              }
+
+              echo \"Test passed: $?\"
+
+              echo \"LastExitCode: $LastExitCode\"
+
+              $openCover = 'C:\\projects\\dotnet-sdk-core\\packages\\OpenCover.4.6.519\\tools\\OpenCover.Console.exe'    
+              
+              $targetArgs = '-targetargs: test ' + $folder.FullName + ' -c Release -f netcoreapp2.0'
+              
+              $filter = '-filter:+[IBM.Cloud.SDK*]*-[*Tests*]*-[*Example*]*'
+
+              & $openCover '-target:C:\\Program Files\\dotnet\\dotnet.exe' $targetArgs '-register:user' $filter '-oldStyle' '-mergeoutput' '-hideskipped:File' '-searchdirs:$testdir\\bin\\release\\netcoreapp2.0' '-output:coverage\\coverage.xml'
+
+              C:\\projects\\dotnet-sdk-core\\packages\\ReportGenerator.2.4.5.0\\tools\\ReportGenerator.exe -reports:coverage\\coverage.xml -targetdir:coverage -verbosity:Error
+
+              if($env:COVERALLS_REPO_TOKEN)
+
+              {
+
+                  C:\\projects\\dotnet-sdk-core\\packages\\coveralls.net.0.7.0\\tools\\csmacnz.Coveralls.exe --opencover -i coverage\\coverage.xml --useRelativePaths
+
+              }
+              
+              else
+
+              {
+                  
+                  Write-Output \"There is no Coveralls Repo Token - not pushing coverage.\"
+
+              }
+
+          }
+
+          else
+          
+          {
+              Write-Output \"Pull request number is $env:APPVEYOR_PULL_REQUEST_NUMBER. Skipping integration tests.\"
+
+              if($folder.FullName.EndsWith("UnitTests"))
+
+              {
+
+                  dotnet test $folder.FullName
+
+                  if($LastExitCode -ne 0) 
+
+                  {
+
+                      $host.SetShouldExit($LastExitCode )
+
+                  }
+
+                  echo \"Test passed: $?\"
+
+                  echo \"LastExitCode: $LastExitCode\"
+
+              }
+              
+          }
+
+      }
+
+      If($branchName -eq "main" -and $env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null)
+
+      {
+          Write-Output "branchName is main and not a pull request - running semantic release"
+
+          npx semantic-release
+
+      }
+
+      ElseIf($branchName -eq $env:APPVEYOR_REPO_TAG_NAME)
+
+      {
+          Write-Output "branchName  is " + $branchName + " - building NuGet packages" 
+
+          dotnet pack .\src\IBM.Cloud.SDK.Core\IBM.Cloud.SDK.Core.csproj --configuration Release
+      }
 
 artifacts:
-- path: '\src\IBM.Cloud.SDK.Core\bin\$(configuration)\*.nupkg'
-  name: IBM.Cloud.SDK.Core
+  - path: '\src\IBM.Cloud.SDK.Core\bin\$(configuration)\*.nupkg'
+    name: IBM.Cloud.SDK.Core
 deploy:
-- provider: NuGet
-  api_key:
-    secure: q7ya4MDWM5JDI2JYw1DxSKTgX+jwbvdlRKPjVg1Cijxb33r1K5qSAabnsUHcWTLf
-  on:
-    branch: main
-    APPVEYOR_REPO_TAG: true
-    
+  - provider: NuGet
+    api_key:
+      secure: q7ya4MDWM5JDI2JYw1DxSKTgX+jwbvdlRKPjVg1Cijxb33r1K5qSAabnsUHcWTLf
+    on:
+      branch: main
+      APPVEYOR_REPO_TAG: true
