@@ -26,6 +26,6 @@ namespace IBM.Cloud.SDK.Core
         /// The version number for this SDK build. Added to the header in 
         /// each request as `User-Agent`.
         /// </summary>
-        public static readonly string CORE_VERSION = "1.1.0";
+        public static readonly string CORE_VERSION = "1.2.0";
     }
 }
