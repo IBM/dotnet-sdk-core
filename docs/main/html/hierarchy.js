@@ -18,6 +18,7 @@ var hierarchy =
       [ "IBM.Cloud.SDK.Core.Http.Exceptions.ServiceResponseException", "d8/d8b/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_exceptions_1_1_service_response_exception.html", null ]
     ] ],
     [ "IBM.Cloud.SDK.Core.Model.FileWithMetadata", "db/d7a/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_model_1_1_file_with_metadata.html", null ],
+    [ "IBM.Cloud.SDK.Core.Model.HttpConfigOptions", "df/d06/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_model_1_1_http_config_options.html", null ],
     [ "IBM.Cloud.SDK.Core.Http.HttpMediaType", "df/db7/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_http_media_type.html", null ],
     [ "IBM.Cloud.SDK.Core.Authentication.Iam.IamToken", "db/dc3/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_token.html", null ],
     [ "IBM.Cloud.SDK.Core.Authentication.Iam.IamTokenResponse", "d4/daf/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_iam_1_1_iam_token_response.html", null ],

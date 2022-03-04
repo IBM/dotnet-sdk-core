@@ -16,6 +16,7 @@ var searchData=
   ['codedescription',['CodeDescription',['../db/d80/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_http_1_1_exceptions_1_1_i_b_m_error.html#a0b0a9197ae548e7467f3a09375157d81',1,'IBM::Cloud::SDK::Core::Http::Exceptions::IBMError']]],
   ['configbasedauthenticatorfactory',['ConfigBasedAuthenticatorFactory',['../d4/de0/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_authentication_1_1_config_based_authenticator_factory.html',1,'IBM::Cloud::SDK::Core::Authentication']]],
   ['configbasedauthenticatorfactory_2ecs',['ConfigBasedAuthenticatorFactory.cs',['../d1/d81/_config_based_authenticator_factory_8cs.html',1,'']]],
+  ['configureclient',['ConfigureClient',['../d0/d8c/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_service_1_1_i_b_m_service.html#a77d7cc6128901966913dbac5978a042e',1,'IBM::Cloud::SDK::Core::Service::IBMService']]],
   ['constants',['Constants',['../d6/d0d/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_constants.html',1,'IBM::Cloud::SDK::Core']]],
   ['constants_2ecs',['Constants.cs',['../d1/d39/_constants_8cs.html',1,'']]],
   ['contenttype',['ContentType',['../db/d7a/class_i_b_m_1_1_cloud_1_1_s_d_k_1_1_core_1_1_model_1_1_file_with_metadata.html#a3436c65eb726b6fa8378ddf5f88ee422',1,'IBM::Cloud::SDK::Core::Model::FileWithMetadata']]],
