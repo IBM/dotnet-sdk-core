@@ -1,4 +1,4 @@
-# [1.2.0](https://github.com/IBM/dotnet-sdk-core/compare/v1.1.0...v1.2.0) (2022-03-03)
+# [1.2.0](https://github.com/IBM/dotnet-sdk-core/compare/v1.1.0...v1.2.0) (2022-03-04)
 
 
 ### Bug Fixes
@@ -15,6 +15,7 @@
 * **cpd-authenticator:** update apikey for CloudPakForDataAuthenticator which use Dictinary config ([65502b0](https://github.com/IBM/dotnet-sdk-core/commit/65502b0b9e2dc528bcb9a55cc68b49150fbc91f0))
 * **cpd-constuctor:** revert the code for ConstructionDictionary ([b955890](https://github.com/IBM/dotnet-sdk-core/commit/b9558903a64fd02640f4bddcace853dcb6fd2476))
 * **detect-secrets:** update detect-secrets for false positive ([d49dcfd](https://github.com/IBM/dotnet-sdk-core/commit/d49dcfdc59b04569609ea017c364ffed3003384e))
+* **ibm-service:** add httpconfigs to set a proxy and disable ssl ([2b717c1](https://github.com/IBM/dotnet-sdk-core/commit/2b717c151c6a0a833e755a21a849bdd3eba57164))
 * **node-version:** update appveyor.yml to use node version 15.6.0 ([60fb13f](https://github.com/IBM/dotnet-sdk-core/commit/60fb13ffa5025c41113840643fcae647b2c3dd61))
 * **renaming:** rename function and vararaiables ([4c1c026](https://github.com/IBM/dotnet-sdk-core/commit/4c1c0264085681c91cff04d11ddab1b5e4ce16bf))
 * **semantic-release:** update semantic-release version ([11f3c02](https://github.com/IBM/dotnet-sdk-core/commit/11f3c02398ca2ca88c2709e23f2db3e4d4e065c9))

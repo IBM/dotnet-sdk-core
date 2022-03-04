@@ -18,7 +18,7 @@ PM > Install-Package IBM.Cloud.SDK.Core
 ```xml
 
 <ItemGroup>
-    <PackageReference Include="IBM.Cloud.SDK.Core" Version="1.2.0" />
+    <PackageReference Include="IBM.Cloud.SDK.Core" Version="1.3.0" />
 </ItemGroup>
 
 ```
