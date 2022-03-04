@@ -102,6 +102,67 @@ namespace IBM.Cloud.SDK.Core.Tests.CredentialUtilsTests
         }
 
         [TestMethod]
+        public void TestGetFileCredentialsAsMapNLU()
+        {
+            // store and clear user set env variable
+            string ibmCredFile = Environment.GetEnvironmentVariable("IBM_CREDENTIALS_FILE");
+            Environment.SetEnvironmentVariable("IBM_CREDENTIALS_FILE", "");
+
+            //  create .env file in current directory
+            string[] snakeCaseApiKeyWorking = { "NATURAL_LANGUAGE_UNDERSTANDING_URL=https://api.us-south.natural-language-understanding.watson.cloud.ibm.com",
+                                                "NATURAL_LANGUAGE_UNDERSTANDING_APIKEY=V4HXmoUtMjohnsnow=KotN",
+                                              };
+            string[] kabobCaseApiKeyWorking = { "NATURAL_LANGUAGE_UNDERSTANDING_URL=https://api.us-south.natural-language-understanding.watson.cloud.ibm.com",
+                                                "NATURAL-LANGUAGE-UNDERSTANDING_APIKEY=V4HXmoUtMjohnsnow=KotN",
+                                              };
+            var directoryPath = Directory.GetCurrentDirectory();
+            var snakeCredsFile = Path.Combine(directoryPath, "ibm-credentials.env");
+
+            using (StreamWriter outputFile = new StreamWriter(snakeCredsFile))
+            {
+                foreach (string line in snakeCaseApiKeyWorking)
+                {
+                    outputFile.WriteLine(line);
+                }
+            }
+
+            //  get props
+            Dictionary<string, string> snakeCasePropsWorking = CredentialUtils.GetFileCredentialsAsMap("natural-language-understanding");
+            Assert.IsNotNull(snakeCasePropsWorking);
+            Assert.AreEqual(snakeCasePropsWorking["URL"], "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com");
+            Assert.AreEqual(snakeCasePropsWorking["APIKEY"], "V4HXmoUtMjohnsnow=KotN");
+            //  delete created env files
+            if (File.Exists(snakeCredsFile))
+            {
+                File.Delete(snakeCredsFile);
+            }
+
+            // repeat for kabob case
+            var kabobCredsFile = Path.Combine(directoryPath, "ibm-credentials.env");
+
+            using (StreamWriter outputFile = new StreamWriter(kabobCredsFile))
+            {
+                foreach (string line in kabobCaseApiKeyWorking)
+                {
+                    outputFile.WriteLine(line);
+                }
+            }
+
+            //  get props
+            Dictionary<string, string> kabobCasePropsWorking = CredentialUtils.GetFileCredentialsAsMap("natural_language_understanding");
+            Assert.IsNotNull(kabobCasePropsWorking);
+            Assert.AreEqual(kabobCasePropsWorking["URL"], "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com");
+            Assert.AreEqual(kabobCasePropsWorking["APIKEY"], "V4HXmoUtMjohnsnow=KotN");
+            //  delete created env files
+            if (File.Exists(kabobCredsFile))
+            {
+                File.Delete(kabobCredsFile);
+            }
+            //  reset env variable
+            Environment.SetEnvironmentVariable("IBM_CREDENTIALS_FILE", ibmCredFile);
+        }
+
+        [TestMethod]
         public void TestGetEnvCredentialsAsMap()
         {
             var apikey = "bogus-apikey";
