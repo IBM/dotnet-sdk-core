@@ -23,6 +23,7 @@ using IBM.Cloud.SDK.Core.Authentication;
 using IBM.Cloud.SDK.Core.Authentication.NoAuth;
 using IBM.Cloud.SDK.Core.Http;
 using IBM.Cloud.SDK.Core.Util;
+using IBM.Cloud.SDK.Core.Model;
 
 namespace IBM.Cloud.SDK.Core.Service
 {
@@ -84,16 +85,23 @@ namespace IBM.Cloud.SDK.Core.Service
             {
                 SetServiceUrl(serviceUrl);
             }
+        }
 
-            // Check to see if "disable ssl" was set in the service properties.
-            bool disableSsl = false;
-            props.TryGetValue(PropNameServiceDisableSslVerification, out string tempDisableSsl);
-            if (!string.IsNullOrEmpty(tempDisableSsl))
+        public void ConfigureClient(HttpConfigOptions httpConfigOptions)
+        {
+            string CurrentServiceUrl = ServiceUrl;
+
+            if (httpConfigOptions.Proxy != null)
             {
-                bool.TryParse(tempDisableSsl, out disableSsl);
+                Client = new IBMHttpClient(httpConfigOptions.Proxy);
             }
 
-            DisableSslVerification(disableSsl);
+            if (httpConfigOptions.DisableSslVerification)
+            {
+                Client.DisableSslVerification(httpConfigOptions.DisableSslVerification);
+            }
+
+            SetServiceUrl(CurrentServiceUrl);
         }
 
         protected void SetAuthentication()
@@ -111,11 +119,6 @@ namespace IBM.Cloud.SDK.Core.Service
         public void SetServiceUrl(string serviceUrl)
         {
             Endpoint = serviceUrl;
-        }
-
-        public void DisableSslVerification(bool insecure)
-        {
-            Client.DisableSslVerification(insecure);
         }
 
         public void WithHeader(string name, string value)
