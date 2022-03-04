@@ -8,17 +8,21 @@
 The IBM.Cloud.SDK.Core is a core project of SDKs generated using the IBM OpenAPI SDK generator.
 
 ### Installation
+
 #### Nuget
+
 ```
 
 PM > Install-Package IBM.Cloud.SDK.Core
 
 ```
+
 #### .csproj
+
 ```xml
 
 <ItemGroup>
-    <PackageReference Include="IBM.Cloud.SDK.Core" Version="1.3.0" />
+    <PackageReference Include="IBM.Cloud.SDK.Core" Version="1.3.1" />
 </ItemGroup>
 
 ```
