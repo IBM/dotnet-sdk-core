@@ -1,3 +1,7 @@
+# The tokens in this file are NOT valid anymore and they are
+# also encrypted, so using them inappropriately is NOT possible.
+# They do NOT provide access to any production or sensitive systems.
+#
 version: 0.1.{build}
 branches:
   except:
