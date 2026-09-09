@@ -47,8 +47,13 @@ namespace IBM.Cloud.SDK.Core.Http
         {
             this.Message = message;
             this.Formatters = formatters;
-            this.Dispatch = new Lazy<Task<HttpResponseMessage>>(() => dispatcher(this));
             this.Filters = filters;
+            this.Dispatch = new Lazy<Task<HttpResponseMessage>>(() =>
+            {
+                foreach (IHttpFilter filter in this.Filters)
+                    filter.OnRequest(this, this.Message);
+                return dispatcher(this);
+            });
             this.Message.Headers.Accept.Clear();
         }
         
@@ -173,8 +178,6 @@ namespace IBM.Cloud.SDK.Core.Http
 
         private async Task<HttpResponseMessage> GetResponse(Task<HttpResponseMessage> request)
         {
-            foreach (IHttpFilter filter in this.Filters)
-                filter.OnRequest(this, this.Message);
             HttpResponseMessage response = await request.ConfigureAwait(false);
             foreach (IHttpFilter filter in this.Filters)
                 filter.OnResponse(this, response);
