@@ -19,9 +19,11 @@ using IBM.Cloud.SDK.Core.Http.Filters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace IBM.Cloud.SDK.Core.Tests
@@ -79,6 +81,74 @@ namespace IBM.Cloud.SDK.Core.Tests
                 Assert.AreSame(failure, actual);
                 Assert.AreEqual(0, dispatchCount);
                 Assert.AreEqual(0, responseCount);
+            }
+        }
+
+        [TestMethod]
+        public async Task ConcurrentAndRepeatedReadsPrepareAndDispatchOnce()
+        {
+            int preparationCount = 0;
+            int dispatchCount = 0;
+            int startedReads = 0;
+            var filter = new CallbackFilter(message => Interlocked.Increment(ref preparationCount), () => { });
+            var responseSource = new TaskCompletionSource<HttpResponseMessage>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            using (var message = new HttpRequestMessage(HttpMethod.Post, "http://localhost/test"))
+            using (var response = new HttpResponseMessage(HttpStatusCode.OK))
+            {
+                var request = new Request(message, new MediaTypeFormatterCollection(), current =>
+                {
+                    Interlocked.Increment(ref dispatchCount);
+                    return responseSource.Task;
+                }, new[] { filter });
+
+                Assert.AreEqual(0, preparationCount);
+                Assert.AreEqual(0, dispatchCount);
+                var reads = Enumerable.Range(0, 8).Select(index => Task.Run(async () =>
+                {
+                    var pending = request.AsMessage();
+                    if (Interlocked.Increment(ref startedReads) == 8)
+                        responseSource.SetResult(response);
+                    return await pending;
+                })).ToArray();
+
+                var responses = await Task.WhenAll(reads);
+                foreach (var actual in responses)
+                    Assert.AreSame(response, actual);
+                Assert.AreSame(response, await request.AsMessage());
+                Assert.AreEqual(1, preparationCount);
+                Assert.AreEqual(1, dispatchCount);
+            }
+        }
+
+        [TestMethod]
+        public async Task RepeatedReadsDoNotRetryFailedPreparation()
+        {
+            int preparationCount = 0;
+            int dispatchCount = 0;
+            var failure = new InvalidOperationException("Request preparation failed.");
+            var filter = new CallbackFilter(message =>
+            {
+                preparationCount++;
+                throw failure;
+            }, () => { });
+
+            using (var message = new HttpRequestMessage(HttpMethod.Post, "http://localhost/test"))
+            using (var response = new HttpResponseMessage(HttpStatusCode.OK))
+            {
+                var request = new Request(message, new MediaTypeFormatterCollection(), current =>
+                {
+                    dispatchCount++;
+                    return Task.FromResult(response);
+                }, new[] { filter });
+
+                for (int i = 0; i < 2; i++)
+                {
+                    var actual = await Assert.ThrowsExceptionAsync<InvalidOperationException>(() => request.AsMessage());
+                    Assert.AreSame(failure, actual);
+                }
+                Assert.AreEqual(1, preparationCount);
+                Assert.AreEqual(0, dispatchCount);
             }
         }
 
